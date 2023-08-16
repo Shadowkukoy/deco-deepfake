@@ -33,6 +33,7 @@ public static class UIManager
                 Debug.Log("test2");
                 break;
             default:
+                //unknown button pressed
                 Debug.LogWarning($"Unknown button with name: {button} and id: {id}");
                 break;
         }
