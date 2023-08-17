@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public static class UIManager
 {
+    //Code that assigns the method 'OnButtonPress' to the pressing of any children gameobjects.
+    //This should be run on canvas whenever a new scene is loaded, and on any new instantiated UI element which contains buttons
     public static void AssignButtonListeners(GameObject elements)
     {
         foreach (Button button in elements.GetComponentsInChildren<Button>())
@@ -22,6 +24,8 @@ public static class UIManager
     private static void OnButtonPress(string button, int id)
     {
         //Code that should be run when a button is pressed!
+        //button: the name of the scene and name of the button GameObject in the format Scene.ButtonName
+        //id: a number which can optionally be assigned to be passed through when the button is pressed (could be useful if multiple buttons have the same name).
         switch (button)
         {
             case "DeepFakeScene.YesButton":
