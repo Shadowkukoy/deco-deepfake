@@ -50,6 +50,10 @@ public static class UIManager
                 //stuff that happens when no button is pressed
                 Debug.Log("test2");
                 break;
+            case "DeepFakeScene.MetadataButton":
+                // stuff happens when metadata button is pressed
+                Debug.Log("test3");
+                break;
             default:
                 //unknown button pressed
                 Debug.LogWarning($"Unknown button with name: {button} and id: {id}");
