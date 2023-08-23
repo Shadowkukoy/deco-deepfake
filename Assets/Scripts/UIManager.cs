@@ -29,7 +29,7 @@ public static class UIManager
             switch (slider.name)
             {
                 default:
-                    slider.onValueChanged.AddListener(delegate { OnSliderValueChanged(SceneManager.GetActiveScene().name + "." + slider.name, 0);  });
+                    slider.onValueChanged.AddListener(delegate { OnSliderValueChanged(slider, SceneManager.GetActiveScene().name + "." + slider.name, 0);  });
                     break;
             }
         }
@@ -57,14 +57,14 @@ public static class UIManager
         }
     }
 
-    private static void OnSliderValueChanged(string slider, int id)
+    private static void OnSliderValueChanged(Slider slider, string sliderName, int id)
     {
         // Code that should run when a slider value is changed
-        switch (slider)
+        switch (sliderName)
         {
             case "DeepFakeScene.LightingSlider":
                 // When the lighting slider value is changed
-                Debug.Log("test3");
+                Debug.Log($"Slider {sliderName} value changed to {slider.value}");
                 break;
             default:
                 // Unknown slider value changed
