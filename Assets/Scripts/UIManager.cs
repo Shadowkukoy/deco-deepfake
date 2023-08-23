@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,6 +17,19 @@ public static class UIManager
             {
                 default:
                     button.onClick.AddListener(delegate { OnButtonPress(SceneManager.GetActiveScene().name + "." + button.name, 0); });
+                    break;
+            }
+        }
+    }
+
+    public static void AssignSliderListeners(GameObject elements)
+    {
+        foreach (Slider slider in elements.GetComponentsInChildren<Slider>())
+        {
+            switch (slider.name)
+            {
+                default:
+                    slider.onValueChanged.AddListener(delegate { OnSliderValueChanged(SceneManager.GetActiveScene().name + "." + slider.name, 0);  });
                     break;
             }
         }
@@ -39,6 +53,22 @@ public static class UIManager
             default:
                 //unknown button pressed
                 Debug.LogWarning($"Unknown button with name: {button} and id: {id}");
+                break;
+        }
+    }
+
+    private static void OnSliderValueChanged(string slider, int id)
+    {
+        // Code that should run when a slider value is changed
+        switch (slider)
+        {
+            case "DeepFakeScene.LightingSlider":
+                // When the lighting slider value is changed
+                Debug.Log("test3");
+                break;
+            default:
+                // Unknown slider value changed
+                Debug.LogWarning($"Unknown slider value changed with name: {slider} and id: {id}");
                 break;
         }
     }

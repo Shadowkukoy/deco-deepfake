@@ -17,6 +17,7 @@ public class GlobalControlScript : MonoBehaviour
         if (canvas != null)
         {
             UIManager.AssignButtonListeners(canvas);
+            UIManager.AssignSliderListeners(canvas);
         }
     }
 
@@ -27,6 +28,7 @@ public class GlobalControlScript : MonoBehaviour
         if (canvas != null) 
         {
             UIManager.AssignButtonListeners(canvas);
+            UIManager.AssignSliderListeners(canvas);
         }
         
         switch (scene.name)
