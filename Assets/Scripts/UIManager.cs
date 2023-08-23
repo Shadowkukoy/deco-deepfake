@@ -1,15 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
-public static class UIManager
+public class UIManager
 {
     //Code that assigns the method 'OnButtonPress' to the pressing of any children gameobjects.
     //This should be run on canvas whenever a new scene is loaded, and on any new instantiated UI element which contains buttons
-    public static void AssignButtonListeners(GameObject elements)
+
+    public VideoPlayer videoPlayer;
+    public RawImage videoRawImage;
+    private float videoZoom;
+    public Slider zoomSlider;
+
+    public void AssignButtonListeners(GameObject elements)
     {
         foreach (Button button in elements.GetComponentsInChildren<Button>())
         {
@@ -22,7 +30,7 @@ public static class UIManager
         }
     }
 
-    public static void AssignSliderListeners(GameObject elements)
+    public void AssignSliderListeners(GameObject elements)
     {
         foreach (Slider slider in elements.GetComponentsInChildren<Slider>())
         {
@@ -35,7 +43,7 @@ public static class UIManager
         }
     }
 
-    private static void OnButtonPress(string button, int id)
+    private void OnButtonPress(string button, int id)
     {
         //Code that should be run when a button is pressed!
         //button: the name of the scene and name of the button GameObject in the format Scene.ButtonName
@@ -60,8 +68,7 @@ public static class UIManager
                 break;
         }
     }
-
-    private static void OnSliderValueChanged(Slider slider, string sliderName, int id)
+    private void OnSliderValueChanged(Slider slider, string sliderName, int id)
     {
         // Code that should run when a slider value is changed
         switch (sliderName)
@@ -70,10 +77,33 @@ public static class UIManager
                 // When the lighting slider value is changed
                 Debug.Log($"Slider {sliderName} value changed to {slider.value}");
                 break;
+            case "DeepFakeScene.ZoomSlider":
+                Debug.Log($"Slider {sliderName} value changed to {slider.value}");
+                SetVideoZoom(slider.value, Vector2.zero);
+                break;
             default:
                 // Unknown slider value changed
                 Debug.LogWarning($"Unknown slider value changed with name: {slider} and id: {id}");
                 break;
         }
     }
+    internal void ChangeVideoZoom(float zoom)
+    {
+        videoZoom += zoom;
+
+        if (videoZoom > 4) videoZoom = 4;
+        if (videoZoom < 1) videoZoom = 1;
+
+        SetVideoZoom(videoZoom, Input.mousePosition);
+    }
+
+    private void SetVideoZoom(float zoom, Vector2 centre)
+    {
+        var videoRect = videoRawImage.GetComponent<RectTransform>().rect;
+
+        videoRawImage.uvRect = new Rect(videoRawImage.uvRect.position, 1 / videoZoom * Vector2.one);
+
+        zoomSlider.value = zoom;
+    }
 }
+

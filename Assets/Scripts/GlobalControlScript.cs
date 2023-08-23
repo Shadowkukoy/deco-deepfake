@@ -4,20 +4,28 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
+using UnityEngine.UI;
 
 public class GlobalControlScript : MonoBehaviour
 {
     // Start is called before the first frame update
+    public UIManager uiManager;
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
 
+        uiManager = new UIManager();
+        uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
+        uiManager.videoRawImage = GameObject.Find("Video").GetComponent<RawImage>();
+        uiManager.zoomSlider = GameObject.Find("ZoomSlider").GetComponent<Slider>();
+
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas != null)
         {
-            UIManager.AssignButtonListeners(canvas);
-            UIManager.AssignSliderListeners(canvas);
+            uiManager.AssignButtonListeners(canvas);
+            uiManager.AssignSliderListeners(canvas);
         }
     }
 
@@ -27,18 +35,31 @@ public class GlobalControlScript : MonoBehaviour
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas != null) 
         {
-            UIManager.AssignButtonListeners(canvas);
-            UIManager.AssignSliderListeners(canvas);
+            uiManager.AssignButtonListeners(canvas);
+            uiManager.AssignSliderListeners(canvas);
         }
         
         switch (scene.name)
         {
             case "DeepFakeScene":
-                //Code that should be run when the deepfake scene is loaded.
                 break;
             default:
                 Debug.LogWarning($"Unknown scene loaded with name {scene.name}");
                 break;
+        }
+    }
+
+    public void Update()
+    {
+        ZoomControls();
+    }
+
+    private void ZoomControls()
+    {
+        var scrollY = Input.mouseScrollDelta.y;
+        if (scrollY != 0)
+        {
+            uiManager.ChangeVideoZoom(scrollY);
         }
     }
 }
