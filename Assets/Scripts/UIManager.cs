@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,6 +17,7 @@ public class UIManager
     public RawImage videoRawImage;
     private float videoZoom;
     public Slider zoomSlider;
+
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -42,7 +44,7 @@ public class UIManager
             }
         }
     }
-
+ 
     private void OnButtonPress(string button, int id)
     {
         //Code that should be run when a button is pressed!
@@ -60,7 +62,7 @@ public class UIManager
                 break;
             case "DeepFakeScene.MetadataButton":
                 // stuff happens when metadata button is pressed
-                Debug.Log("test3");
+                Debug.Log($"{button} test3");
                 break;
             default:
                 //unknown button pressed
