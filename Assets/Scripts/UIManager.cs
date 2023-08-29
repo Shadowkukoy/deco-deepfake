@@ -15,9 +15,10 @@ public class UIManager
 
     public VideoPlayer videoPlayer;
     public RawImage videoRawImage;
-    private float videoZoom;
+    private float videoZoom = 1;
     public Slider zoomSlider;
-
+    public Canvas canvas;
+    public Camera camera;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -81,7 +82,7 @@ public class UIManager
                 break;
             case "DeepFakeScene.ZoomSlider":
                 Debug.Log($"Slider {sliderName} value changed to {slider.value}");
-                SetVideoZoom(slider.value, Vector2.zero);
+                SetVideoZoom(slider.value);
                 break;
             default:
                 // Unknown slider value changed
@@ -91,19 +92,45 @@ public class UIManager
     }
     internal void ChangeVideoZoom(float zoom)
     {
-        videoZoom += zoom;
+        var oldZoom = videoZoom;
+        videoZoom += zoom * videoZoom * 0.1f;
 
-        if (videoZoom > 4) videoZoom = 4;
+        if (videoZoom > 8) videoZoom = 8;
         if (videoZoom < 1) videoZoom = 1;
 
-        SetVideoZoom(videoZoom, Input.mousePosition);
+        if (oldZoom == videoZoom) return;
+
+        SetVideoZoom(videoZoom, Input.mousePosition, videoZoom - oldZoom);
     }
 
-    private void SetVideoZoom(float zoom, Vector2 centre)
+    internal void ChangeVideoPosition(Vector2 rawDelta)
     {
-        var videoRect = videoRawImage.GetComponent<RectTransform>().rect;
+        var uvRectCentreOffset = videoRawImage.uvRect.position;
+        uvRectCentreOffset += rawDelta / videoZoom * 0.01f;
+        uvRectCentreOffset = new Vector2(Mathf.Clamp(uvRectCentreOffset.x, 0, 1 - (1 / videoZoom)), Mathf.Clamp(uvRectCentreOffset.y, 0, 1 - (1 / videoZoom)));
+        videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
+    }
 
-        videoRawImage.uvRect = new Rect(videoRawImage.uvRect.position, 1 / videoZoom * Vector2.one);
+    //Zooming needs more stuff to make it feel more fluid but this is at least better than zooming into the corner
+    private void SetVideoZoom(float zoom, Vector2? centre = null, float delta = 0)
+    {
+        var uvRectCentreOffset = videoRawImage.uvRect.position;
+        if (centre != null)
+        {
+            var centre3 = new Vector3(centre.Value.x, centre.Value.y);
+            var zoomCentre = camera.ScreenToWorldPoint(centre3);
+            Vector3[] videoCorners = new Vector3[4];
+            videoRawImage.GetComponent<RectTransform>().GetWorldCorners(videoCorners);
+
+            var relative = zoomCentre - videoCorners[0];
+            var normalized = new Vector2(relative.x / (videoCorners[2].x - videoCorners[0].x), relative.y / (videoCorners[2].y - videoCorners[0].y));
+            uvRectCentreOffset = normalized - Vector2.one * (0.5f / zoom);
+            uvRectCentreOffset = new Vector2(Mathf.Clamp(uvRectCentreOffset.x, 0, 1 - (1 / zoom)), Mathf.Clamp(uvRectCentreOffset.y, 0, 1 - (1 / zoom)));
+
+            Debug.Log(normalized);
+        }
+
+        videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
 
         zoomSlider.value = zoom;
     }

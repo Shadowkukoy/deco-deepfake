@@ -20,8 +20,10 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
         uiManager.videoRawImage = GameObject.Find("Video").GetComponent<RawImage>();
         uiManager.zoomSlider = GameObject.Find("ZoomSlider").GetComponent<Slider>();
+        uiManager.camera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
         GameObject canvas = GameObject.Find("Canvas");
+        uiManager.canvas = canvas.GetComponent<Canvas>();
         if (canvas != null)
         {
             uiManager.AssignButtonListeners(canvas);
@@ -60,6 +62,23 @@ public class GlobalControlScript : MonoBehaviour
         if (scrollY != 0)
         {
             uiManager.ChangeVideoZoom(scrollY);
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        {
+            uiManager.ChangeVideoPosition(Vector2.up);
+        }
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+        {
+            uiManager.ChangeVideoPosition(Vector2.down);
+        }
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        {
+            uiManager.ChangeVideoPosition(Vector2.right);
+        }
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        {
+            uiManager.ChangeVideoPosition(Vector2.left);
         }
     }
 }
