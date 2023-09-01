@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -18,7 +20,10 @@ public class UIManager
     private float videoZoom = 1;
     public Slider zoomSlider;
     public Canvas canvas;
-    public Camera camera;
+    public Canvas videoCanvas;
+    public Canvas backgroundCanvas;
+    public Camera postProcessCam;
+    public Camera noPostCam;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -78,6 +83,15 @@ public class UIManager
         {
             case "DeepFakeScene.LightingSlider":
                 // When the lighting slider value is changed
+                var volume = GameObject.Find("PostProcessCam").GetComponent<Volume>();
+                if (volume.profile.TryGet<ColorAdjustments>(out var colorAdjustments))
+                {
+                    Debug.Log($"Before contrast value: {colorAdjustments.contrast.value}");
+                    colorAdjustments.contrast.overrideState = true;
+                    colorAdjustments.contrast.value = slider.value * 200 - 100;
+                    Debug.Log($"After contrast value: {colorAdjustments.contrast.value}");
+                }
+
                 Debug.Log($"Slider {sliderName} value changed to {slider.value}");
                 break;
             case "DeepFakeScene.ZoomSlider":
@@ -118,7 +132,7 @@ public class UIManager
         if (centre != null)
         {
             var centre3 = new Vector3(centre.Value.x, centre.Value.y);
-            var zoomCentre = camera.ScreenToWorldPoint(centre3);
+            var zoomCentre = postProcessCam.ScreenToWorldPoint(centre3);
             Vector3[] videoCorners = new Vector3[4];
             videoRawImage.GetComponent<RectTransform>().GetWorldCorners(videoCorners);
 

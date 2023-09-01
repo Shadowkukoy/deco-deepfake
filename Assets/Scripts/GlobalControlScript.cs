@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.Rendering;
 
 public class GlobalControlScript : MonoBehaviour
 {
@@ -20,7 +22,8 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
         uiManager.videoRawImage = GameObject.Find("Video").GetComponent<RawImage>();
         uiManager.zoomSlider = GameObject.Find("ZoomSlider").GetComponent<Slider>();
-        uiManager.camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
+        uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
 
         GameObject canvas = GameObject.Find("Canvas");
         uiManager.canvas = canvas.GetComponent<Canvas>();
@@ -29,6 +32,8 @@ public class GlobalControlScript : MonoBehaviour
             uiManager.AssignButtonListeners(canvas);
             uiManager.AssignSliderListeners(canvas);
         }
+        GameObject videoCanvas = GameObject.Find("VideoCanvas");
+        uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
