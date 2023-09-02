@@ -81,18 +81,32 @@ public class UIManager
         // Code that should run when a slider value is changed
         switch (sliderName)
         {
-            case "DeepFakeScene.LightingSlider":
-                // When the lighting slider value is changed
+            case "DeepFakeScene.ContrastSlider":
+                // When the contrast slider value is changed
                 var volume = GameObject.Find("PostProcessCam").GetComponent<Volume>();
                 if (volume.profile.TryGet<ColorAdjustments>(out var colorAdjustments))
                 {
-                    Debug.Log($"Before contrast value: {colorAdjustments.contrast.value}");
                     colorAdjustments.contrast.overrideState = true;
                     colorAdjustments.contrast.value = slider.value * 200 - 100;
-                    Debug.Log($"After contrast value: {colorAdjustments.contrast.value}");
                 }
-
-                Debug.Log($"Slider {sliderName} value changed to {slider.value}");
+                break;
+            case "DeepFakeScene.SaturationSlider":
+                // When the saturation slider value is changed
+                var volume2 = GameObject.Find("PostProcessCam").GetComponent<Volume>();
+                if (volume2.profile.TryGet<ColorAdjustments>(out var colorAdjustments2))
+                {
+                    colorAdjustments2.saturation.overrideState = true;
+                    colorAdjustments2.saturation.value = slider.value * 200 - 100;
+                }
+                break;
+            case "DeepFakeScene.ExposureSlider":
+                // When the saturation slider value is changed
+                var volume3 = GameObject.Find("PostProcessCam").GetComponent<Volume>();
+                if (volume3.profile.TryGet<ColorAdjustments>(out var colorAdjustments3))
+                {
+                    colorAdjustments3.postExposure.overrideState = true;
+                    colorAdjustments3.postExposure.value = slider.value * 3;
+                }
                 break;
             case "DeepFakeScene.ZoomSlider":
                 Debug.Log($"Slider {sliderName} value changed to {slider.value}");
