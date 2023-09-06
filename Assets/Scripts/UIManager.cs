@@ -82,7 +82,7 @@ public class UIManager
         switch (sliderName)
         {
             case "DeepFakeScene.ContrastSlider":
-                // When the contrast slider value is changed
+                // When the contrast slider value is changed do this
                 var volume = GameObject.Find("PostProcessCam").GetComponent<Volume>();
                 if (volume.profile.TryGet<ColorAdjustments>(out var colorAdjustments))
                 {
