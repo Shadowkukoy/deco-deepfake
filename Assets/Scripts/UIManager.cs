@@ -50,7 +50,13 @@ public class UIManager
             }
         }
     }
- 
+
+    public void AssignToggleListeners(GameObject elements)
+    {
+        Toggle audioVisualiserToggle = GameObject.Find("AudioVisualiserToggle").GetComponent<Toggle>();
+        audioVisualiserToggle.onValueChanged.AddListener(delegate { OnToggleValueChanged(audioVisualiserToggle, SceneManager.GetActiveScene().name + "." + audioVisualiserToggle.name, 0); });
+    }
+
     private void OnButtonPress(string button, int id)
     {
         //Code that should be run when a button is pressed!
@@ -114,10 +120,35 @@ public class UIManager
                 break;
             default:
                 // Unknown slider value changed
-                Debug.LogWarning($"Unknown slider value changed with name: {slider} and id: {id}");
+                Debug.LogWarning($"Unknown slider value changed with name: {sliderName} and id: {id}");
                 break;
         }
     }
+
+    private void OnToggleValueChanged(Toggle toggle, string toggleName, int id)
+    {
+        // Code that should run when a toggle is changed
+        switch (toggleName)
+        {
+            case "DeepFakeScene.AudioVisualiserToggle":
+                // when audio visualiser toggle value is changed
+                if (toggle.isOn)
+                {
+                    // turn on the audio visualiser tool
+                    Debug.Log("Audio tool turned on.");
+                }
+                else
+                {
+                    // turn off the audio visualiser tool
+                    Debug.Log("Audio tool turned off.");
+                }
+                break;
+            default:
+                Debug.LogWarning($"Unknown toggle value changed with name: {toggleName} and id: {id}");
+                break;
+        }
+    }
+
     internal void ChangeVideoZoom(float zoom)
     {
         var oldZoom = videoZoom;

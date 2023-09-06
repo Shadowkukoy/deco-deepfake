@@ -31,6 +31,7 @@ public class GlobalControlScript : MonoBehaviour
         {
             uiManager.AssignButtonListeners(canvas);
             uiManager.AssignSliderListeners(canvas);
+            uiManager.AssignToggleListeners(canvas);
         }
         GameObject videoCanvas = GameObject.Find("VideoCanvas");
         uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
