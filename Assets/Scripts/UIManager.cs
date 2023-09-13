@@ -83,7 +83,7 @@ public class UIManager
                 SceneManager.LoadScene("AboutPageScene");
                 break;
             case "AboutPageScene.BackButton":
-                SceneManager.LoadScene("MainMenuScene   ");
+                SceneManager.LoadScene("MainMenuScene");
                 break;
             default:
                 //unknown button pressed
