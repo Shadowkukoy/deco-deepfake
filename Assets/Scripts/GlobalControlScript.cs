@@ -29,7 +29,7 @@ public class GlobalControlScript : MonoBehaviour
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas != null)
         {
-            uiManager.canvas = canvas;
+            uiManager.canvas = canvas.GetComponent<Canvas>();
             uiManager.AssignButtonListeners(canvas);
             uiManager.AssignSliderListeners(canvas);
             uiManager.AssignToggleListeners(canvas);
