@@ -27,13 +27,13 @@ public class GlobalControlScript : MonoBehaviour
     {
         //Code that should be run when a scene is loaded
         GameObject canvas = GameObject.Find("Canvas");
-        if (canvas != null) 
+        if (canvas != null)
         {
-            uiManager.canvas = canvas.GetComponent<Canvas>();
+            uiManager.canvas = canvas;
             uiManager.AssignButtonListeners(canvas);
             uiManager.AssignSliderListeners(canvas);
+            uiManager.AssignToggleListeners(canvas);
         }
-        
         switch (scene.name)
         {
             case "DeepFakeScene":
@@ -43,12 +43,7 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
                 uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
 
-                if (canvas != null)
-                {
-                    uiManager.AssignButtonListeners(canvas);
-                    uiManager.AssignSliderListeners(canvas);
-                    uiManager.AssignToggleListeners(canvas);
-                }
+
                 GameObject videoCanvas = GameObject.Find("VideoCanvas");
                 uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
 
@@ -62,6 +57,17 @@ public class GlobalControlScript : MonoBehaviour
     public void Update()
     {
         ZoomControls();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PausePlayVideo();
+        }
+    }
+
+    internal void PausePlayVideo()
+    {
+        if (uiManager.videoPlayer.isPaused) uiManager.videoPlayer.Play();
+        else uiManager.videoPlayer.Pause();
     }
 
     private void ZoomControls()

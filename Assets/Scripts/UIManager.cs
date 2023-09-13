@@ -61,7 +61,7 @@ public class UIManager
     {
         //Code that should be run when a button is pressed!
         //button: the name of the scene and name of the button GameObject in the format Scene.ButtonName
-        //id: a number which can optionally be assigned to be passed through when the button is pressed (could be useful if multiple buttons have the same name).
+        //id: a number which can optionally be assigned to be bruh passed through when the button is pressed (could be useful if multiple buttons have the same name).
         switch (button)
         {
             case "DeepFakeScene.YesButton":
