@@ -19,22 +19,8 @@ public class GlobalControlScript : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         uiManager = new UIManager();
-        uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
-        uiManager.videoRawImage = GameObject.Find("Video").GetComponent<RawImage>();
-        uiManager.zoomSlider = GameObject.Find("ZoomSlider").GetComponent<Slider>();
-        uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
-        uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
 
-        GameObject canvas = GameObject.Find("Canvas");
-        uiManager.canvas = canvas.GetComponent<Canvas>();
-        if (canvas != null)
-        {
-            uiManager.AssignButtonListeners(canvas);
-            uiManager.AssignSliderListeners(canvas);
-            uiManager.AssignToggleListeners(canvas);
-        }
-        GameObject videoCanvas = GameObject.Find("VideoCanvas");
-        uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -43,6 +29,7 @@ public class GlobalControlScript : MonoBehaviour
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas != null) 
         {
+            uiManager.canvas = canvas.GetComponent<Canvas>();
             uiManager.AssignButtonListeners(canvas);
             uiManager.AssignSliderListeners(canvas);
         }
@@ -50,6 +37,21 @@ public class GlobalControlScript : MonoBehaviour
         switch (scene.name)
         {
             case "DeepFakeScene":
+                uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
+                uiManager.videoRawImage = GameObject.Find("Video").GetComponent<RawImage>();
+                uiManager.zoomSlider = GameObject.Find("ZoomSlider").GetComponent<Slider>();
+                uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
+                uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
+
+                if (canvas != null)
+                {
+                    uiManager.AssignButtonListeners(canvas);
+                    uiManager.AssignSliderListeners(canvas);
+                    uiManager.AssignToggleListeners(canvas);
+                }
+                GameObject videoCanvas = GameObject.Find("VideoCanvas");
+                uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
+
                 break;
             default:
                 Debug.LogWarning($"Unknown scene loaded with name {scene.name}");

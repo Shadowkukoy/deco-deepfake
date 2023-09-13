@@ -76,6 +76,15 @@ public class UIManager
                 // stuff happens when metadata button is pressed
                 Debug.Log($"{button} test3");
                 break;
+            case "MainMenuScene.PlayButton":
+                SceneManager.LoadScene("DeepFakeScene");
+                break;
+            case "MainMenuScene.AboutButton":
+                SceneManager.LoadScene("AboutPageScene");
+                break;
+            case "AboutPageScene.BackButton":
+                SceneManager.LoadScene("MainMenuScene   ");
+                break;
             default:
                 //unknown button pressed
                 Debug.LogWarning($"Unknown button with name: {button} and id: {id}");
