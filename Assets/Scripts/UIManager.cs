@@ -76,6 +76,9 @@ public class UIManager
                 // stuff happens when metadata button is pressed
                 Debug.Log($"{button} test3");
                 break;
+            case "DeepFakeScene.BackButton":
+                SceneManager.LoadScene("MainMenuScene");
+                break;
             case "MainMenuScene.PlayButton":
                 SceneManager.LoadScene("DeepFakeScene");
                 break;
