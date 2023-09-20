@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4ae5429db0c66b64c9cafee4ee64d83c
+guid: 0b5c6275f0812d541ba455d6f8ddb643
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1619300579323477089
-    second: Meta data template without details_0
+      213: 1991033864557486755
+    second: Background (1)_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -83,18 +83,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,22 +98,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Meta data template without details_0
+      name: Background (1)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 740
-        height: 996
+        width: 1439
+        height: 1020
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 16cf8272c49e87610800000000000000
-      internalID: 1619300579323477089
+      spriteID: 3a2e8b830c291ab10800000000000000
+      internalID: 1991033864557486755
       vertices: []
       indices: 
       edges: []
@@ -133,7 +121,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 0f1339698a45f8d4aaad164cec5f84c8
     internalID: 0
     vertices: []
     indices: 
@@ -141,7 +129,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Meta data template without details_0: 1619300579323477089
+      Background (1)_0: 1991033864557486755
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
