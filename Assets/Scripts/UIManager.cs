@@ -9,6 +9,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class UIManager
 {
@@ -24,8 +25,6 @@ public class UIManager
     public Canvas backgroundCanvas;
     public Camera postProcessCam;
     public Camera noPostCam;
-    internal Image metadataImage;
-    private bool metaState = true;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -87,6 +86,9 @@ public class UIManager
                     metaState = false;
                 }
                 break;
+            case "DeepFakeScene.BackButton":
+                SceneManager.LoadScene("MainMenuScene");
+                break;
             case "MainMenuScene.PlayButton":
                 SceneManager.LoadScene("DeepFakeScene");
                 break;
@@ -95,6 +97,21 @@ public class UIManager
                 break;
             case "AboutPageScene.BackButton":
                 SceneManager.LoadScene("MainMenuScene");
+                break;
+            case "DeepFakeScene.PlayPauseButton":
+                PausePlayVideo();
+                break;
+            case "DeepFakeScene.StepForwardButton":
+                videoPlayer.frame = videoPlayer.frame + 1;
+                break;
+            case "DeepFakeScene.JumpForwardButton":
+                videoPlayer.time = videoPlayer.time + 5;
+                break;
+            case "DeepFakeScene.StepBackwardButton":
+                videoPlayer.frame = videoPlayer.frame - 1;
+                break;
+            case "DeepFakeScene.JumpBackwardButton":
+                videoPlayer.time = videoPlayer.time - 5;
                 break;
             default:
                 //unknown button pressed
@@ -138,6 +155,9 @@ public class UIManager
                 Debug.Log($"Slider {sliderName} value changed to {slider.value}");
                 SetVideoZoom(slider.value);
                 break;
+            case "DeepFakeScene.VideoScrubber":
+                settingValue = true;
+                break;
             default:
                 // Unknown slider value changed
                 Debug.LogWarning($"Unknown slider value changed with name: {sliderName} and id: {id}");
@@ -168,9 +188,18 @@ public class UIManager
                 break;
         }
     }
-
     internal void ChangeVideoZoom(float zoom)
     {
+        var centre3 = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+        var zoomCentre = postProcessCam.ScreenToWorldPoint(centre3);
+        Vector3[] videoCorners = new Vector3[4];
+        videoRawImage.GetComponent<RectTransform>().GetWorldCorners(videoCorners);
+
+        var relative = zoomCentre - videoCorners[0];
+        var normalized = new Vector2(relative.x / (videoCorners[2].x - videoCorners[0].x), relative.y / (videoCorners[2].y - videoCorners[0].y));
+
+        if (normalized.x < 0 || normalized.y < 0 || normalized.x > 1 || normalized.y > 1) return;
+
         var oldZoom = videoZoom;
         videoZoom += zoom * videoZoom * 0.1f;
 
@@ -179,7 +208,7 @@ public class UIManager
 
         if (oldZoom == videoZoom) return;
 
-        SetVideoZoom(videoZoom, Input.mousePosition, videoZoom - oldZoom);
+        SetVideoZoom(videoZoom, normalized, videoZoom - oldZoom);
     }
 
     internal void ChangeVideoPosition(Vector2 rawDelta)
@@ -191,19 +220,12 @@ public class UIManager
     }
 
     //Zooming needs more stuff to make it feel more fluid but this is at least better than zooming into the corner
-    private void SetVideoZoom(float zoom, Vector2? centre = null, float delta = 0)
+    private void SetVideoZoom(float zoom, Vector2? normalized = null, float delta = 0)
     {
         var uvRectCentreOffset = videoRawImage.uvRect.position;
-        if (centre != null)
+        if (normalized != null)
         {
-            var centre3 = new Vector3(centre.Value.x, centre.Value.y);
-            var zoomCentre = postProcessCam.ScreenToWorldPoint(centre3);
-            Vector3[] videoCorners = new Vector3[4];
-            videoRawImage.GetComponent<RectTransform>().GetWorldCorners(videoCorners);
-
-            var relative = zoomCentre - videoCorners[0];
-            var normalized = new Vector2(relative.x / (videoCorners[2].x - videoCorners[0].x), relative.y / (videoCorners[2].y - videoCorners[0].y));
-            uvRectCentreOffset = normalized - Vector2.one * (0.5f / zoom);
+            uvRectCentreOffset = normalized.Value - Vector2.one * (0.5f / zoom);
             uvRectCentreOffset = new Vector2(Mathf.Clamp(uvRectCentreOffset.x, 0, 1 - (1 / zoom)), Mathf.Clamp(uvRectCentreOffset.y, 0, 1 - (1 / zoom)));
 
             Debug.Log(normalized);
@@ -212,6 +234,50 @@ public class UIManager
         videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
 
         zoomSlider.value = zoom;
+    }
+
+    internal void PausePlayVideo()
+    {
+        if (videoPlayer.isPaused) videoPlayer.Play();
+        else videoPlayer.Pause();
+    }
+
+    public IEnumerator VideoScrubberCoroutine()
+    {
+        bool wasPlaying = false;
+        yield return new WaitUntil(() => videoPlayer.isPrepared);
+        while (true)
+        {
+            while (settingValue)
+            {
+                if (videoPlayer.isPlaying) 
+                { 
+                    videoPlayer.Pause(); 
+                    wasPlaying = true;
+                }
+
+                videoPlayer.frame = (long) (videoScrubber.value * videoPlayer.frameCount);
+
+                if (!Input.GetKey(KeyCode.Mouse0)) break;
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            if (wasPlaying)
+            {
+                videoPlayer.Play();
+                wasPlaying = false;
+            }
+            if (settingValue)
+            {
+                yield return new WaitForSeconds(0.1f); //this is kinda ugly but it fixes some weirdness with the slider
+            }
+            settingValue = false;
+
+            videoScrubber.SetValueWithoutNotify((float)videoPlayer.frame / videoPlayer.frameCount);
+
+            yield return null;
+        }
     }
 }
 

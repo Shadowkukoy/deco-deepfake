@@ -42,8 +42,6 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.zoomSlider = GameObject.Find("ZoomSlider").GetComponent<Slider>();
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
                 uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
-                uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<Image>();
-                uiManager.metadataImage.gameObject.SetActive(false);
 
 
                 GameObject videoCanvas = GameObject.Find("VideoCanvas");
@@ -62,15 +60,11 @@ public class GlobalControlScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PausePlayVideo();
+            uiManager.PausePlayVideo();
         }
     }
 
-    internal void PausePlayVideo()
-    {
-        if (uiManager.videoPlayer.isPaused) uiManager.videoPlayer.Play();
-        else uiManager.videoPlayer.Pause();
-    }
+
 
     private void ZoomControls()
     {
