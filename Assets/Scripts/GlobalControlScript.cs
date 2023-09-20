@@ -32,13 +32,13 @@ public class GlobalControlScript : MonoBehaviour
             uiManager.canvas = canvas.GetComponent<Canvas>();
             uiManager.AssignButtonListeners(canvas);
             uiManager.AssignSliderListeners(canvas);
-            uiManager.AssignToggleListeners(canvas);
+            uiManager.AssignToggleListeners(canvas); //This technically causes a bug if any scene other than deepfake scene is loaded!
         }
         switch (scene.name)
         {
             case "DeepFakeScene":
                 uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
-                uiManager.videoRawImage = GameObject.Find("Video").GetComponent<RawImage>();
+                uiManager.videoRawImage = uiManager.videoPlayer.gameObject.GetComponent<RawImage>();
                 uiManager.zoomSlider = GameObject.Find("ZoomSlider").GetComponent<Slider>();
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
                 uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
