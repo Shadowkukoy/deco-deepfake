@@ -76,6 +76,15 @@ public class GlobalControlScript : MonoBehaviour
             uiManager.ChangeVideoZoom(scrollY);
         }
 
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            uiManager.prevMousePosition = Input.mousePosition;
+        }
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            uiManager.ZoomMouseDown();
+        }
+
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             uiManager.ChangeVideoPosition(Vector2.up);

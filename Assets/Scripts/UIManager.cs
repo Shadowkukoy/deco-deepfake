@@ -29,7 +29,7 @@ public class UIManager
     private bool settingValue;
     public bool metaState = false;
     public Image metadataImage;
-
+    public Vector3 prevMousePosition;
     public void AssignButtonListeners(GameObject elements)
     {
         foreach (Button button in elements.GetComponentsInChildren<Button>())
@@ -132,6 +132,23 @@ public class UIManager
                 break;
         }
     }
+
+    internal void ZoomMouseDown()
+    {
+        var centre3 = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+        var zoomCentre = postProcessCam.ScreenToWorldPoint(centre3);
+        Vector3[] videoCorners = new Vector3[4];
+        videoRawImage.GetComponent<RectTransform>().GetWorldCorners(videoCorners);
+
+        var relative = zoomCentre - videoCorners[0];
+        var normalized = new Vector2(relative.x / (videoCorners[2].x - videoCorners[0].x), relative.y / (videoCorners[2].y - videoCorners[0].y));
+
+        if (normalized.x < 0 || normalized.y < 0 || normalized.x > 1 || normalized.y > 1) return;
+        var mouseDelta = prevMousePosition - Input.mousePosition;
+        prevMousePosition = Input.mousePosition;
+        ChangeVideoPosition(mouseDelta/2);
+    }
+
     private void OnSliderValueChanged(Slider slider, string sliderName, int id)
     {
         // Code that should run when a slider value is changed
