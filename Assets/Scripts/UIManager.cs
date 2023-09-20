@@ -25,6 +25,8 @@ public class UIManager
     public Canvas backgroundCanvas;
     public Camera postProcessCam;
     public Camera noPostCam;
+    public Slider videoScrubber;
+    private bool settingValue;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -75,16 +77,7 @@ public class UIManager
                 break;
             case "DeepFakeScene.MetadataButton":
                 // stuff happens when metadata button is pressed
-                //Debug.Log($"{metaState} test3");
-                if (!metaState)
-                {
-                    metadataImage.gameObject.SetActive(true);
-                    metaState = true;
-                } else if (metaState)
-                {
-                    metadataImage.gameObject.SetActive(false);
-                    metaState = false;
-                }
+                Debug.Log($"{button} test3");
                 break;
             case "DeepFakeScene.BackButton":
                 SceneManager.LoadScene("MainMenuScene");

@@ -42,8 +42,8 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.zoomSlider = GameObject.Find("ZoomSlider").GetComponent<Slider>();
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
                 uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
-
-
+                uiManager.videoScrubber = GameObject.Find("VideoScrubber").GetComponent<Slider>();
+                StartCoroutine(uiManager.VideoScrubberCoroutine());
                 GameObject videoCanvas = GameObject.Find("VideoCanvas");
                 uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
 
