@@ -1,22 +1,25 @@
 fileFormatVersion: 2
-guid: 3f2cde0eb87633941b121d921ec7a2f8
+guid: 7ec2599327e9bb843a7e625c9ff705d4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6055045571043105099
-    second: Play Button_0
+      213: 6932909839999268980
+    second: About Button_0
   - first:
-      213: -7193122088060811460
-    second: Play Button_1
+      213: 577368131938799619
+    second: About Button_1
   - first:
-      213: -5400827159775662511
-    second: Play Button_2
+      213: 3982986201051760225
+    second: About Button_2
   - first:
-      213: 1739606179720110205
-    second: Play Button_3
+      213: -7502576312267551083
+    second: About Button_3
   - first:
-      213: -1239688768411445685
-    second: Play Button_4
+      213: 2914823504842888745
+    second: About Button_4
+  - first:
+      213: -2757579684999048587
+    second: About Button_5
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -106,41 +109,17 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Play Button_0
+      name: About Button_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 2
-        width: 73
-        height: 110
+        x: 0
+        y: 3
+        width: 83
+        height: 108
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -148,19 +127,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4993d8add7d70450800000000000000
-      internalID: 6055045571043105099
+      spriteID: 47877f074c4a63060800000000000000
+      internalID: 6932909839999268980
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Play Button_1
+      name: About Button_1
       rect:
         serializedVersion: 2
-        x: 14
+        x: 0
         y: 9
-        width: 17
+        width: 19
         height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -169,19 +148,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c378e1b5295ec2c90800000000000000
-      internalID: -7193122088060811460
+      spriteID: 300d7d8c149330800800000000000000
+      internalID: 577368131938799619
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Play Button_2
+      name: About Button_2
       rect:
         serializedVersion: 2
-        x: 32
+        x: 19
         y: 8
-        width: 8
+        width: 16
         height: 25
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -190,19 +169,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 15e2a4020586c05b0800000000000000
-      internalID: -5400827159775662511
+      spriteID: 16609fad8d8664730800000000000000
+      internalID: 3982986201051760225
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Play Button_3
+      name: About Button_3
       rect:
         serializedVersion: 2
-        x: 40
+        x: 35
         y: 8
-        width: 15
+        width: 17
         height: 19
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -211,19 +190,40 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d70aa478a92542810800000000000000
-      internalID: 1739606179720110205
+      spriteID: 59e4807289e71e790800000000000000
+      internalID: -7502576312267551083
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Play Button_4
+      name: About Button_4
       rect:
         serializedVersion: 2
-        x: 55
-        y: 3
-        width: 17
+        x: 53
+        y: 8
+        width: 15
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9269e15c888837820800000000000000
+      internalID: 2914823504842888745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: About Button_5
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 8
+        width: 12
         height: 23
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -232,8 +232,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b465bce12adbbcee0800000000000000
-      internalID: -1239688768411445685
+      spriteID: 5725cc303eb1bb9d0800000000000000
+      internalID: -2757579684999048587
       vertices: []
       indices: 
       edges: []
@@ -241,7 +241,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a2cbf5b74142c684ca732815a132d209
+    spriteID: a689a708ffcb5a445b48d12d9cb82969
     internalID: 0
     vertices: []
     indices: 
@@ -249,11 +249,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Play Button_0: 6055045571043105099
-      Play Button_1: -7193122088060811460
-      Play Button_2: -5400827159775662511
-      Play Button_3: 1739606179720110205
-      Play Button_4: -1239688768411445685
+      About Button_0: 6932909839999268980
+      About Button_1: 577368131938799619
+      About Button_2: 3982986201051760225
+      About Button_3: -7502576312267551083
+      About Button_4: 2914823504842888745
+      About Button_5: -2757579684999048587
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
