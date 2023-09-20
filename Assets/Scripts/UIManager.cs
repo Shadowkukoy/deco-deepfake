@@ -58,8 +58,16 @@ public class UIManager
 
     public void AssignToggleListeners(GameObject elements)
     {
-        Toggle audioVisualiserToggle = GameObject.Find("AudioVisualiserToggle").GetComponent<Toggle>();
-        audioVisualiserToggle.onValueChanged.AddListener(delegate { OnToggleValueChanged(audioVisualiserToggle, SceneManager.GetActiveScene().name + "." + audioVisualiserToggle.name, 0); });
+        foreach (Toggle toggle in elements.GetComponentsInChildren<Toggle>())
+        {
+            switch (toggle.name)
+            {
+                default:
+                    toggle.onValueChanged.AddListener(delegate { OnToggleValueChanged(toggle, SceneManager.GetActiveScene().name + "." + toggle.name, 0); });
+                    break;
+            }
+        }
+       
     }
 
     private void OnButtonPress(string button, int id)
