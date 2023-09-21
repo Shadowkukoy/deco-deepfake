@@ -104,6 +104,8 @@ public class UIManager
                 break;
             case "MainMenuScene.PlayButton":
                 SceneManager.LoadScene("HomePageScene");
+                AudioSource audio = GameObject.Find("WindowsBootSound").GetComponent<AudioSource>();
+                audio.Play();
                 break;
             case "MainMenuScene.AboutButton":
                 SceneManager.LoadScene("AboutPageScene");
