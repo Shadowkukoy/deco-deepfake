@@ -19,6 +19,7 @@ public class GlobalControlScript : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         uiManager = new UIManager();
+        uiManager.globalControl = this;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
