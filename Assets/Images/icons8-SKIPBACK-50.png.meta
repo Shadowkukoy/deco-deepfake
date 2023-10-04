@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      icons8-SKIPBACK-50_0: -8034390354199802522
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
