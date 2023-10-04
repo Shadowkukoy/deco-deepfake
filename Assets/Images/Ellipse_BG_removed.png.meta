@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9be9e23806e7e734eb4b04a6f93e9731
+guid: 3d861e389c1473845ac928e2eab92444
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6580678685462334454
-    second: Forensic Toolkit (3)_0
+      213: 4944605749328441962
+    second: Ellipse_BG_removed_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Forensic Toolkit (3)_0
+      name: Ellipse_BG_removed_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 341
-        height: 745
+        width: 204
+        height: 107
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a04780cf99bbca4a0800000000000000
-      internalID: -6580678685462334454
+      spriteID: a62731b3bb4ce9440800000000000000
+      internalID: 4944605749328441962
       vertices: []
       indices: 
       edges: []
