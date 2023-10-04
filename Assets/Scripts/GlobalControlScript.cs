@@ -39,7 +39,6 @@ public class GlobalControlScript : MonoBehaviour
             case "DeepFakeScene":
                 uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
                 uiManager.videoRawImage = uiManager.videoPlayer.gameObject.GetComponent<RawImage>();
-                uiManager.zoomSlider = GameObject.Find("ZoomSlider").GetComponent<Slider>();
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
                 uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
                 uiManager.videoScrubber = GameObject.Find("VideoScrubber").GetComponent<Slider>();

@@ -270,8 +270,6 @@ public class UIManager
         }
 
         videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
-
-        zoomSlider.value = zoom;
     }
 
     internal void PausePlayVideo()
