@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AboutPageScene.unity
     guid: e3b79faa750460a47896aa9378ee18d7
+  - enabled: 1
+    path: Assets/Scenes/HomePageScene.unity
+    guid: 4090c7f5ab225e942b238e3c12db209e
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

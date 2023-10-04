@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9e475b55ee3b3c345b08395f83006562
+guid: 124a9170226e5e94bb7d7a939d778df1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6034103478363918902
-    second: ASIO 1_0
+      213: 6995870962943586127
+    second: Boot Screen_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ASIO 1_0
+      name: Boot Screen_0
       rect:
         serializedVersion: 2
-        x: 20
-        y: 13
-        width: 707
-        height: 192
+        x: 0
+        y: 0
+        width: 1440
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 63294ddb4217db350800000000000000
-      internalID: 6034103478363918902
+      spriteID: f4fe8b83393561160800000000000000
+      internalID: 6995870962943586127
       vertices: []
       indices: 
       edges: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ASIO 1_0: 6034103478363918902
+      Boot Screen_0: 6995870962943586127
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

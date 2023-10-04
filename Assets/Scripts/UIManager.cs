@@ -103,13 +103,21 @@ public class UIManager
                 SceneManager.LoadScene("MainMenuScene");
                 break;
             case "MainMenuScene.PlayButton":
-                SceneManager.LoadScene("DeepFakeScene");
+                SceneManager.LoadScene("HomePageScene");
+                AudioSource audio = GameObject.Find("WindowsBootSound").GetComponent<AudioSource>();
+                audio.Play();
                 break;
             case "MainMenuScene.AboutButton":
                 SceneManager.LoadScene("AboutPageScene");
                 break;
             case "AboutPageScene.BackButton":
                 SceneManager.LoadScene("MainMenuScene");
+                break;
+            case "HomePageScene.HomeButton":
+                SceneManager.LoadScene("MainMenuScene");
+                break;
+            case "HomePageScene.PlayButton":
+                SceneManager.LoadScene("DeepFakeScene");
                 break;
             case "DeepFakeScene.PlayPauseButton":
                 PausePlayVideo();
