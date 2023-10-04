@@ -30,6 +30,8 @@ public class UIManager
     public bool metaState = false;
     public Image metadataImage;
     public Vector3 prevMousePosition;
+    internal GlobalControlScript globalControl;
+
     public void AssignButtonListeners(GameObject elements)
     {
         foreach (Button button in elements.GetComponentsInChildren<Button>())
@@ -90,12 +92,12 @@ public class UIManager
                 //Debug.Log($"{button} test3");
                 if (!metaState)
                 {
-                    metadataImage.gameObject.SetActive(true);
+                    globalControl.StartCoroutine(UnNuke(metadataImage.gameObject));
                     metaState = true;
                 }
                 else
                 {
-                    metadataImage.gameObject.SetActive(false);
+                    globalControl.StartCoroutine(Nuke(metadataImage.gameObject));
                     metaState = false;
                 }
                 break;
@@ -112,7 +114,7 @@ public class UIManager
                 break;
             case "MainMenuScene.DisclaimerAgreeButton":
                 GameObject disclaimer = GameObject.Find("Disclaimer");
-                disclaimer.SetActive(false);
+                globalControl.StartCoroutine(Nuke(disclaimer));
                 break;
             case "AboutPageScene.BackButton":
                 SceneManager.LoadScene("MainMenuScene");
@@ -274,6 +276,29 @@ public class UIManager
         }
 
         videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
+    }
+    
+    public IEnumerator Nuke(GameObject element)
+    {
+        int iterations = 8;
+        var initScale = element.transform.localScale;
+        for (int i = 0; i < iterations; i++)
+        {
+            element.transform.localScale = initScale * (1 - (float)i / iterations);
+            yield return null;
+        }
+        element.SetActive(false);
+    }
+
+    public IEnumerator UnNuke(GameObject element)
+    {
+        element.SetActive(true);
+        int iterations = 8;
+        for (int i = 0; i < iterations; i++)
+        {
+            element.transform.localScale = Vector3.one * (float)i / iterations;
+            yield return null;
+        }
     }
 
     internal void PausePlayVideo()
