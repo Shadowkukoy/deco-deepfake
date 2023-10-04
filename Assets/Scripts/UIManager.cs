@@ -114,7 +114,7 @@ public class UIManager
                 break;
             case "MainMenuScene.DisclaimerAgreeButton":
                 GameObject disclaimer = GameObject.Find("Disclaimer");
-                disclaimer.SetActive(false);
+                globalControl.StartCoroutine(Nuke(disclaimer));
                 break;
             case "AboutPageScene.BackButton":
                 SceneManager.LoadScene("MainMenuScene");
