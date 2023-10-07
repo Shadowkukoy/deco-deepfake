@@ -28,9 +28,13 @@ public class UIManager
     public Slider videoScrubber;
     private bool settingValue;
     public bool metaState = false;
+    public bool aboutUsState = false;
+    public bool optionsState = false;
     public Image metadataImage;
     public Vector3 prevMousePosition;
     internal GlobalControlScript globalControl;
+    public GameObject aboutUsPage;
+    public GameObject optionsPage;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -124,6 +128,38 @@ public class UIManager
                 break;
             case "HomePageScene.PlayButton":
                 SceneManager.LoadScene("DeepFakeScene");
+                break;
+            case "HomePageScene.InfoButton":
+                if (!aboutUsState)
+                {
+                    globalControl.StartCoroutine(UnNuke(aboutUsPage));
+                    aboutUsState = true;
+                }
+                else
+                {
+                    globalControl.StartCoroutine(Nuke(aboutUsPage));
+                    aboutUsState = false;
+                }
+                break;
+            case "HomePageScene.AboutExitButton":
+                globalControl.StartCoroutine(Nuke(aboutUsPage));
+                aboutUsState = false;
+                break;
+            case "HomePageScene.SettingsButton":
+                if (!optionsState)
+                {
+                    globalControl.StartCoroutine(UnNuke(optionsPage));
+                    optionsState = true;
+                }
+                else
+                {
+                    globalControl.StartCoroutine(Nuke(optionsPage));
+                    optionsState = false;
+                }
+                break;
+            case "HomePageScene.OptionsExitButton":
+                globalControl.StartCoroutine(Nuke(optionsPage));
+                optionsState = false;
                 break;
             case "DeepFakeScene.PlayPauseButton":
                 PausePlayVideo();

@@ -48,7 +48,12 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
                 uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<Image>();
                 uiManager.metadataImage.gameObject.SetActive(false);
-
+                break;
+            case "HomePageScene":
+                uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
+                uiManager.aboutUsPage.SetActive(false);
+                uiManager.optionsPage = GameObject.Find("OptionsPage");
+                uiManager.optionsPage.SetActive(false);
                 break;
             default:
                 Debug.LogWarning($"Unknown scene loaded with name {scene.name}");
