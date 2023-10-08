@@ -172,6 +172,10 @@ public class UIManager
                 globalControl.StartCoroutine(Nuke(optionsPage));
                 optionsState = false;
                 break;
+            case "HomePageScene.AcceptCallButton":
+                managerCall = true;
+                globalControl.StartCoroutine(Nuke(incomingCall));
+                break;
             case "DeepFakeScene.PlayPauseButton":
                 PausePlayVideo();
                 break;

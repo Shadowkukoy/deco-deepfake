@@ -53,10 +53,16 @@ public class GlobalControlScript : MonoBehaviour
             case "HomePageScene":
                 uiManager.incomingCall = GameObject.Find("IncomingCall");
                 uiManager.incomingCall.SetActive(false);
-                
-                
+
+                if (!uiManager.managerCall)
+                {
+                    Invoke("ShowManagerCall", 5);
+                }
+
+                Debug.Log("and here");
                 if (uiManager.popup == 0)
                 {
+                    Debug.Log("here3");
                     uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
                     uiManager.aboutUsPage.SetActive(false);
                     uiManager.optionsPage = GameObject.Find("OptionsPage");
@@ -64,6 +70,7 @@ public class GlobalControlScript : MonoBehaviour
                 }
                 else if (uiManager.popup == 1)
                 {
+                    Debug.Log("here4");
                     // keep about us page
                     uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
                     uiManager.aboutUsPage.SetActive(true);
@@ -72,6 +79,7 @@ public class GlobalControlScript : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("here5");
                     // keep options page
                     uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
                     uiManager.aboutUsPage.SetActive(false);
@@ -110,7 +118,10 @@ public class GlobalControlScript : MonoBehaviour
         }
     }
 
-
+    private void ShowManagerCall()
+    {
+        uiManager.incomingCall.SetActive(true);
+    }
 
     private void ZoomControls()
     {
