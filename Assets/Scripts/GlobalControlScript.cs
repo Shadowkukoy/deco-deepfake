@@ -60,10 +60,8 @@ public class GlobalControlScript : MonoBehaviour
                     Invoke("ShowManagerCall", 5);
                 }
 
-                Debug.Log("and here");
                 if (uiManager.popup == 0)
                 {
-                    Debug.Log("here3");
                     uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
                     uiManager.aboutUsPage.SetActive(false);
                     uiManager.optionsPage = GameObject.Find("OptionsPage");
@@ -71,7 +69,6 @@ public class GlobalControlScript : MonoBehaviour
                 }
                 else if (uiManager.popup == 1)
                 {
-                    Debug.Log("here4");
                     // keep about us page
                     uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
                     uiManager.aboutUsPage.SetActive(true);
@@ -80,7 +77,6 @@ public class GlobalControlScript : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("here5");
                     // keep options page
                     uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
                     uiManager.aboutUsPage.SetActive(false);
@@ -91,24 +87,12 @@ public class GlobalControlScript : MonoBehaviour
                 break;
             case "MainMenuScene":
                 uiManager.disclaimer = GameObject.Find("Disclaimer");
-                Debug.Log("opening main menu scene");
-                if (!uiManager.soundOn)
-                {
-                    Debug.Log("sound is off");
-                    AudioSource openingMusicAudioSource = GameObject.Find("OpeningMusicAudioSource").GetComponent<AudioSource>();
-                    openingMusicAudioSource.Pause();
-                    Debug.Log($"{openingMusicAudioSource.priority}");
-                    Debug.Log($"{(openingMusicAudioSource == null)}");
-                }
-                Debug.Log("loaded main menu scene");
                 if (!uiManager.disclaimerAgreed)
                 {
-                    Debug.Log("setting disclaimer to active");
                     uiManager.disclaimer.SetActive(true);
                 }
                 else
                 {
-                    Debug.Log("setting disclaimer to false");
                     uiManager.disclaimer.SetActive(false);
                 }
                 break;
