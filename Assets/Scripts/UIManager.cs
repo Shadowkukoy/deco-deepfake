@@ -35,6 +35,8 @@ public class UIManager
     internal GlobalControlScript globalControl;
     public GameObject aboutUsPage;
     public GameObject optionsPage;
+    public GameObject disclaimer;
+    public bool disclaimerAgreed = false;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -114,10 +116,14 @@ public class UIManager
                 audio.Play();
                 break;
             case "MainMenuScene.AboutButton":
-                SceneManager.LoadScene("AboutPageScene");
+                SceneManager.LoadScene("HomePageScene");
+                break;
+            case "MainMenuScene.OptionsButton":
+                SceneManager.LoadScene("HomePageScene");
                 break;
             case "MainMenuScene.DisclaimerAgreeButton":
                 GameObject disclaimer = GameObject.Find("Disclaimer");
+                disclaimerAgreed = true;
                 globalControl.StartCoroutine(Nuke(disclaimer));
                 break;
             case "AboutPageScene.BackButton":

@@ -55,6 +55,20 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.optionsPage = GameObject.Find("OptionsPage");
                 uiManager.optionsPage.SetActive(false);
                 break;
+            case "MainMenuScene":
+                uiManager.disclaimer = GameObject.Find("Disclaimer");
+                Debug.Log("loaded main menu scene");
+                if (!uiManager.disclaimerAgreed)
+                {
+                    Debug.Log("setting disclaimer to active");
+                    uiManager.disclaimer.SetActive(true);
+                }
+                else
+                {
+                    Debug.Log("setting disclaimer to false");
+                    uiManager.disclaimer.SetActive(false);
+                }
+                break;
             default:
                 Debug.LogWarning($"Unknown scene loaded with name {scene.name}");
                 break;
