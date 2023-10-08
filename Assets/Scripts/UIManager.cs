@@ -210,6 +210,11 @@ public class UIManager
             case "HomePageScene.OptionsSoundButton":
                 PlaySound(normalClick);
                 soundOn = !soundOn;
+                if (!soundOn)
+                {
+                    AudioSource openingMusicAudioSource = GameObject.Find("OpeningMusicAudioSource").GetComponent<AudioSource>();
+                    openingMusicAudioSource.Pause();
+                }
                 break;
             case "HomePageScene.OptionsQuickTextButton":
                 PlaySound(normalClick);

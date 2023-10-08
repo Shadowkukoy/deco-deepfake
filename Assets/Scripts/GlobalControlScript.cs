@@ -91,6 +91,15 @@ public class GlobalControlScript : MonoBehaviour
                 break;
             case "MainMenuScene":
                 uiManager.disclaimer = GameObject.Find("Disclaimer");
+                Debug.Log("opening main menu scene");
+                if (!uiManager.soundOn)
+                {
+                    Debug.Log("sound is off");
+                    AudioSource openingMusicAudioSource = GameObject.Find("OpeningMusicAudioSource").GetComponent<AudioSource>();
+                    openingMusicAudioSource.Pause();
+                    Debug.Log($"{openingMusicAudioSource.priority}");
+                    Debug.Log($"{(openingMusicAudioSource == null)}");
+                }
                 Debug.Log("loaded main menu scene");
                 if (!uiManager.disclaimerAgreed)
                 {
