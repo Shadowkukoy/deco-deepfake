@@ -8,6 +8,7 @@ using UnityEngine.Video;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.Rendering;
+using System.Threading;
 
 public class GlobalControlScript : MonoBehaviour
 {
@@ -50,10 +51,34 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.metadataImage.gameObject.SetActive(false);
                 break;
             case "HomePageScene":
-                uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
-                uiManager.aboutUsPage.SetActive(false);
-                uiManager.optionsPage = GameObject.Find("OptionsPage");
-                uiManager.optionsPage.SetActive(false);
+                uiManager.incomingCall = GameObject.Find("IncomingCall");
+                uiManager.incomingCall.SetActive(false);
+                
+                
+                if (uiManager.popup == 0)
+                {
+                    uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
+                    uiManager.aboutUsPage.SetActive(false);
+                    uiManager.optionsPage = GameObject.Find("OptionsPage");
+                    uiManager.optionsPage.SetActive(false);
+                }
+                else if (uiManager.popup == 1)
+                {
+                    // keep about us page
+                    uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
+                    uiManager.aboutUsPage.SetActive(true);
+                    uiManager.optionsPage = GameObject.Find("OptionsPage");
+                    uiManager.optionsPage.SetActive(false);
+                }
+                else
+                {
+                    // keep options page
+                    uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
+                    uiManager.aboutUsPage.SetActive(false);
+                    uiManager.optionsPage = GameObject.Find("OptionsPage");
+                    uiManager.optionsPage.SetActive(true);
+                }
+
                 break;
             case "MainMenuScene":
                 uiManager.disclaimer = GameObject.Find("Disclaimer");

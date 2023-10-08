@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.UIElements;
@@ -30,6 +31,7 @@ public class UIManager
     public bool metaState = false;
     public bool aboutUsState = false;
     public bool optionsState = false;
+    public int popup = 0;
     public Image metadataImage;
     public Vector3 prevMousePosition;
     internal GlobalControlScript globalControl;
@@ -37,6 +39,8 @@ public class UIManager
     public GameObject optionsPage;
     public GameObject disclaimer;
     public bool disclaimerAgreed = false;
+    public GameObject incomingCall;
+    public bool managerCall = false;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -112,14 +116,14 @@ public class UIManager
                 break;
             case "MainMenuScene.PlayButton":
                 SceneManager.LoadScene("HomePageScene");
-                AudioSource audio = GameObject.Find("WindowsBootSound").GetComponent<AudioSource>();
-                audio.Play();
                 break;
             case "MainMenuScene.AboutButton":
                 SceneManager.LoadScene("HomePageScene");
+                popup = 1;
                 break;
             case "MainMenuScene.OptionsButton":
                 SceneManager.LoadScene("HomePageScene");
+                popup = 2;
                 break;
             case "MainMenuScene.DisclaimerAgreeButton":
                 GameObject disclaimer = GameObject.Find("Disclaimer");
@@ -131,6 +135,7 @@ public class UIManager
                 break;
             case "HomePageScene.HomeButton":
                 SceneManager.LoadScene("MainMenuScene");
+                popup = 0;
                 break;
             case "HomePageScene.PlayButton":
                 SceneManager.LoadScene("DeepFakeScene");
