@@ -31,6 +31,7 @@ public class UIManager
     public bool metaState = false;
     public bool aboutUsState = false;
     public bool optionsState = false;
+    public bool soundOn = true;
     public int popup = 0;
     public Image metadataImage;
     public Vector3 prevMousePosition;
@@ -41,6 +42,13 @@ public class UIManager
     public bool disclaimerAgreed = false;
     public GameObject incomingCall;
     public bool managerCall = false;
+    public AudioClip normalClick = (AudioClip) Resources.Load("Click-normal");
+    public AudioClip errorClick = (AudioClip)Resources.Load("Click-error");
+    public AudioClip settingsClick = (AudioClip)Resources.Load("Click-settings");
+    public AudioClip windowsBootSound = (AudioClip)Resources.Load("Windows_sound");
+    public AudioClip openingMusic = (AudioClip)Resources.Load("Opening 1");
+    public AudioClip vibration = (AudioClip)Resources.Load("Vibration");
+    public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -90,14 +98,17 @@ public class UIManager
         switch (button)
         {
             case "DeepFakeScene.YesButton":
+                PlaySound(normalClick);
                 //stuff that happens when yes button is pressed
                 Debug.Log("test1");
                 break;
             case "DeepFakeScene.NoButton":
+                PlaySound(normalClick);
                 //stuff that happens when no button is pressed
                 Debug.Log("test2");
                 break;
             case "DeepFakeScene.MetadataButton":
+                PlaySound(normalClick);
                 // stuff happens when metadata button is pressed
                 //Debug.Log($"{button} test3");
                 if (!metaState)
@@ -112,28 +123,31 @@ public class UIManager
                 }
                 break;
             case "DeepFakeScene.BackButton":
+                PlaySound(normalClick);
                 SceneManager.LoadScene("MainMenuScene");
                 break;
             case "MainMenuScene.PlayButton":
+                PlaySound(normalClick);
                 SceneManager.LoadScene("HomePageScene");
                 break;
             case "MainMenuScene.AboutButton":
+                PlaySound(normalClick);
                 SceneManager.LoadScene("HomePageScene");
                 popup = 1;
                 break;
             case "MainMenuScene.OptionsButton":
+                PlaySound(settingsClick);
                 SceneManager.LoadScene("HomePageScene");
                 popup = 2;
                 break;
             case "MainMenuScene.DisclaimerAgreeButton":
+                PlaySound(normalClick);
                 GameObject disclaimer = GameObject.Find("Disclaimer");
                 disclaimerAgreed = true;
                 globalControl.StartCoroutine(Nuke(disclaimer));
                 break;
-            case "AboutPageScene.BackButton":
-                SceneManager.LoadScene("MainMenuScene");
-                break;
             case "HomePageScene.HomeButton":
+                PlaySound(normalClick);
                 SceneManager.LoadScene("MainMenuScene");
                 popup = 0;
                 break;
@@ -141,6 +155,7 @@ public class UIManager
                 SceneManager.LoadScene("DeepFakeScene");
                 break;
             case "HomePageScene.InfoButton":
+                PlaySound(normalClick);
                 if (!aboutUsState)
                 {
                     globalControl.StartCoroutine(UnNuke(aboutUsPage));
@@ -153,10 +168,12 @@ public class UIManager
                 }
                 break;
             case "HomePageScene.AboutExitButton":
+                PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(aboutUsPage));
                 aboutUsState = false;
                 break;
             case "HomePageScene.SettingsButton":
+                PlaySound(settingsClick);
                 if (!optionsState)
                 {
                     globalControl.StartCoroutine(UnNuke(optionsPage));
@@ -169,32 +186,72 @@ public class UIManager
                 }
                 break;
             case "HomePageScene.OptionsExitButton":
+                PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(optionsPage));
                 optionsState = false;
                 break;
             case "HomePageScene.AcceptCallButton":
+                PlaySound(normalClick);
                 managerCall = true;
                 globalControl.StartCoroutine(Nuke(incomingCall));
                 break;
+            case "HomePageScene.RejectCallButton":
+                PlaySound(errorClick);
+                break;
+            case "HomePageScene.EmailButton":
+                PlaySound(normalClick);
+                break;
+            case "HomePageScene.CalendarButton":
+                PlaySound(normalClick);
+                break;
+            case "HomePageScene.WatchGameIntroButton":
+                PlaySound(normalClick);
+                break;
+            case "HomePageScene.OptionsSoundButton":
+                PlaySound(normalClick);
+                soundOn = !soundOn;
+                break;
+            case "HomePageScene.OptionsQuickTextButton":
+                PlaySound(normalClick);
+                break;
+            case "HomePageScene.VPNButton":
+                PlaySound(normalClick);
+                break;
             case "DeepFakeScene.PlayPauseButton":
+                PlaySound(normalClick);
                 PausePlayVideo();
                 break;
             case "DeepFakeScene.StepForwardButton":
+                PlaySound(normalClick);
                 videoPlayer.frame = videoPlayer.frame + 1;
                 break;
             case "DeepFakeScene.JumpForwardButton":
+                PlaySound(normalClick);
                 videoPlayer.time = videoPlayer.time + 5;
                 break;
             case "DeepFakeScene.StepBackwardButton":
+                PlaySound(normalClick);
                 videoPlayer.frame = videoPlayer.frame - 1;
                 break;
             case "DeepFakeScene.JumpBackwardButton":
+                PlaySound(normalClick);
                 videoPlayer.time = videoPlayer.time - 5;
                 break;
             default:
                 //unknown button pressed
                 Debug.LogWarning($"Unknown button with name: {button} and id: {id}");
                 break;
+        }
+    }
+
+    public void PlaySound(AudioClip audioClip)
+    {
+        if (soundOn)
+        {
+            GameObject audioObject = new GameObject();
+            audioObject.AddComponent<AudioSource>();
+            AudioSource audioSource = audioObject.GetComponent<AudioSource>();
+            audioSource.PlayOneShot(audioClip);
         }
     }
 

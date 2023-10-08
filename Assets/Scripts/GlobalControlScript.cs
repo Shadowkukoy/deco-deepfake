@@ -51,6 +51,7 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.metadataImage.gameObject.SetActive(false);
                 break;
             case "HomePageScene":
+                uiManager.PlaySound(uiManager.windowsBootSound);
                 uiManager.incomingCall = GameObject.Find("IncomingCall");
                 uiManager.incomingCall.SetActive(false);
 
