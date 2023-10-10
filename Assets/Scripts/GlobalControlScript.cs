@@ -115,6 +115,17 @@ public class GlobalControlScript : MonoBehaviour
     private void ShowManagerCall()
     {
         uiManager.incomingCall.SetActive(true);
+        AudioClip callClip;
+        if (uiManager.soundOn)
+        {
+            callClip = uiManager.ringtone;
+        }
+        else
+        {
+            callClip = uiManager.vibration;
+        }
+        uiManager.incomingCall.GetComponent<AudioSource>().clip = callClip;
+        uiManager.incomingCall.GetComponent<AudioSource>().Play();
     }
 
     private void ZoomControls()
