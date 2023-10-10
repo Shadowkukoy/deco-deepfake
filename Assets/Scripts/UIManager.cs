@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using static UnityEngine.EventSystems.EventTrigger;
+using Deepfakes.Typography.TypeWriter;
 
 public class UIManager
 {
@@ -49,6 +50,7 @@ public class UIManager
     public AudioClip openingMusic = (AudioClip)Resources.Load("opening1");
     public AudioClip vibration = (AudioClip)Resources.Load("Vibration");
     public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
+    internal TypeWriter aboutUsTypeWriter;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -159,11 +161,13 @@ public class UIManager
                 if (!aboutUsState)
                 {
                     globalControl.StartCoroutine(UnNuke(aboutUsPage));
+                    aboutUsTypeWriter.LoadNextText(aboutUsTypeWriter.gameObject);
                     aboutUsState = true;
                 }
                 else
                 {
                     globalControl.StartCoroutine(Nuke(aboutUsPage));
+                    aboutUsTypeWriter.StopTypeWriter();
                     aboutUsState = false;
                 }
                 break;
@@ -247,7 +251,7 @@ public class UIManager
                 break;
             case "DeepFakeScene.JumpForwardButton":
                 PlaySound(normalClick);
-                videoPlayer.time = videoPlayer.time + 5;
+                videoPlayer.time = videoPlayer.time + 3;
                 break;
             case "DeepFakeScene.StepBackwardButton":
                 PlaySound(normalClick);
@@ -255,7 +259,7 @@ public class UIManager
                 break;
             case "DeepFakeScene.JumpBackwardButton":
                 PlaySound(normalClick);
-                videoPlayer.time = videoPlayer.time - 5;
+                videoPlayer.time = videoPlayer.time - 3;
                 break;
             default:
                 //unknown button pressed
@@ -422,7 +426,7 @@ public class UIManager
     {
         element.SetActive(true);
         int iterations = 8;
-        for (int i = 0; i < iterations; i++)
+        for (int i = 0; i <= iterations; i++)
         {
             element.transform.localScale = Vector3.one * (float)i / iterations;
             yield return null;

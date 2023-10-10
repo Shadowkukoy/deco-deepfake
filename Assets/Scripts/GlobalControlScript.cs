@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.Rendering;
 using System.Threading;
+using Deepfakes.Typography.TypeWriter;
 
 public class GlobalControlScript : MonoBehaviour
 {
@@ -49,11 +50,15 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
                 uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<Image>();
                 uiManager.metadataImage.gameObject.SetActive(false);
+                StartCoroutine(VideoStuffCoroutine());
                 break;
             case "HomePageScene":
                 uiManager.PlaySound(uiManager.windowsBootSound);
                 uiManager.incomingCall = GameObject.Find("IncomingCall");
                 uiManager.incomingCall.SetActive(false);
+                uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
+                uiManager.optionsPage = GameObject.Find("OptionsPage");
+                uiManager.aboutUsTypeWriter = uiManager.aboutUsPage.transform.GetChild(0).GetChild(0).GetComponent<TypeWriter>();
 
                 if (!uiManager.managerCall)
                 {
@@ -70,9 +75,8 @@ public class GlobalControlScript : MonoBehaviour
                 else if (uiManager.popup == 1)
                 {
                     // keep about us page
-                    uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
                     uiManager.aboutUsPage.SetActive(true);
-                    uiManager.optionsPage = GameObject.Find("OptionsPage");
+                    uiManager.aboutUsTypeWriter.LoadNextText(uiManager.aboutUsTypeWriter.gameObject);
                     uiManager.optionsPage.SetActive(false);
                 }
                 else
@@ -113,11 +117,21 @@ public class GlobalControlScript : MonoBehaviour
 
     public void Update()
     {
-        ZoomControls();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+    }
+
+    public IEnumerator VideoStuffCoroutine()
+    {
+        while (true)
         {
-            uiManager.PausePlayVideo();
+            yield return null;
+
+            ZoomControls();
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                uiManager.PausePlayVideo();
+            }
         }
     }
 
