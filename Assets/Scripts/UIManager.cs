@@ -210,6 +210,26 @@ public class UIManager
             case "HomePageScene.OptionsSoundButton":
                 PlaySound(normalClick);
                 soundOn = !soundOn;
+                if (!managerCall)
+                {
+                    // user hasn't accepted the incoming call yet
+                    if (soundOn)
+                    {
+                        // sound is now on, turn audio to ringtone
+                        AudioSource managerCallAudio = GameObject.Find("IncomingCall").GetComponent<AudioSource>();
+                        managerCallAudio.Stop();
+                        managerCallAudio.clip = ringtone;
+                        managerCallAudio.Play();
+                    }
+                    else
+                    {
+                        // sound is now off, turn audio to vibration
+                        AudioSource managerCallAudio = GameObject.Find("IncomingCall").GetComponent<AudioSource>();
+                        managerCallAudio.Stop();
+                        managerCallAudio.clip = vibration;
+                        managerCallAudio.Play();
+                    }
+                }
                 break;
             case "HomePageScene.OptionsQuickTextButton":
                 PlaySound(normalClick);
