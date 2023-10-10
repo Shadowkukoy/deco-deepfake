@@ -46,7 +46,7 @@ public class UIManager
     public AudioClip errorClick = (AudioClip)Resources.Load("Click-error");
     public AudioClip settingsClick = (AudioClip)Resources.Load("Click-settings");
     public AudioClip windowsBootSound = (AudioClip)Resources.Load("Windows_sound");
-    public AudioClip openingMusic = (AudioClip)Resources.Load("Opening 1");
+    public AudioClip openingMusic = (AudioClip)Resources.Load("opening1");
     public AudioClip vibration = (AudioClip)Resources.Load("Vibration");
     public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
 
