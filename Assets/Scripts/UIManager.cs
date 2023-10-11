@@ -51,6 +51,8 @@ public class UIManager
     public AudioClip vibration = (AudioClip)Resources.Load("Vibration");
     public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
     internal TypeWriter aboutUsTypeWriter;
+    public GameObject yesNoVideoArea;
+    internal TypeWriter deepFakeSceneTypeWriter;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -154,7 +156,7 @@ public class UIManager
                 popup = 0;
                 break;
             case "HomePageScene.PlayButton":
-                SceneManager.LoadScene("DeepFakeScene");
+                SceneManager.LoadScene("DeepFakeScene");               
                 break;
             case "HomePageScene.InfoButton":
                 PlaySound(normalClick);
