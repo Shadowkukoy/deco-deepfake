@@ -51,6 +51,7 @@ public class UIManager
     public AudioClip vibration = (AudioClip)Resources.Load("Vibration");
     public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
     internal TypeWriter aboutUsTypeWriter;
+    internal GameObject emailsPage;
 
     public void AssignButtonListeners(GameObject elements)
     {
