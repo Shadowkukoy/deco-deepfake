@@ -111,7 +111,17 @@ namespace Deepfakes.Typography.TypeWriter
 
             while (_currentVisibleCharacterIndex < textInfo.characterCount + 1) 
             {
-                typewriterAudioSource.Play();
+                //typewriterAudioSource.Play();
+                if (_currentVisibleCharacterIndex % 3 == 0)
+                {
+                    GameObject tmpGameObjAudio = new GameObject();
+                    tmpGameObjAudio.AddComponent<AudioSource>();
+                    AudioSource tmpAudioSource = tmpGameObjAudio.GetComponent<AudioSource>();
+                    tmpAudioSource.clip = typewriterAudio;
+                    tmpAudioSource.Play();
+                }
+                
+
                 var lastCharIndex = textInfo.characterCount - 1;
 
                 if (_currentVisibleCharacterIndex == lastCharIndex) 
