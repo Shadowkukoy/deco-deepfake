@@ -132,13 +132,18 @@ public class UIManager
                 break;
             case "MainMenuScene.AboutButton":
                 PlaySound(normalClick);
-                SceneManager.LoadScene("HomePageScene");
-                popup = 1;
-                break;
-            case "MainMenuScene.OptionsButton":
-                PlaySound(settingsClick);
-                SceneManager.LoadScene("HomePageScene");
-                popup = 2;
+                if (!aboutUsState)
+                {
+                    globalControl.StartCoroutine(UnNuke(aboutUsPage));
+                    aboutUsTypeWriter.LoadNextText(aboutUsTypeWriter.gameObject);
+                    aboutUsState = true;
+                }
+                else
+                {
+                    globalControl.StartCoroutine(Nuke(aboutUsPage));
+                    aboutUsTypeWriter.StopTypeWriter();
+                    aboutUsState = false;
+                }
                 break;
             case "MainMenuScene.DisclaimerAgreeButton":
                 PlaySound(normalClick);
@@ -169,11 +174,13 @@ public class UIManager
                     aboutUsState = false;
                 }
                 break;
+            case "MainMenuScene.AboutExitButton":
             case "HomePageScene.AboutExitButton":
                 PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(aboutUsPage));
                 aboutUsState = false;
                 break;
+            case "MainMenuScene.SettingsButton":
             case "HomePageScene.SettingsButton":
                 PlaySound(settingsClick);
                 if (!optionsState)

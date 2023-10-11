@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: AddStandardBitmap_Point9 SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -2111161118
   material: {fileID: 1202763451341151707}
-  materialHashCode: 0
+  materialHashCode: -1058280958
   m_Version: 1.1.0
   m_SourceFontFileGUID: fdc41583931f70048bb31c2d2f443968
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: fdc41583931f70048bb31c2d2f443968, type: 3}
@@ -2503,9 +2503,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.8333333
+    - _ScaleRatioB: 0.6770833
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
