@@ -48,6 +48,8 @@ public class UIManager
     public Sprite pauseImage = Resources.Load<Sprite>("pauseimage");
     internal TypeWriter aboutUsTypeWriter;
     internal GameObject emailsPage;
+    public GameObject yesNoVideoArea;
+    internal TypeWriter deepFakeSceneTypeWriter;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -156,7 +158,7 @@ public class UIManager
                 popup = 0;
                 break;
             case "HomePageScene.PlayButton":
-                SceneManager.LoadScene("DeepFakeScene");
+                SceneManager.LoadScene("DeepFakeScene");               
                 break;
             case "HomePageScene.InfoButton":
                 PlaySound(normalClick);
