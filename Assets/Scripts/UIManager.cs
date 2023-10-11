@@ -198,6 +198,8 @@ public class UIManager
                 globalControl.StartCoroutine(Nuke(incomingCall));
                 break;
             case "HomePageScene.RejectCallButton":
+                globalControl.StartCoroutine(Nuke(incomingCall));
+                globalControl.Invoke("ShowManagerCall", 3);
                 PlaySound(errorClick);
                 break;
             case "HomePageScene.EmailButton":

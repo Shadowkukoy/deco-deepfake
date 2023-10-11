@@ -22,7 +22,7 @@ public class GlobalControlScript : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
-
+        
         uiManager = new UIManager();
         uiManager.globalControl = this; //this is disgusting
 
@@ -146,7 +146,7 @@ public class GlobalControlScript : MonoBehaviour
 
     private void ShowManagerCall()
     {
-        uiManager.incomingCall.SetActive(true);
+        StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
         AudioClip callClip;
         if (uiManager.soundOn)
         {
