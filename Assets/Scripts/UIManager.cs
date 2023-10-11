@@ -179,6 +179,7 @@ public class UIManager
             case "HomePageScene.AboutExitButton":
                 PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(aboutUsPage));
+                aboutUsTypeWriter.StopTypeWriter();
                 aboutUsState = false;
                 break;
             case "MainMenuScene.SettingsButton":
