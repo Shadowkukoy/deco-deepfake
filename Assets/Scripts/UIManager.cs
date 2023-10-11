@@ -1,17 +1,12 @@
-using System;
 using System.Collections;
-using System.Threading;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using static UnityEngine.EventSystems.EventTrigger;
 using Deepfakes.Typography.TypeWriter;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public class UIManager
 {
@@ -34,7 +29,7 @@ public class UIManager
     public bool optionsState = false;
     public bool soundOn = true;
     public int popup = 0;
-    public Image metadataImage;
+    public UnityEngine.UI.Image metadataImage;
     public Vector3 prevMousePosition;
     internal GlobalControlScript globalControl;
     public GameObject aboutUsPage;
@@ -50,6 +45,8 @@ public class UIManager
     public AudioClip openingMusic = (AudioClip)Resources.Load("opening1");
     public AudioClip vibration = (AudioClip)Resources.Load("Vibration");
     public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
+    public Sprite playImage = Resources.Load<Sprite>("playimage");
+    public Sprite pauseImage = Resources.Load<Sprite>("pauseimage");
     internal TypeWriter aboutUsTypeWriter;
     internal GameObject emailsPage;
 
@@ -243,7 +240,7 @@ public class UIManager
                 PlaySound(normalClick);
                 break;
             case "DeepFakeScene.PlayPauseButton":
-                PlaySound(normalClick);
+                PlaySound(normalClick);                
                 PausePlayVideo();
                 break;
             case "DeepFakeScene.StepForwardButton":
@@ -436,6 +433,15 @@ public class UIManager
 
     internal void PausePlayVideo()
     {
+        GameObject playPauseButton = GameObject.Find("PlayPauseButton");
+        if (videoPlayer.isPaused)
+        {
+            playPauseButton.GetComponent<UnityEngine.UI.Image>().sprite = pauseImage;
+        }
+        else
+        {
+            playPauseButton.GetComponent<UnityEngine.UI.Image>().sprite = playImage;
+        }
         if (videoPlayer.isPaused) videoPlayer.Play();
         else videoPlayer.Pause();
     }

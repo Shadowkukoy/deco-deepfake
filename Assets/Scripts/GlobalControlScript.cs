@@ -63,7 +63,7 @@ public class GlobalControlScript : MonoBehaviour
                 StartCoroutine(uiManager.VideoScrubberCoroutine());
                 GameObject videoCanvas = GameObject.Find("VideoCanvas");
                 uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
-                uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<Image>();
+                uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<UnityEngine.UI.Image>();
                 uiManager.metadataImage.gameObject.SetActive(false);
                 StartCoroutine(VideoStuffCoroutine());
                 break;
