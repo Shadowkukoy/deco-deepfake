@@ -85,9 +85,6 @@ public class GlobalControlScript : MonoBehaviour
                 {
                     AudioSource openingMusicAudioSource = GameObject.Find("OpeningMusicAudioSource").GetComponent<AudioSource>();
                     openingMusicAudioSource.clip = uiManager.openingMusic;
-                    Debug.Log($"Is the audio source null? {openingMusicAudioSource == null}");
-                    Debug.Log($"Is the opening music audio clip null? {uiManager.openingMusic == null}");
-                    Debug.Log($"Is the audio clip null? {openingMusicAudioSource.clip == null}");
                     openingMusicAudioSource.Play();
                 }
                 uiManager.disclaimer = GameObject.Find("Disclaimer");
@@ -129,17 +126,15 @@ public class GlobalControlScript : MonoBehaviour
     private void ShowManagerCall()
     {
         StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
-        AudioClip callClip;
         if (uiManager.soundOn)
         {
-            callClip = uiManager.ringtone;
+            uiManager.incomingCall.GetComponent<AudioSource>().clip = uiManager.ringtone;
+            uiManager.incomingCall.GetComponent<AudioSource>().Play();
         }
         else
         {
-            callClip = uiManager.vibration;
+            uiManager.incomingCall.GetComponent<AudioSource>().Stop();
         }
-        uiManager.incomingCall.GetComponent<AudioSource>().clip = callClip;
-        uiManager.incomingCall.GetComponent<AudioSource>().Play();
     }
 
     private void ZoomControls()

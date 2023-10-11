@@ -43,7 +43,6 @@ public class UIManager
     public AudioClip settingsClick = (AudioClip)Resources.Load("Click-settings");
     public AudioClip windowsBootSound = (AudioClip)Resources.Load("Windows_sound");
     public AudioClip openingMusic = (AudioClip)Resources.Load("opening1");
-    public AudioClip vibration = (AudioClip)Resources.Load("Vibration");
     public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
     public Sprite playImage = Resources.Load<Sprite>("playimage");
     public Sprite pauseImage = Resources.Load<Sprite>("pauseimage");
@@ -194,6 +193,7 @@ public class UIManager
                     optionsState = false;
                 }
                 break;
+            case "MainMenuScene.OptionsExitButton":
             case "HomePageScene.OptionsExitButton":
                 PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(optionsPage));
@@ -215,8 +215,23 @@ public class UIManager
             case "HomePageScene.CalendarButton":
                 PlaySound(normalClick);
                 break;
+            case "MainMenuScene.WatchGameIntroButton":
             case "HomePageScene.WatchGameIntroButton":
                 PlaySound(normalClick);
+                break;
+            case "MainMenuScene.OptionsSoundButton":
+                PlaySound(normalClick);
+                soundOn = !soundOn;
+                if (!soundOn)
+                {
+                    // sound is now off, turn off opening music if in main menu scene
+                    GameObject openingMusicObject = GameObject.Find("OpeningMusicAudioSource");
+                    if (openingMusicObject != null)
+                    {
+                        AudioSource openingMusicAudioSource = openingMusicObject.GetComponent<AudioSource>();
+                        openingMusicAudioSource.Stop();
+                    }
+                }
                 break;
             case "HomePageScene.OptionsSoundButton":
                 PlaySound(normalClick);
@@ -224,24 +239,18 @@ public class UIManager
                 if (!managerCall)
                 {
                     // user hasn't accepted the incoming call yet
+                    AudioSource managerCallAudio = GameObject.Find("IncomingCall").GetComponent<AudioSource>();
                     if (soundOn)
                     {
-                        // sound is now on, turn audio to ringtone
-                        AudioSource managerCallAudio = GameObject.Find("IncomingCall").GetComponent<AudioSource>();
-                        managerCallAudio.Stop();
-                        managerCallAudio.clip = ringtone;
                         managerCallAudio.Play();
                     }
                     else
                     {
-                        // sound is now off, turn audio to vibration
-                        AudioSource managerCallAudio = GameObject.Find("IncomingCall").GetComponent<AudioSource>();
                         managerCallAudio.Stop();
-                        managerCallAudio.clip = vibration;
-                        managerCallAudio.Play();
                     }
                 }
                 break;
+            case "MainMenuScene.OptionsQuickTextButton":
             case "HomePageScene.OptionsQuickTextButton":
                 PlaySound(normalClick);
                 break;
