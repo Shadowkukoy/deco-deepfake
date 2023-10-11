@@ -1016,7 +1016,7 @@ GameObject:
   - component: {fileID: 1015601984}
   - component: {fileID: 1015601983}
   m_Layer: 5
-  m_Name: OptionsButton
+  m_Name: SettingsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2497,7 +2497,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 153941372}
   m_Direction: 2
   m_Value: 0.9999982
-  m_Size: 0.5559644
+  m_Size: 0.55596447
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

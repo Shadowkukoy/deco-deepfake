@@ -1,17 +1,12 @@
-using System;
 using System.Collections;
-using System.Threading;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using static UnityEngine.EventSystems.EventTrigger;
 using Deepfakes.Typography.TypeWriter;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public class UIManager
 {
@@ -34,7 +29,7 @@ public class UIManager
     public bool optionsState = false;
     public bool soundOn = true;
     public int popup = 0;
-    public Image metadataImage;
+    public UnityEngine.UI.Image metadataImage;
     public Vector3 prevMousePosition;
     internal GlobalControlScript globalControl;
     public GameObject aboutUsPage;
@@ -50,7 +45,10 @@ public class UIManager
     public AudioClip openingMusic = (AudioClip)Resources.Load("opening1");
     public AudioClip vibration = (AudioClip)Resources.Load("Vibration");
     public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
+    public Sprite playImage = Resources.Load<Sprite>("playimage");
+    public Sprite pauseImage = Resources.Load<Sprite>("pauseimage");
     internal TypeWriter aboutUsTypeWriter;
+    internal GameObject emailsPage;
     public GameObject yesNoVideoArea;
     internal TypeWriter deepFakeSceneTypeWriter;
 
@@ -136,13 +134,18 @@ public class UIManager
                 break;
             case "MainMenuScene.AboutButton":
                 PlaySound(normalClick);
-                SceneManager.LoadScene("HomePageScene");
-                popup = 1;
-                break;
-            case "MainMenuScene.OptionsButton":
-                PlaySound(settingsClick);
-                SceneManager.LoadScene("HomePageScene");
-                popup = 2;
+                if (!aboutUsState)
+                {
+                    globalControl.StartCoroutine(UnNuke(aboutUsPage));
+                    aboutUsTypeWriter.LoadNextText(aboutUsTypeWriter.gameObject);
+                    aboutUsState = true;
+                }
+                else
+                {
+                    globalControl.StartCoroutine(Nuke(aboutUsPage));
+                    aboutUsTypeWriter.StopTypeWriter();
+                    aboutUsState = false;
+                }
                 break;
             case "MainMenuScene.DisclaimerAgreeButton":
                 PlaySound(normalClick);
@@ -173,11 +176,13 @@ public class UIManager
                     aboutUsState = false;
                 }
                 break;
+            case "MainMenuScene.AboutExitButton":
             case "HomePageScene.AboutExitButton":
                 PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(aboutUsPage));
                 aboutUsState = false;
                 break;
+            case "MainMenuScene.SettingsButton":
             case "HomePageScene.SettingsButton":
                 PlaySound(settingsClick);
                 if (!optionsState)
@@ -202,6 +207,8 @@ public class UIManager
                 globalControl.StartCoroutine(Nuke(incomingCall));
                 break;
             case "HomePageScene.RejectCallButton":
+                globalControl.StartCoroutine(Nuke(incomingCall));
+                globalControl.Invoke("ShowManagerCall", 3);
                 PlaySound(errorClick);
                 break;
             case "HomePageScene.EmailButton":
@@ -244,7 +251,7 @@ public class UIManager
                 PlaySound(normalClick);
                 break;
             case "DeepFakeScene.PlayPauseButton":
-                PlaySound(normalClick);
+                PlaySound(normalClick);                
                 PausePlayVideo();
                 break;
             case "DeepFakeScene.StepForwardButton":
@@ -437,6 +444,15 @@ public class UIManager
 
     internal void PausePlayVideo()
     {
+        GameObject playPauseButton = GameObject.Find("PlayPauseButton");
+        if (videoPlayer.isPaused)
+        {
+            playPauseButton.GetComponent<UnityEngine.UI.Image>().sprite = pauseImage;
+        }
+        else
+        {
+            playPauseButton.GetComponent<UnityEngine.UI.Image>().sprite = playImage;
+        }
         if (videoPlayer.isPaused) videoPlayer.Play();
         else videoPlayer.Pause();
     }

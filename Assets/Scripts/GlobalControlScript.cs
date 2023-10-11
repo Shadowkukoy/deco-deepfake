@@ -15,21 +15,34 @@ public class GlobalControlScript : MonoBehaviour
 {
     // Start is called before the first frame update
     public UIManager uiManager;
+    public GameObject aboutPagePrefab;
+    public GameObject emailsPagePrefab;
+    public GameObject settingsPagePrefab;
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
-
+        
         uiManager = new UIManager();
         uiManager.globalControl = this; //this is disgusting
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        aboutPagePrefab = Resources.Load<GameObject>("Prefabs/AboutUsPagePrefab");
+        settingsPagePrefab = Resources.Load<GameObject>("Prefabs/OptionsPagePrefab");
+        emailsPagePrefab = Resources.Load<GameObject>("Prefabs/EmailsPagePrefab");
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         //Code that should be run when a scene is loaded
         GameObject canvas = GameObject.Find("Canvas");
+
+        uiManager.aboutUsPage = Instantiate(aboutPagePrefab, canvas.transform);
+        uiManager.optionsPage = Instantiate(settingsPagePrefab, canvas.transform);
+        uiManager.emailsPage = Instantiate(emailsPagePrefab, canvas.transform);
+
+
         if (canvas != null)
         {
             uiManager.canvas = canvas.GetComponent<Canvas>();
@@ -37,6 +50,10 @@ public class GlobalControlScript : MonoBehaviour
             uiManager.AssignSliderListeners(canvas);
             uiManager.AssignToggleListeners(canvas); //This technically causes a bug if any scene other than deepfake scene is loaded!
         }
+        uiManager.aboutUsTypeWriter = uiManager.aboutUsPage.transform.GetChild(0).GetChild(0).GetComponent<TypeWriter>();
+        uiManager.aboutUsPage.SetActive(false);
+        uiManager.optionsPage.SetActive(false);
+        uiManager.emailsPage.SetActive(false);
         switch (scene.name)
         {
             case "DeepFakeScene":
@@ -48,7 +65,7 @@ public class GlobalControlScript : MonoBehaviour
                 StartCoroutine(uiManager.VideoScrubberCoroutine());
                 GameObject videoCanvas = GameObject.Find("VideoCanvas");
                 uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
-                uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<Image>();
+                uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<UnityEngine.UI.Image>();
                 uiManager.metadataImage.gameObject.SetActive(false);
                 uiManager.yesNoVideoArea = GameObject.Find("YesNoVideoArea");
                 uiManager.deepFakeSceneTypeWriter = uiManager.yesNoVideoArea.transform.GetChild(0).GetComponent<TypeWriter>();
@@ -59,36 +76,10 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.PlaySound(uiManager.windowsBootSound);
                 uiManager.incomingCall = GameObject.Find("IncomingCall");
                 uiManager.incomingCall.SetActive(false);
-                uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
-                uiManager.optionsPage = GameObject.Find("OptionsPage");
-                uiManager.aboutUsTypeWriter = uiManager.aboutUsPage.transform.GetChild(0).GetChild(0).GetComponent<TypeWriter>();
 
                 if (!uiManager.managerCall)
                 {
                     Invoke("ShowManagerCall", 5);
-                }
-
-                if (uiManager.popup == 0)
-                {
-                    uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
-                    uiManager.aboutUsPage.SetActive(false);
-                    uiManager.optionsPage = GameObject.Find("OptionsPage");
-                    uiManager.optionsPage.SetActive(false);
-                }
-                else if (uiManager.popup == 1)
-                {
-                    // keep about us page
-                    uiManager.aboutUsPage.SetActive(true);
-                    uiManager.aboutUsTypeWriter.LoadNextText(uiManager.aboutUsTypeWriter.gameObject);
-                    uiManager.optionsPage.SetActive(false);
-                }
-                else
-                {
-                    // keep options page
-                    uiManager.aboutUsPage = GameObject.Find("AboutUsPage");
-                    uiManager.aboutUsPage.SetActive(false);
-                    uiManager.optionsPage = GameObject.Find("OptionsPage");
-                    uiManager.optionsPage.SetActive(true);
                 }
 
                 break;
@@ -140,7 +131,7 @@ public class GlobalControlScript : MonoBehaviour
 
     private void ShowManagerCall()
     {
-        uiManager.incomingCall.SetActive(true);
+        StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
         AudioClip callClip;
         if (uiManager.soundOn)
         {
