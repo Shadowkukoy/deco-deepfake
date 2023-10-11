@@ -41,9 +41,7 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.aboutUsPage = Instantiate(aboutPagePrefab, canvas.transform);
         uiManager.optionsPage = Instantiate(settingsPagePrefab, canvas.transform);
         uiManager.emailsPage = Instantiate(emailsPagePrefab, canvas.transform);
-        uiManager.aboutUsPage.SetActive(false);
-        uiManager.optionsPage.SetActive(false);
-        uiManager.emailsPage.SetActive(false);
+
 
         if (canvas != null)
         {
@@ -52,6 +50,10 @@ public class GlobalControlScript : MonoBehaviour
             uiManager.AssignSliderListeners(canvas);
             uiManager.AssignToggleListeners(canvas); //This technically causes a bug if any scene other than deepfake scene is loaded!
         }
+        uiManager.aboutUsTypeWriter = uiManager.aboutUsPage.transform.GetChild(0).GetChild(0).GetComponent<TypeWriter>();
+        uiManager.aboutUsPage.SetActive(false);
+        uiManager.optionsPage.SetActive(false);
+        uiManager.emailsPage.SetActive(false);
         switch (scene.name)
         {
             case "DeepFakeScene":
@@ -71,30 +73,10 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.PlaySound(uiManager.windowsBootSound);
                 uiManager.incomingCall = GameObject.Find("IncomingCall");
                 uiManager.incomingCall.SetActive(false);
-                uiManager.aboutUsTypeWriter = uiManager.aboutUsPage.transform.GetChild(0).GetChild(0).GetComponent<TypeWriter>();
 
                 if (!uiManager.managerCall)
                 {
                     Invoke("ShowManagerCall", 5);
-                }
-
-                if (uiManager.popup == 0)
-                {
-                    uiManager.aboutUsPage.SetActive(false);
-                    uiManager.optionsPage.SetActive(false);
-                }
-                else if (uiManager.popup == 1)
-                {
-                    // keep about us page
-                    uiManager.aboutUsPage.SetActive(true);
-                    uiManager.aboutUsTypeWriter.LoadNextText(uiManager.aboutUsTypeWriter.gameObject);
-                    uiManager.optionsPage.SetActive(false);
-                }
-                else
-                {
-                    // keep options page
-                    uiManager.aboutUsPage.SetActive(false);
-                    uiManager.optionsPage.SetActive(true);
                 }
 
                 break;
