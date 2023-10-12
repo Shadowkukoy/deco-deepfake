@@ -225,15 +225,19 @@ public class UIManager
             case "MainMenuScene.OptionsSoundButton":
                 PlaySound(normalClick);
                 soundOn = !soundOn;
+                GameObject openingMusicObject = GameObject.Find("OpeningMusicAudioSource");
+                AudioSource openingMusicAudioSource = openingMusicObject.GetComponent<AudioSource>();
+                Debug.Log($"{openingMusicAudioSource.clip == null}");
                 if (!soundOn)
                 {
-                    // sound is now off, turn off opening music if in main menu scene
-                    GameObject openingMusicObject = GameObject.Find("OpeningMusicAudioSource");
-                    if (openingMusicObject != null)
-                    {
-                        AudioSource openingMusicAudioSource = openingMusicObject.GetComponent<AudioSource>();
-                        openingMusicAudioSource.Stop();
-                    }
+                    // sound is now off, turn off opening music
+                    openingMusicAudioSource.Stop();
+                }
+                else
+                {
+                    // sound is now on, turn on opening music
+                    openingMusicAudioSource.clip = openingMusic;
+                    openingMusicAudioSource.Play();
                 }
                 break;
             case "HomePageScene.OptionsSoundButton":
@@ -242,14 +246,18 @@ public class UIManager
                 if (!managerCall)
                 {
                     // user hasn't accepted the incoming call yet
-                    AudioSource managerCallAudio = GameObject.Find("IncomingCall").GetComponent<AudioSource>();
-                    if (soundOn)
+                    GameObject incomingCallObj = GameObject.Find("IncomingCall");
+                    if (incomingCallObj != null)
                     {
-                        managerCallAudio.Play();
-                    }
-                    else
-                    {
-                        managerCallAudio.Stop();
+                        AudioSource managerCallAudio = incomingCallObj.GetComponent<AudioSource>();
+                        if (soundOn)
+                        {
+                            managerCallAudio.Play();
+                        }
+                        else
+                        {
+                            managerCallAudio.Stop();
+                        }
                     }
                 }
                 break;
