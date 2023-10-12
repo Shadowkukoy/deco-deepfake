@@ -49,6 +49,7 @@ public class UIManager
     public Sprite pauseImage = Resources.Load<Sprite>("pauseimage");
     internal TypeWriter aboutUsTypeWriter;
     internal GameObject emailsPage;
+    private bool emailsPageShowing;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -211,6 +212,15 @@ public class UIManager
                 break;
             case "HomePageScene.EmailButton":
                 PlaySound(normalClick);
+                if (emailsPageShowing)
+                {
+                    globalControl.StartCoroutine(Nuke(emailsPage));
+                }
+                else
+                {
+                    globalControl.StartCoroutine(UnNuke(emailsPage));
+                }
+                emailsPageShowing = !emailsPageShowing;
                 break;
             case "HomePageScene.CalendarButton":
                 PlaySound(normalClick);
