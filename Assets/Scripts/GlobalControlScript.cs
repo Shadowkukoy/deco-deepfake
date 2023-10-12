@@ -84,7 +84,7 @@ public class GlobalControlScript : MonoBehaviour
 
                 break;
             case "MainMenuScene":
-                if (uiManager.soundOn)
+                if (UIManager.soundOn)
                 {
                     AudioSource openingMusicAudioSource = GameObject.Find("OpeningMusicAudioSource").GetComponent<AudioSource>();
                     openingMusicAudioSource.clip = uiManager.openingMusic;
@@ -129,7 +129,7 @@ public class GlobalControlScript : MonoBehaviour
     private void ShowManagerCall()
     {
         StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
-        if (uiManager.soundOn)
+        if (UIManager.soundOn)
         {
             uiManager.incomingCall.GetComponent<AudioSource>().clip = uiManager.ringtone;
             uiManager.incomingCall.GetComponent<AudioSource>().Play();

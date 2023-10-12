@@ -122,7 +122,7 @@ namespace Deepfakes.Typography.TypeWriter
 
             while (_currentVisibleCharacterIndex < textInfo.characterCount + 1) 
             {
-                if (_currentVisibleCharacterIndex % 3 == 0)
+                if (_currentVisibleCharacterIndex % 3 == 0 && UIManager.soundOn)
                 {
                     GameObject tmpGameObjAudio = new GameObject();
                     tmpGameObjAudio.AddComponent<AudioSource>();

@@ -27,7 +27,7 @@ public class UIManager
     public bool metaState = false;
     public bool aboutUsState = false;
     public bool optionsState = false;
-    public bool soundOn = true;
+    public static bool soundOn = true;
     public int popup = 0;
     public UnityEngine.UI.Image metadataImage;
     public Vector3 prevMousePosition;
@@ -227,7 +227,6 @@ public class UIManager
                 soundOn = !soundOn;
                 GameObject openingMusicObject = GameObject.Find("OpeningMusicAudioSource");
                 AudioSource openingMusicAudioSource = openingMusicObject.GetComponent<AudioSource>();
-                Debug.Log($"{openingMusicAudioSource.clip == null}");
                 if (!soundOn)
                 {
                     // sound is now off, turn off opening music
