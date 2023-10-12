@@ -13,7 +13,6 @@ namespace Deepfakes.Typography.TypeWriter
         private TMP_Text _textBox;
         //This is just some sample text for working with before implementation
         private AudioClip typewriterAudio = null;
-        private AudioSource typewriterAudioSource = null;
 
         // Start is called before the first frame update
         private int _currentVisibleCharacterIndex; //The position of the terminal
@@ -56,9 +55,7 @@ namespace Deepfakes.Typography.TypeWriter
             _skipDelay = new WaitForSeconds(1 / (charPerSecond * skipSpeedup));
             _textboxFullEventDelay = new WaitForSeconds(sendDoneDelay);
 
-            typewriterAudioSource = GetComponent<AudioSource>();
             typewriterAudio = (AudioClip)Resources.Load("typewriter-noise");
-            typewriterAudioSource.clip = typewriterAudio;
         }
 
         private void Enable()
