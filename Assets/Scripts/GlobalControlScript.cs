@@ -67,7 +67,10 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
                 uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<UnityEngine.UI.Image>();
                 uiManager.metadataImage.gameObject.SetActive(false);
+                uiManager.yesNoVideoArea = GameObject.Find("YesNoVideoArea");
+                uiManager.deepFakeSceneTypeWriter = uiManager.yesNoVideoArea.transform.GetChild(0).GetComponent<TypeWriter>();
                 StartCoroutine(VideoStuffCoroutine());
+                uiManager.deepFakeSceneTypeWriter.LoadNextText(uiManager.deepFakeSceneTypeWriter.gameObject);
                 break;
             case "HomePageScene":
                 uiManager.PlaySound(uiManager.windowsBootSound);
@@ -81,13 +84,10 @@ public class GlobalControlScript : MonoBehaviour
 
                 break;
             case "MainMenuScene":
-                if (uiManager.soundOn)
+                if (UIManager.soundOn)
                 {
                     AudioSource openingMusicAudioSource = GameObject.Find("OpeningMusicAudioSource").GetComponent<AudioSource>();
                     openingMusicAudioSource.clip = uiManager.openingMusic;
-                    Debug.Log($"Is the audio source null? {openingMusicAudioSource == null}");
-                    Debug.Log($"Is the opening music audio clip null? {uiManager.openingMusic == null}");
-                    Debug.Log($"Is the audio clip null? {openingMusicAudioSource.clip == null}");
                     openingMusicAudioSource.Play();
                 }
                 uiManager.disclaimer = GameObject.Find("Disclaimer");
@@ -129,17 +129,15 @@ public class GlobalControlScript : MonoBehaviour
     private void ShowManagerCall()
     {
         StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
-        AudioClip callClip;
-        if (uiManager.soundOn)
+        if (UIManager.soundOn)
         {
-            callClip = uiManager.ringtone;
+            uiManager.incomingCall.GetComponent<AudioSource>().clip = uiManager.ringtone;
+            uiManager.incomingCall.GetComponent<AudioSource>().Play();
         }
         else
         {
-            callClip = uiManager.vibration;
+            uiManager.incomingCall.GetComponent<AudioSource>().Stop();
         }
-        uiManager.incomingCall.GetComponent<AudioSource>().clip = callClip;
-        uiManager.incomingCall.GetComponent<AudioSource>().Play();
     }
 
     private void ZoomControls()

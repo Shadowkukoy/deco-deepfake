@@ -12,7 +12,7 @@ namespace Deepfakes.Typography.TypeWriter
     {
         private TMP_Text _textBox;
         //This is just some sample text for working with before implementation
-
+        private AudioClip typewriterAudio = null;
 
         // Start is called before the first frame update
         private int _currentVisibleCharacterIndex; //The position of the terminal
@@ -54,6 +54,8 @@ namespace Deepfakes.Typography.TypeWriter
 
             _skipDelay = new WaitForSeconds(1 / (charPerSecond * skipSpeedup));
             _textboxFullEventDelay = new WaitForSeconds(sendDoneDelay);
+
+            typewriterAudio = (AudioClip)Resources.Load("typewriter-noise");
         }
 
         private void Enable()
@@ -99,6 +101,17 @@ namespace Deepfakes.Typography.TypeWriter
             _typewriterCoroutine = StartCoroutine(TypeWriterCoroutine());
         }
 
+        private IEnumerator DestroyAudio(GameObject gameObjAudio)
+        {
+            // first wait for the audio clip to finish
+            AudioSource audioSource = gameObjAudio.GetComponent<AudioSource>();
+            yield return new WaitForSeconds(audioSource.clip.length);
+
+            // now destroy audio source then game object
+            Destroy(audioSource);
+            Destroy(gameObjAudio);
+        }
+
         private IEnumerator TypeWriterCoroutine() 
         {
             TMP_TextInfo textInfo = _textBox.textInfo;
@@ -106,6 +119,16 @@ namespace Deepfakes.Typography.TypeWriter
 
             while (_currentVisibleCharacterIndex < textInfo.characterCount + 1) 
             {
+                if (_currentVisibleCharacterIndex % 3 == 0 && UIManager.soundOn)
+                {
+                    GameObject tmpGameObjAudio = new GameObject();
+                    tmpGameObjAudio.AddComponent<AudioSource>();
+                    AudioSource tmpAudioSource = tmpGameObjAudio.GetComponent<AudioSource>();
+                    tmpAudioSource.clip = typewriterAudio;
+                    tmpAudioSource.Play();
+                    StartCoroutine(DestroyAudio(tmpGameObjAudio));
+                }
+
                 var lastCharIndex = textInfo.characterCount - 1;
 
                 if (_currentVisibleCharacterIndex == lastCharIndex) 
@@ -196,7 +219,6 @@ namespace Deepfakes.Typography.TypeWriter
         // Update is called once per frame
         //Note if game is bugging try commenting out to check if this is causing it, if we want to implement it
         //another way is to input action for a button click in UI  Action maps Control schemes in Unity
-       
-    }
 
+    }
 }

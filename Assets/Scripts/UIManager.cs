@@ -27,7 +27,7 @@ public class UIManager
     public bool metaState = false;
     public bool aboutUsState = false;
     public bool optionsState = false;
-    public bool soundOn = true;
+    public static bool soundOn = true;
     public int popup = 0;
     public UnityEngine.UI.Image metadataImage;
     public Vector3 prevMousePosition;
@@ -43,13 +43,14 @@ public class UIManager
     public AudioClip settingsClick = (AudioClip)Resources.Load("Click-settings");
     public AudioClip windowsBootSound = (AudioClip)Resources.Load("Windows_sound");
     public AudioClip openingMusic = (AudioClip)Resources.Load("opening1");
-    public AudioClip vibration = (AudioClip)Resources.Load("Vibration");
     public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
     public Sprite playImage = Resources.Load<Sprite>("playimage");
     public Sprite pauseImage = Resources.Load<Sprite>("pauseimage");
     internal TypeWriter aboutUsTypeWriter;
     internal GameObject emailsPage;
     private bool emailsPageShowing;
+    public GameObject yesNoVideoArea;
+    internal TypeWriter deepFakeSceneTypeWriter;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -158,7 +159,7 @@ public class UIManager
                 popup = 0;
                 break;
             case "HomePageScene.PlayButton":
-                SceneManager.LoadScene("DeepFakeScene");
+                SceneManager.LoadScene("DeepFakeScene");               
                 break;
             case "HomePageScene.InfoButton":
                 PlaySound(normalClick);
@@ -179,6 +180,7 @@ public class UIManager
             case "HomePageScene.AboutExitButton":
                 PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(aboutUsPage));
+                aboutUsTypeWriter.StopTypeWriter();
                 aboutUsState = false;
                 break;
             case "MainMenuScene.SettingsButton":
@@ -195,6 +197,7 @@ public class UIManager
                     optionsState = false;
                 }
                 break;
+            case "MainMenuScene.OptionsExitButton":
             case "HomePageScene.OptionsExitButton":
                 PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(optionsPage));
@@ -225,8 +228,26 @@ public class UIManager
             case "HomePageScene.CalendarButton":
                 PlaySound(normalClick);
                 break;
+            case "MainMenuScene.WatchGameIntroButton":
             case "HomePageScene.WatchGameIntroButton":
                 PlaySound(normalClick);
+                break;
+            case "MainMenuScene.OptionsSoundButton":
+                PlaySound(normalClick);
+                soundOn = !soundOn;
+                GameObject openingMusicObject = GameObject.Find("OpeningMusicAudioSource");
+                AudioSource openingMusicAudioSource = openingMusicObject.GetComponent<AudioSource>();
+                if (!soundOn)
+                {
+                    // sound is now off, turn off opening music
+                    openingMusicAudioSource.Stop();
+                }
+                else
+                {
+                    // sound is now on, turn on opening music
+                    openingMusicAudioSource.clip = openingMusic;
+                    openingMusicAudioSource.Play();
+                }
                 break;
             case "HomePageScene.OptionsSoundButton":
                 PlaySound(normalClick);
@@ -234,24 +255,22 @@ public class UIManager
                 if (!managerCall)
                 {
                     // user hasn't accepted the incoming call yet
-                    if (soundOn)
+                    GameObject incomingCallObj = GameObject.Find("IncomingCall");
+                    if (incomingCallObj != null)
                     {
-                        // sound is now on, turn audio to ringtone
-                        AudioSource managerCallAudio = GameObject.Find("IncomingCall").GetComponent<AudioSource>();
-                        managerCallAudio.Stop();
-                        managerCallAudio.clip = ringtone;
-                        managerCallAudio.Play();
-                    }
-                    else
-                    {
-                        // sound is now off, turn audio to vibration
-                        AudioSource managerCallAudio = GameObject.Find("IncomingCall").GetComponent<AudioSource>();
-                        managerCallAudio.Stop();
-                        managerCallAudio.clip = vibration;
-                        managerCallAudio.Play();
+                        AudioSource managerCallAudio = incomingCallObj.GetComponent<AudioSource>();
+                        if (soundOn)
+                        {
+                            managerCallAudio.Play();
+                        }
+                        else
+                        {
+                            managerCallAudio.Stop();
+                        }
                     }
                 }
                 break;
+            case "MainMenuScene.OptionsQuickTextButton":
             case "HomePageScene.OptionsQuickTextButton":
                 PlaySound(normalClick);
                 break;
