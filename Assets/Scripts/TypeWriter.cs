@@ -55,7 +55,7 @@ namespace Deepfakes.Typography.TypeWriter
             _skipDelay = new WaitForSeconds(1 / (charPerSecond * skipSpeedup));
             _textboxFullEventDelay = new WaitForSeconds(sendDoneDelay);
 
-            typewriterAudio = (AudioClip)Resources.Load("typewriter-noise");
+            typewriterAudio = (AudioClip)Resources.Load("keyboard-noise-quiet");
         }
 
         private void Enable()
@@ -119,7 +119,7 @@ namespace Deepfakes.Typography.TypeWriter
 
             while (_currentVisibleCharacterIndex < textInfo.characterCount + 1) 
             {
-                if (_currentVisibleCharacterIndex % 3 == 0 && UIManager.soundOn)
+                if (_currentVisibleCharacterIndex % 5 == 0 && UIManager.soundOn)
                 {
                     GameObject tmpGameObjAudio = new GameObject();
                     tmpGameObjAudio.AddComponent<AudioSource>();
