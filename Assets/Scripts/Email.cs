@@ -1,6 +1,8 @@
 ﻿using System;
+using UnityEngine;
 
-internal class Email
+[Serializable]
+public class Email
 {
     public int Index { get; set; }
     public string EmailTitle { get; set; }

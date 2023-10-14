@@ -41,7 +41,9 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.aboutUsPage = Instantiate(aboutPagePrefab, canvas.transform);
         uiManager.optionsPage = Instantiate(settingsPagePrefab, canvas.transform);
         uiManager.emailsPage = Instantiate(emailsPagePrefab, canvas.transform);
-
+        var emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
+        emailManager.uiManager = uiManager;
+        emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
 
         if (canvas != null)
         {
