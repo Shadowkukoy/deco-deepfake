@@ -10,6 +10,8 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEngine.Rendering;
 using System.Threading;
 using Deepfakes.Typography.TypeWriter;
+using Newtonsoft.Json.Linq;
+using TMPro;
 
 public class GlobalControlScript : MonoBehaviour
 {
@@ -18,6 +20,9 @@ public class GlobalControlScript : MonoBehaviour
     public GameObject aboutPagePrefab;
     public GameObject emailsPagePrefab;
     public GameObject settingsPagePrefab;
+    public TextAsset videoInfosJsonFile;
+    public List<VideoInfo> videoInfos;
+    public DateTime dateTime;
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -31,6 +36,16 @@ public class GlobalControlScript : MonoBehaviour
         aboutPagePrefab = Resources.Load<GameObject>("Prefabs/AboutUsPagePrefab");
         settingsPagePrefab = Resources.Load<GameObject>("Prefabs/OptionsPagePrefab");
         emailsPagePrefab = Resources.Load<GameObject>("Prefabs/EmailsPagePrefab");
+
+        var videoInfosJArray = JArray.Parse(videoInfosJsonFile.text);
+        foreach (var videoInfoJObject in videoInfosJArray)
+        {
+            var videoInfo = JsonUtility.FromJson<VideoInfo>(videoInfoJObject.ToString());
+
+            videoInfos.Add(videoInfo);
+        }
+
+        dateTime = new DateTime(2023, 9, 17);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -43,6 +58,7 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.emailsPage = Instantiate(emailsPagePrefab, canvas.transform);
         var emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
         emailManager.uiManager = uiManager;
+        emailManager.globalControl = this;
         emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
 
         if (canvas != null)

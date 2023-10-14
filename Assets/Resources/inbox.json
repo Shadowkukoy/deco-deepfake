@@ -1,14 +1,39 @@
-[{
+[
+
+  {
+    "index": 1,
+    "emailTitle": "A suspicious video is circulating!",
+    "emailSender": "Chooks McNugget",
+    "sendTime": "9:15am",
+    "sendDate": "17 Sep",
+    "highPriorityFlag": true,
+    "completedFlag": false,
+    "attachmentFlag": true,
+    "emailMessage": "This video is causing angry emoji reactions all over Facebook!!!!!",
+    "emailSignOff": 3,
+    "videoId": "GeneralLackOfFaith",
+    "tagName": "High Priority",
+    "tagColor": "#FB4C2FFF"
+  },
+  {
     "index": 0,
     "emailTitle": "Welcome to ASIO",
     "emailSender": "Chooks McNugget",
     "sendTime": "9:14am",
-    "sendDate": "Sep 17",
+    "sendDate": "15 Sep",
     "highPriorityFlag": false,
     "completedFlag": false,
-    "attachmentFlag": true,
+    "attachmentFlag": false,
     "emailMessage": "Welcome New Recruit,\n We are in desperate need of your help.",
     "emailSignOff": 3,
-    "videoThumbnail": "",
     "videoDir": ""
-}]
+  }
+
+
+
+
+
+
+
+
+]
