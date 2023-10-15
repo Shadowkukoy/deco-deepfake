@@ -164,7 +164,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      CalenderCircle_0: -5829524351073226200
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

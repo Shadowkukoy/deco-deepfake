@@ -32,6 +32,7 @@ public class UIManager
     public static bool soundOn = true;
     public int popup = 0;
     public Image metadataImage;
+    public Image audioVisualImage;
     public Vector3 prevMousePosition;
     internal GlobalControlScript globalControl;
     public GameObject aboutUsPage;
@@ -432,16 +433,19 @@ public class UIManager
         switch (toggleName)
         {
             case "DeepFakeScene.AudioVisualiserToggle":
+                PlaySound(normalClick);
                 // when audio visualiser toggle value is changed
                 if (toggle.isOn)
                 {
                     // turn on the audio visualiser tool
                     Debug.Log("Audio tool turned on.");
+                    audioVisualImage.gameObject.SetActive(true);
                 }
                 else
                 {
                     // turn off the audio visualiser tool
                     Debug.Log("Audio tool turned off.");
+                    audioVisualImage.gameObject.SetActive(false);
                 }
                 break;
             default:
