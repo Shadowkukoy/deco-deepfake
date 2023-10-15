@@ -21,10 +21,7 @@ public class EmailListObject : MonoBehaviour
         headerText.text = email.emailTitle;
         senderText.text = email.emailSender;
         tagText.text = email.tagName;
-        dateText.text = globalControl.dateTime.Day == DateTime.Parse(email.sendDate).Day ? email.sendTime: email.sendDate;
-
-        Debug.Log(globalControl.dateTime.ToString());
-        Debug.Log(DateTime.Parse(email.sendDate).ToString());
+        dateText.text = globalControl.dateTime.Date == DateTime.Parse(email.sendDate).Date ? email.sendTime: email.sendDate;
 
         if (!email.attachmentFlag)
         {

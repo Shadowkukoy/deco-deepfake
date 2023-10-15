@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using Deepfakes.Typography.TypeWriter;
-using Microsoft.Unity.VisualStudio.Editor;
+using System;
+using System.Linq;
+using System.IO;
 
 public class UIManager
 {
@@ -29,7 +31,7 @@ public class UIManager
     public bool optionsState = false;
     public static bool soundOn = true;
     public int popup = 0;
-    public UnityEngine.UI.Image metadataImage;
+    public Image metadataImage;
     public Vector3 prevMousePosition;
     internal GlobalControlScript globalControl;
     public GameObject aboutUsPage;
@@ -51,6 +53,8 @@ public class UIManager
     private bool emailsPageShowing;
     public GameObject yesNoVideoArea;
     internal TypeWriter deepFakeSceneTypeWriter;
+    public EmailManager emailManager;
+    private Email selectedEmail;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -58,6 +62,9 @@ public class UIManager
         {
             switch (button.name)
             {
+                case "EmailItem":
+                    button.onClick.AddListener(delegate { OnButtonPress(SceneManager.GetActiveScene().name + "." + button.name, button.gameObject.GetComponent<EmailListObject>().email.index); });
+                    break;
                 default:
                     button.onClick.AddListener(delegate { OnButtonPress(SceneManager.GetActiveScene().name + "." + button.name, 0); });
                     break;
@@ -297,10 +304,48 @@ public class UIManager
                 PlaySound(normalClick);
                 videoPlayer.time = videoPlayer.time - 3;
                 break;
+            case "HomePageScene.EmailItem":
+            case "DeepFakeScene.EmailItem":
+                ViewEmailContents(id);
+                break;
+            case "HomePageScene.EmailBodyExitButton":
+            case "DeepFakeScene.EmailBodyExitButton":
+                globalControl.StartCoroutine(Nuke(emailManager.emailBodyText.transform.parent.gameObject));
+                break;
+            case "HomePageScene.EmailExitButton":
+            case "DeepFakeScene.EmailExitButton":
+                globalControl.StartCoroutine(Nuke(emailsPage));
+                emailsPageShowing = false;
+                break;
+            case "HomePageScene.EmailAttachmentButton":
+            case "DeepFakeScene.EmailAttachmentButton":
+                globalControl.currentVideoInfo = globalControl.videoInfos.FirstOrDefault(x => x.videoId == selectedEmail.videoId);
+                SceneManager.LoadScene(0);
+                break;
             default:
                 //unknown button pressed
                 Debug.LogWarning($"Unknown button with name: {button} and id: {id}");
                 break;
+        }
+    }
+
+    private void ViewEmailContents(int id)
+    {
+        var email = emailManager.emails.FirstOrDefault(x => x.index == id);
+        globalControl.StartCoroutine(UnNuke(emailManager.emailBodyText.transform.parent.gameObject));
+        emailManager.emailBodyText.transform.parent.gameObject.SetActive(true);
+        emailManager.emailBodyText.text = email.emailMessage;
+        selectedEmail = email;
+
+        if (email.attachmentFlag)
+        {
+            emailManager.emailAttachmentButton.gameObject.SetActive(true);
+            var path = Path.Combine(globalControl.videoInfos.FirstOrDefault(x => x.videoId == email.videoId).dir, "Thumbnail");
+            emailManager.emailAttachmentButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(path);  
+        }
+        else
+        {
+            emailManager.emailAttachmentButton.gameObject.SetActive(false);
         }
     }
 

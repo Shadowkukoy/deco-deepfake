@@ -23,6 +23,9 @@ public class GlobalControlScript : MonoBehaviour
     public TextAsset videoInfosJsonFile;
     public List<VideoInfo> videoInfos;
     public DateTime dateTime;
+    public EmailManager emailManager;
+    internal VideoInfo currentVideoInfo;
+
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -56,11 +59,11 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.aboutUsPage = Instantiate(aboutPagePrefab, canvas.transform);
         uiManager.optionsPage = Instantiate(settingsPagePrefab, canvas.transform);
         uiManager.emailsPage = Instantiate(emailsPagePrefab, canvas.transform);
-        var emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
+        emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
         emailManager.uiManager = uiManager;
         emailManager.globalControl = this;
         emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
-
+        uiManager.emailManager = emailManager;
         if (canvas != null)
         {
             uiManager.canvas = canvas.GetComponent<Canvas>();
