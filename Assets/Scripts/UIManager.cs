@@ -438,13 +438,12 @@ public class UIManager
                 if (toggle.isOn)
                 {
                     // turn on the audio visualiser tool
-                    Debug.Log("Audio tool turned on.");
+                    audioVisualImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(Path.Combine(globalControl.currentVideoInfo.dir, "AudioVisual"));
                     audioVisualImage.gameObject.SetActive(true);
                 }
                 else
                 {
                     // turn off the audio visualiser tool
-                    Debug.Log("Audio tool turned off.");
                     audioVisualImage.gameObject.SetActive(false);
                 }
                 break;

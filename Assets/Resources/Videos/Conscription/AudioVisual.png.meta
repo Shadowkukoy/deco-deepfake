@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      conscription-audio-visual_0: -1480660122993168637
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

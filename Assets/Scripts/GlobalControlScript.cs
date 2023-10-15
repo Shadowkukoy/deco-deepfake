@@ -157,16 +157,19 @@ public class GlobalControlScript : MonoBehaviour
 
     private void ShowManagerCall()
     {
-        StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
-        if (UIManager.soundOn)
+        if (uiManager.incomingCall != null)
         {
-            uiManager.incomingCall.GetComponent<AudioSource>().clip = uiManager.ringtone;
-            uiManager.incomingCall.GetComponent<AudioSource>().Play();
-        }
-        else
-        {
-            uiManager.incomingCall.GetComponent<AudioSource>().Stop();
-        }
+            StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
+            if (UIManager.soundOn)
+            {
+                uiManager.incomingCall.GetComponent<AudioSource>().clip = uiManager.ringtone;
+                uiManager.incomingCall.GetComponent<AudioSource>().Play();
+            }
+            else
+            {
+                uiManager.incomingCall.GetComponent<AudioSource>().Stop();
+            }
+        }  
     }
 
     private void ZoomControls()
