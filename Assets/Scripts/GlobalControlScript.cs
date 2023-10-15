@@ -12,6 +12,7 @@ using System.Threading;
 using Deepfakes.Typography.TypeWriter;
 using Newtonsoft.Json.Linq;
 using TMPro;
+using System.IO;
 
 public class GlobalControlScript : MonoBehaviour
 {
@@ -75,10 +76,15 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.aboutUsPage.SetActive(false);
         uiManager.optionsPage.SetActive(false);
         uiManager.emailsPage.SetActive(false);
+        uiManager.emailsPageShowing = false;
         switch (scene.name)
         {
             case "DeepFakeScene":
                 uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
+                if (currentVideoInfo != null)
+                {
+                    uiManager.videoPlayer.clip = Resources.Load<VideoClip>(Path.Combine(currentVideoInfo.dir, "Video"));
+                }
                 uiManager.videoRawImage = uiManager.videoPlayer.gameObject.GetComponent<RawImage>();
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
                 uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();

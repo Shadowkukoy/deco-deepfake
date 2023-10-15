@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using System;
+using Unity.VisualScripting;
 
 public class EmailManager : MonoBehaviour
 {
@@ -18,15 +19,24 @@ public class EmailManager : MonoBehaviour
     public List<string> emailNames;
     public TextMeshProUGUI emailBodyText;
     public List<Email> emails;
-
+    public GameObject calender;
+    public GameObject calenderDayPrefab;
     // Start is called before the first frame update
     void Start()
+    {
+        GenerateEmail();
+
+        GenerateCalender();
+    }
+
+    private void GenerateEmail()
     {
         JArray emailsJArray = JArray.Parse(jsonFile.text);
         int i = 0;
         var emailListArea = transform.GetChild(0);
         emailBodyText = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        foreach (var emailJObject in emailsJArray) {
+        foreach (var emailJObject in emailsJArray)
+        {
             var email = JsonUtility.FromJson<Email>(emailJObject.ToString());
             emails.Add(email);
 
@@ -46,6 +56,51 @@ public class EmailManager : MonoBehaviour
         }
         uiManager.AssignButtonListeners(transform.GetChild(0).gameObject);
         emailBodyText.transform.parent.gameObject.SetActive(false);
+    }
+
+    private void GenerateCalender()
+    {
+        DateTime calenderStartDate = new DateTime(2023, 8, 28);
+        DateTime date = calenderStartDate;
+        for (int i = 0; i < 7; i++)
+        {
+            var dayName = date.DayOfWeek.HumanName().Substring(0,2);
+            var calenderDayObject = Instantiate(calenderDayPrefab, calender.transform);
+
+            calenderDayObject.GetComponent<RectTransform>().anchoredPosition += i * 24 * Vector2.right;
+
+            var dayText = calenderDayObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            dayText.text = dayName;
+            dayText.fontStyle = FontStyles.Bold;
+            var dayImageObject = calenderDayObject.transform.GetChild(1).gameObject;
+            dayImageObject.SetActive(false);
+            date = date.AddDays(1);
+        }
+
+        date = calenderStartDate;
+        for (int i = 0; i < 35; i++)
+        {
+            var dayName = date.Day.ToString();
+            var calenderDayObject = Instantiate(calenderDayPrefab, calender.transform);
+
+            calenderDayObject.GetComponent<RectTransform>().anchoredPosition += (i % 7) * 24 * Vector2.right;
+            calenderDayObject.GetComponent<RectTransform>().anchoredPosition += (1 + (i / 7)) * 24 * Vector2.down;
+
+            var dayText = calenderDayObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            dayText.text = dayName;
+
+            if (date.Month != 9)
+            {
+                dayText.color = Color.grey;
+            }
+            if (date.Date != globalControl.dateTime.Date)
+            {
+                var dayImageObject = calenderDayObject.transform.GetChild(1).gameObject;
+                dayImageObject.SetActive(false);
+            }
+
+            date = date.AddDays(1);
+        }
     }
 
     // Update is called once per frame

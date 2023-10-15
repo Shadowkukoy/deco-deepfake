@@ -50,7 +50,7 @@ public class UIManager
     public Sprite pauseImage = Resources.Load<Sprite>("pauseimage");
     internal TypeWriter aboutUsTypeWriter;
     internal GameObject emailsPage;
-    private bool emailsPageShowing;
+    public bool emailsPageShowing;
     public GameObject yesNoVideoArea;
     internal TypeWriter deepFakeSceneTypeWriter;
     public EmailManager emailManager;
@@ -306,19 +306,23 @@ public class UIManager
                 break;
             case "HomePageScene.EmailItem":
             case "DeepFakeScene.EmailItem":
+                PlaySound(normalClick);
                 ViewEmailContents(id);
                 break;
             case "HomePageScene.EmailBodyExitButton":
             case "DeepFakeScene.EmailBodyExitButton":
+                PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(emailManager.emailBodyText.transform.parent.gameObject));
                 break;
             case "HomePageScene.EmailExitButton":
             case "DeepFakeScene.EmailExitButton":
+                PlaySound(normalClick);
                 globalControl.StartCoroutine(Nuke(emailsPage));
                 emailsPageShowing = false;
                 break;
             case "HomePageScene.EmailAttachmentButton":
             case "DeepFakeScene.EmailAttachmentButton":
+                PlaySound(normalClick);
                 globalControl.currentVideoInfo = globalControl.videoInfos.FirstOrDefault(x => x.videoId == selectedEmail.videoId);
                 SceneManager.LoadScene(0);
                 break;
@@ -519,11 +523,11 @@ public class UIManager
         GameObject playPauseButton = GameObject.Find("PlayPauseButton");
         if (videoPlayer.isPaused)
         {
-            playPauseButton.GetComponent<UnityEngine.UI.Image>().sprite = pauseImage;
+            playPauseButton.GetComponent<Image>().sprite = pauseImage;
         }
         else
         {
-            playPauseButton.GetComponent<UnityEngine.UI.Image>().sprite = playImage;
+            playPauseButton.GetComponent<Image>().sprite = playImage;
         }
         if (videoPlayer.isPaused) videoPlayer.Play();
         else videoPlayer.Pause();
