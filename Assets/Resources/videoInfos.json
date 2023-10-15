@@ -1,0 +1,17 @@
+[
+  {
+    "videoId": "GeneralLackOfFaith",
+    "dir": "Videos/GeneralLackOfFaith",
+    "deepfaked": true
+  },
+  {
+    "videoId": "AlboIsUnfair",
+    "dir": "Videos/AlboIsUnfair",
+    "deepfaked": true
+  },
+  {
+    "videoId": "Conscription",
+    "dir": "Videos/Conscription",
+    "deepfaked": true
+  }
+]

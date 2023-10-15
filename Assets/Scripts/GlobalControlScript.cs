@@ -10,6 +10,9 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEngine.Rendering;
 using System.Threading;
 using Deepfakes.Typography.TypeWriter;
+using Newtonsoft.Json.Linq;
+using TMPro;
+using System.IO;
 
 public class GlobalControlScript : MonoBehaviour
 {
@@ -18,6 +21,12 @@ public class GlobalControlScript : MonoBehaviour
     public GameObject aboutPagePrefab;
     public GameObject emailsPagePrefab;
     public GameObject settingsPagePrefab;
+    public TextAsset videoInfosJsonFile;
+    public List<VideoInfo> videoInfos;
+    public DateTime dateTime;
+    public EmailManager emailManager;
+    internal VideoInfo currentVideoInfo;
+
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -31,6 +40,16 @@ public class GlobalControlScript : MonoBehaviour
         aboutPagePrefab = Resources.Load<GameObject>("Prefabs/AboutUsPagePrefab");
         settingsPagePrefab = Resources.Load<GameObject>("Prefabs/OptionsPagePrefab");
         emailsPagePrefab = Resources.Load<GameObject>("Prefabs/EmailsPagePrefab");
+
+        var videoInfosJArray = JArray.Parse(videoInfosJsonFile.text);
+        foreach (var videoInfoJObject in videoInfosJArray)
+        {
+            var videoInfo = JsonUtility.FromJson<VideoInfo>(videoInfoJObject.ToString());
+
+            videoInfos.Add(videoInfo);
+        }
+
+        dateTime = new DateTime(2023, 9, 17);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -41,10 +60,11 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.aboutUsPage = Instantiate(aboutPagePrefab, canvas.transform);
         uiManager.optionsPage = Instantiate(settingsPagePrefab, canvas.transform);
         uiManager.emailsPage = Instantiate(emailsPagePrefab, canvas.transform);
-        var emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
+        emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
         emailManager.uiManager = uiManager;
+        emailManager.globalControl = this;
         emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
-
+        uiManager.emailManager = emailManager;
         if (canvas != null)
         {
             uiManager.canvas = canvas.GetComponent<Canvas>();
@@ -56,10 +76,15 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.aboutUsPage.SetActive(false);
         uiManager.optionsPage.SetActive(false);
         uiManager.emailsPage.SetActive(false);
+        uiManager.emailsPageShowing = false;
         switch (scene.name)
         {
             case "DeepFakeScene":
                 uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
+                if (currentVideoInfo != null)
+                {
+                    uiManager.videoPlayer.clip = Resources.Load<VideoClip>(Path.Combine(currentVideoInfo.dir, "Video"));
+                }
                 uiManager.videoRawImage = uiManager.videoPlayer.gameObject.GetComponent<RawImage>();
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
                 uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
