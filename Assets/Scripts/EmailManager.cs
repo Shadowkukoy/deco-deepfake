@@ -21,12 +21,16 @@ public class EmailManager : MonoBehaviour
     public List<Email> emails;
     public GameObject calender;
     public GameObject calenderDayPrefab;
+    public GameObject emailAttachmentViewer;
     // Start is called before the first frame update
     void Start()
     {
         GenerateEmail();
 
         GenerateCalender();
+
+        uiManager.AssignButtonListeners(emailAttachmentViewer);
+        emailAttachmentViewer.SetActive(false);
     }
 
     private void GenerateEmail()
@@ -43,7 +47,8 @@ public class EmailManager : MonoBehaviour
             if (DateTime.Parse(email.sendDate).Date > globalControl.dateTime.Date) continue;
 
             var emailItem = Instantiate(emailPrefab, emailListArea, false);
-            emailItem.GetComponent<RectTransform>().anchoredPosition += (i * 30 * Vector2.down);
+            RectTransform emailItemRectTransform = emailItem.GetComponent<RectTransform>();
+            emailItemRectTransform.anchoredPosition += (i * emailItemRectTransform.sizeDelta.y * Vector2.down);
             emailItem.name = "EmailItem";
 
             var emailListObject = emailItem.GetComponent<EmailListObject>();
@@ -66,8 +71,9 @@ public class EmailManager : MonoBehaviour
         {
             var dayName = date.DayOfWeek.HumanName().Substring(0,2);
             var calenderDayObject = Instantiate(calenderDayPrefab, calender.transform);
+            RectTransform calenderDayObjetRectTransform = calenderDayObject.GetComponent<RectTransform>();
 
-            calenderDayObject.GetComponent<RectTransform>().anchoredPosition += i * 24 * Vector2.right;
+            calenderDayObjetRectTransform.anchoredPosition += i * calenderDayObjetRectTransform.sizeDelta.x * Vector2.right;
 
             var dayText = calenderDayObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
             dayText.text = dayName;
@@ -82,9 +88,10 @@ public class EmailManager : MonoBehaviour
         {
             var dayName = date.Day.ToString();
             var calenderDayObject = Instantiate(calenderDayPrefab, calender.transform);
+            RectTransform calenderDayObjetRectTransform = calenderDayObject.GetComponent<RectTransform>();
 
-            calenderDayObject.GetComponent<RectTransform>().anchoredPosition += (i % 7) * 24 * Vector2.right;
-            calenderDayObject.GetComponent<RectTransform>().anchoredPosition += (1 + (i / 7)) * 24 * Vector2.down;
+            calenderDayObjetRectTransform.anchoredPosition += (i % 7) * calenderDayObjetRectTransform.sizeDelta.x * Vector2.right;
+            calenderDayObjetRectTransform.anchoredPosition += (1 + (i / 7)) * calenderDayObjetRectTransform.sizeDelta.y * Vector2.down;
 
             var dayText = calenderDayObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
             dayText.text = dayName;

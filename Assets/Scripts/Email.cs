@@ -17,4 +17,5 @@ public class Email
     public string tagColor;
     public int emailSignOff;
     public string videoId;
+    public string imageDir;
 }

@@ -15,6 +15,19 @@
     "tagColor": "#FB4C2FFF"
   },
   {
+    "index": 4,
+    "emailTitle": "You've made the headlines with your catch'!",
+    "emailSender": "Chooks McNugget",
+    "sendTime": "9:15am",
+    "sendDate": "17 Sep",
+    "highPriorityFlag": true,
+    "completedFlag": false,
+    "attachmentFlag": true,
+    "emailMessage": "I found this article while reading the newspaper this morning, congratulations! Keep up the good work!",
+    "emailSignOff": 3,
+    "imageDir": "AttachmentImages/newspaper_17_sep_test"
+  },
+  {
     "index": 2,
     "emailTitle": "Am i going to the FRONT???",
     "emailSender": "Ben Mcrae",

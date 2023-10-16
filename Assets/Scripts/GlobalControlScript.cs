@@ -156,6 +156,16 @@ public class GlobalControlScript : MonoBehaviour
     private void ShowManagerCall()
     {
         StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
+        if (uiManager.timesRejected >= 3) 
+        {
+            uiManager.incomingCall.transform.Find("CallerPhoto").GetComponent<Image>().color = Color.red;
+            Destroy(uiManager.incomingCall.transform.Find("RejectCallButton").gameObject);
+            var acceptCallButton = uiManager.incomingCall.transform.Find("AcceptCallButton");
+            var newAcceptCallButton = Instantiate(acceptCallButton.gameObject, uiManager.incomingCall.transform);
+            newAcceptCallButton.GetComponent<RectTransform>().anchoredPosition += (43.2f * 2) * Vector2.left;
+            newAcceptCallButton.gameObject.name = "AcceptCallButton";
+            uiManager.AssignButtonListeners(newAcceptCallButton);
+        }
         if (UIManager.soundOn)
         {
             uiManager.incomingCall.GetComponent<AudioSource>().clip = uiManager.ringtone;

@@ -13,5 +13,25 @@
     "videoId": "Conscription",
     "dir": "Videos/Conscription",
     "deepfaked": true
+  },
+  {
+    "videoId": "AlbosPrivateJet",
+    "dir": "Videos/AlbosPrivateJet",
+    "deepfaked": false
+  },
+  {
+    "videoId": "PeterDuttonIncomeAssistance",
+    "dir": "Videos/PeterDuttonIncomeAssistance",
+    "deepfaked": true
+  },
+  {
+    "videoId": "TooMuchTrafficForImmigrants",
+    "dir": "Videos/TooMuchTrafficForImmigrants",
+    "deepfaked": false
+  },
+  {
+    "videoId": "VoteTwice",
+    "dir": "Videos/VoteTwice",
+    "deepfaked": true
   }
 ]

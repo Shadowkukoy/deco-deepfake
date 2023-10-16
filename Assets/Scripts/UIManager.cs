@@ -9,6 +9,7 @@ using Deepfakes.Typography.TypeWriter;
 using System;
 using System.Linq;
 using System.IO;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class UIManager
 {
@@ -55,6 +56,7 @@ public class UIManager
     internal TypeWriter deepFakeSceneTypeWriter;
     public EmailManager emailManager;
     private Email selectedEmail;
+    public int timesRejected = 0;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -124,6 +126,7 @@ public class UIManager
                 {
                     globalControl.StartCoroutine(UnNuke(metadataImage.gameObject));
                     metaState = true;
+                    metadataImage.transform.SetAsLastSibling();
                 }
                 else
                 {
@@ -139,6 +142,7 @@ public class UIManager
                 PlaySound(normalClick);
                 SceneManager.LoadScene("HomePageScene");
                 break;
+            case "HomePageScene.InfoButton":
             case "MainMenuScene.AboutButton":
                 PlaySound(normalClick);
                 if (!aboutUsState)
@@ -146,6 +150,7 @@ public class UIManager
                     globalControl.StartCoroutine(UnNuke(aboutUsPage));
                     aboutUsTypeWriter.LoadNextText(aboutUsTypeWriter.gameObject);
                     aboutUsState = true;
+                    aboutUsPage.transform.SetAsLastSibling();
                 }
                 else
                 {
@@ -165,24 +170,6 @@ public class UIManager
                 SceneManager.LoadScene("MainMenuScene");
                 popup = 0;
                 break;
-            case "HomePageScene.PlayButton":
-                SceneManager.LoadScene("DeepFakeScene");               
-                break;
-            case "HomePageScene.InfoButton":
-                PlaySound(normalClick);
-                if (!aboutUsState)
-                {
-                    globalControl.StartCoroutine(UnNuke(aboutUsPage));
-                    aboutUsTypeWriter.LoadNextText(aboutUsTypeWriter.gameObject);
-                    aboutUsState = true;
-                }
-                else
-                {
-                    globalControl.StartCoroutine(Nuke(aboutUsPage));
-                    aboutUsTypeWriter.StopTypeWriter();
-                    aboutUsState = false;
-                }
-                break;
             case "MainMenuScene.AboutExitButton":
             case "HomePageScene.AboutExitButton":
                 PlaySound(normalClick);
@@ -197,6 +184,7 @@ public class UIManager
                 {
                     globalControl.StartCoroutine(UnNuke(optionsPage));
                     optionsState = true;
+                    optionsPage.transform.SetAsLastSibling();
                 }
                 else
                 {
@@ -219,6 +207,7 @@ public class UIManager
                 globalControl.StartCoroutine(Nuke(incomingCall));
                 globalControl.Invoke("ShowManagerCall", 3);
                 PlaySound(errorClick);
+                timesRejected++;
                 break;
             case "HomePageScene.EmailButton":
                 PlaySound(normalClick);
@@ -229,6 +218,7 @@ public class UIManager
                 else
                 {
                     globalControl.StartCoroutine(UnNuke(emailsPage));
+                    emailsPage.transform.SetAsLastSibling();
                 }
                 emailsPageShowing = !emailsPageShowing;
                 break;
@@ -323,8 +313,20 @@ public class UIManager
             case "HomePageScene.EmailAttachmentButton":
             case "DeepFakeScene.EmailAttachmentButton":
                 PlaySound(normalClick);
-                globalControl.currentVideoInfo = globalControl.videoInfos.FirstOrDefault(x => x.videoId == selectedEmail.videoId);
-                SceneManager.LoadScene(0);
+                if (selectedEmail.videoId != null)
+                {
+                    globalControl.currentVideoInfo = globalControl.videoInfos.FirstOrDefault(x => x.videoId == selectedEmail.videoId);
+                    SceneManager.LoadScene(0);
+                }
+                else
+                {
+                    globalControl.StartCoroutine(UnNuke(emailManager.emailAttachmentViewer));
+                    emailManager.emailAttachmentViewer.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(selectedEmail.imageDir);
+                }
+                break;
+            case "HomePageScene.EmailsAttachmentViewerExitButton":
+            case "DeepFakeScene.EmailsAttachmentViewerExitButton":
+                globalControl.StartCoroutine(Nuke(emailManager.emailAttachmentViewer));
                 break;
             default:
                 //unknown button pressed
@@ -344,8 +346,23 @@ public class UIManager
         if (email.attachmentFlag)
         {
             emailManager.emailAttachmentButton.gameObject.SetActive(true);
-            var path = Path.Combine(globalControl.videoInfos.FirstOrDefault(x => x.videoId == email.videoId).dir, "Thumbnail");
-            emailManager.emailAttachmentButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(path);  
+            Image emailAttachmentImage = emailManager.emailAttachmentButton.gameObject.GetComponent<Image>();
+            if (email.videoId != null)
+            {
+                var videoInfo = globalControl.videoInfos.FirstOrDefault(x => x.videoId == email.videoId);
+                var path = Path.Combine(videoInfo.dir, "Thumbnail");
+                emailAttachmentImage.sprite = Resources.Load<Sprite>(path);
+            }
+            else if (email.imageDir!= null)
+            {
+                var sprite = Resources.Load<Sprite>(email.imageDir);
+                emailAttachmentImage.sprite = sprite;
+            }
+            else
+            {
+                Debug.LogWarning($"Email attachment not found for email with index: {email.index}");
+            }
+
         }
         else
         {
