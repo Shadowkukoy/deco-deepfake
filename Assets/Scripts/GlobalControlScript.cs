@@ -94,6 +94,8 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
                 uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<UnityEngine.UI.Image>();
                 uiManager.metadataImage.gameObject.SetActive(false);
+                uiManager.audioVisualImage = GameObject.Find("AudioVisualImage").GetComponent<UnityEngine.UI.Image>();
+                uiManager.audioVisualImage.gameObject.SetActive(false);
                 uiManager.yesNoVideoArea = GameObject.Find("YesNoVideoArea");
                 uiManager.deepFakeSceneTypeWriter = uiManager.yesNoVideoArea.transform.GetChild(0).GetComponent<TypeWriter>();
                 StartCoroutine(VideoStuffCoroutine());
@@ -175,6 +177,19 @@ public class GlobalControlScript : MonoBehaviour
         {
             uiManager.incomingCall.GetComponent<AudioSource>().Stop();
         }
+        if (uiManager.incomingCall != null)
+        {
+            StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
+            if (UIManager.soundOn)
+            {
+                uiManager.incomingCall.GetComponent<AudioSource>().clip = uiManager.ringtone;
+                uiManager.incomingCall.GetComponent<AudioSource>().Play();
+            }
+            else
+            {
+                uiManager.incomingCall.GetComponent<AudioSource>().Stop();
+            }
+        }  
     }
 
     private void ZoomControls()
