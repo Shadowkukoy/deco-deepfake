@@ -44,7 +44,7 @@ public class EmailManager : MonoBehaviour
             var email = JsonUtility.FromJson<Email>(emailJObject.ToString());
             emails.Add(email);
 
-            if (DateTime.Parse(email.sendDate).Date > globalControl.dateTime.Date) continue;
+            if (DateTime.Parse($"{email.sendTime} {email.sendDate}") > globalControl.dateTime) continue;
 
             var emailItem = Instantiate(emailPrefab, emailListArea, false);
             RectTransform emailItemRectTransform = emailItem.GetComponent<RectTransform>();
@@ -106,7 +106,7 @@ public class EmailManager : MonoBehaviour
                 dayImageObject.SetActive(false);
             }
 
-            date = date.AddDays(1);
+            date = date.AddDays(1).Date.AddHours(GlobalControlScript.DayStartTime);
         }
     }
 

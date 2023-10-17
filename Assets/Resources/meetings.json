@@ -1,0 +1,10 @@
+[
+  {
+    "videoDir": "Videos/MeetingVideos/Intro",
+    "date": "17 Sep",
+    "standingRequired": null, //Whether this video will show for good, bad or null standing. Null means it will play for any standing (eg. "Good"). (string)
+    "subTitleText": "Hi, my names idot, im an idot\n> YO\n> YAHHHH",
+    "delays": "",
+    "advanceTimeHours":  4
+  }
+]

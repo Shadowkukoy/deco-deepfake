@@ -22,10 +22,13 @@ public class GlobalControlScript : MonoBehaviour
     public GameObject emailsPagePrefab;
     public GameObject settingsPagePrefab;
     public TextAsset videoInfosJsonFile;
+    public TextAsset meetingsFile;
     public List<VideoInfo> videoInfos;
+    public List<Meeting> meetings;
     public DateTime dateTime;
     public EmailManager emailManager;
     internal VideoInfo currentVideoInfo;
+    public const int DayStartTime = 8;
 
     void Start()
     {
@@ -49,22 +52,27 @@ public class GlobalControlScript : MonoBehaviour
             videoInfos.Add(videoInfo);
         }
 
+        var meetingsJArray = JArray.Parse(meetingsFile.text);
+        foreach (var meetingJObject in meetingsJArray)
+        {
+            var meeting = JsonUtility.FromJson<Meeting>(meetingJObject.ToString());
+
+            meetings.Add(meeting);
+        }
+
         dateTime = new DateTime(2023, 9, 17);
+        dateTime = dateTime.AddHours(DayStartTime);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        StopAllCoroutines();
         //Code that should be run when a scene is loaded
         GameObject canvas = GameObject.Find("Canvas");
 
         uiManager.aboutUsPage = Instantiate(aboutPagePrefab, canvas.transform);
         uiManager.optionsPage = Instantiate(settingsPagePrefab, canvas.transform);
-        uiManager.emailsPage = Instantiate(emailsPagePrefab, canvas.transform);
-        emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
-        emailManager.uiManager = uiManager;
-        emailManager.globalControl = this;
-        emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
-        uiManager.emailManager = emailManager;
+
         if (canvas != null)
         {
             uiManager.canvas = canvas.GetComponent<Canvas>();
@@ -75,7 +83,6 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.aboutUsTypeWriter = uiManager.aboutUsPage.transform.GetChild(0).GetChild(0).GetComponent<TypeWriter>();
         uiManager.aboutUsPage.SetActive(false);
         uiManager.optionsPage.SetActive(false);
-        uiManager.emailsPage.SetActive(false);
         uiManager.emailsPageShowing = false;
         switch (scene.name)
         {
@@ -105,6 +112,11 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.PlaySound(uiManager.windowsBootSound);
                 uiManager.incomingCall = GameObject.Find("IncomingCall");
                 uiManager.incomingCall.SetActive(false);
+
+                uiManager.meetingArea = GameObject.Find("MeetingArea").GetComponent<MeetingAreaScript>();
+                uiManager.meetingArea.gameObject.SetActive(false);
+                uiManager.meetingArea.confirmMeetingEndDialog.SetActive(false);
+                uiManager.meetingArea.meetingDialogBox.SetActive(false);
 
                 if (!uiManager.managerCall)
                 {

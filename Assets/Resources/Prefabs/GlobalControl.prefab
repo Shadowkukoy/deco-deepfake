@@ -48,4 +48,7 @@ MonoBehaviour:
   emailsPagePrefab: {fileID: 0}
   settingsPagePrefab: {fileID: 0}
   videoInfosJsonFile: {fileID: 4900000, guid: 86f601cee28613d40ac71d31fdf55c54, type: 3}
+  meetingsFile: {fileID: 4900000, guid: faf95bb87abfc2a4cbac00e23aff36be, type: 3}
   videoInfos: []
+  meetings: []
+  emailManager: {fileID: 0}

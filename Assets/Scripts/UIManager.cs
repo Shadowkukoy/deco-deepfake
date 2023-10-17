@@ -10,6 +10,8 @@ using System;
 using System.Linq;
 using System.IO;
 using static UnityEngine.RuleTile.TilingRuleOutput;
+using Unity.VisualScripting;
+using TMPro;
 
 public class UIManager
 {
@@ -58,6 +60,9 @@ public class UIManager
     public EmailManager emailManager;
     private Email selectedEmail;
     public int timesRejected = 0;
+    internal MeetingAreaScript meetingArea;
+    private Meeting meeting;
+    private string currentMeetingButtonName;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -107,6 +112,7 @@ public class UIManager
         //Code that should be run when a button is pressed!
         //button: the name of the scene and name of the button GameObject in the format Scene.ButtonName
         //id: a number which can optionally be assigned to be bruh passed through when the button is pressed (could be useful if multiple buttons have the same name).
+        Debug.Log(globalControl.dateTime.ToString());
         switch (button)
         {
             case "DeepFakeScene.YesButton":
@@ -137,7 +143,7 @@ public class UIManager
                 break;
             case "DeepFakeScene.BackButton":
                 PlaySound(normalClick);
-                SceneManager.LoadScene("MainMenuScene");
+                SceneManager.LoadScene("HomePageScene");
                 break;
             case "MainMenuScene.PlayButton":
                 PlaySound(normalClick);
@@ -203,6 +209,13 @@ public class UIManager
                 PlaySound(normalClick);
                 managerCall = true;
                 globalControl.StartCoroutine(Nuke(incomingCall));
+
+                globalControl.StartCoroutine(UnNuke(meetingArea.gameObject));
+                var meetingVideoPlayer = meetingArea.transform.Find("Video").GetComponent<VideoPlayer>();
+                meeting = globalControl.meetings.FirstOrDefault(x => DateTime.Parse(x.date).Date == globalControl.dateTime.Date);
+                meetingVideoPlayer.clip = Resources.Load<VideoClip>(meeting.videoDir);
+                meetingVideoPlayer.isLooping = true;
+                meetingVideoPlayer.loopPointReached += MeetingVideoPlayer_loopPointReached;
                 break;
             case "HomePageScene.RejectCallButton":
                 globalControl.StartCoroutine(Nuke(incomingCall));
@@ -218,8 +231,7 @@ public class UIManager
                 }
                 else
                 {
-                    globalControl.StartCoroutine(UnNuke(emailsPage));
-                    emailsPage.transform.SetAsLastSibling();
+                    InstantiateEmailsPage();
                 }
                 emailsPageShowing = !emailsPageShowing;
                 break;
@@ -329,11 +341,110 @@ public class UIManager
             case "DeepFakeScene.EmailsAttachmentViewerExitButton":
                 globalControl.StartCoroutine(Nuke(emailManager.emailAttachmentViewer));
                 break;
+            case "HomePageScene.MeetingMuteButton":
+                PlaySound(normalClick);
+                globalControl.StartCoroutine(DisplayMeetingDialogBox("ASIO requires all participants keep their mics active for security reasons", "MeetingMuteButton"));
+                break;
+            case "HomePageScene.MeetingVideoButton":
+                PlaySound(normalClick);
+                globalControl.StartCoroutine(DisplayMeetingDialogBox("ASIO requires all participants keep their video active for security reasons", "MeetingVideoButton"));
+                break;
+            case "HomePageScene.MeetingSecurityButton":
+                PlaySound(normalClick);
+                globalControl.StartCoroutine(DisplayMeetingDialogBox("Data transmission encrypted by 128bit key (TLSv1.3)", "MeetingSecurityButton"));
+                break;
+            case "HomePageScene.MeetingChatButton":
+                PlaySound(normalClick);
+                break;
+            case "HomePageScene.MeetingShareScreenButton":
+                PlaySound(normalClick);
+                globalControl.StartCoroutine(DisplayMeetingDialogBox("ASIO has disabled screen sharing for security and privacy reasons", "MeetingShareScreenButton"));
+                break;
+            case "HomePageScene.MeetingRecordButton":
+                PlaySound(normalClick);
+                globalControl.StartCoroutine(DisplayMeetingDialogBox("ASIO has disabled screen recording for security and privacy reasons", "MeetingRecordButton"));
+                break;
+            case "HomePageScene.MeetingEndButton":
+                PlaySound(normalClick);
+                if (meetingArea.meetingDialogBox.gameObject.activeInHierarchy)
+                {
+                    globalControl.StartCoroutine(Nuke(meetingArea.meetingDialogBox));
+                }
+                if (meetingArea.confirmMeetingEndDialog.gameObject.activeInHierarchy)
+                {
+                    globalControl.StartCoroutine(Nuke(meetingArea.confirmMeetingEndDialog));
+                }
+                else
+                {
+                    globalControl.StartCoroutine(UnNuke(meetingArea.confirmMeetingEndDialog));
+                }
+                break;
+            case "HomePageScene.ConfirmMeetingEndButton":
+                PlaySound(normalClick);
+                EndMeeting();
+                break;
+            case "HomePageScene.BackMeetingEndButton":
+                PlaySound(normalClick);
+                globalControl.StartCoroutine(Nuke(meetingArea.confirmMeetingEndDialog));
+                break;
+            case "HomePageScene.AcknowledgeMeetingDialogButton":
+                PlaySound(normalClick);
+                globalControl.StartCoroutine(Nuke(meetingArea.meetingDialogBox));
+                currentMeetingButtonName = null;
+                break;
             default:
                 //unknown button pressed
                 Debug.LogWarning($"Unknown button with name: {button} and id: {id}");
                 break;
         }
+    }
+
+    private void InstantiateEmailsPage()
+    {
+        emailsPage = UnityEngine.Object.Instantiate(globalControl.emailsPagePrefab, canvas.transform);
+        emailManager = emailsPage.GetComponent<EmailManager>();
+        emailManager.uiManager = this;
+        emailManager.globalControl = globalControl;
+        emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
+        AssignButtonListeners(emailsPage);
+        emailsPage.SetActive(false);
+        globalControl.StartCoroutine(UnNuke(emailsPage));
+        emailsPage.transform.SetAsLastSibling();
+    }
+
+    private void MeetingVideoPlayer_loopPointReached(VideoPlayer source)
+    {
+        EndMeeting();
+    }
+
+    private void EndMeeting()
+    {
+        globalControl.dateTime = globalControl.dateTime.AddHours(meeting.advanceTimeHours);
+        globalControl.StartCoroutine(Nuke(meetingArea.gameObject));
+    }
+
+    private IEnumerator DisplayMeetingDialogBox(string message, string buttonName)
+    {
+        if (meetingArea.confirmMeetingEndDialog.gameObject.activeInHierarchy)
+        {
+            globalControl.StartCoroutine(Nuke(meetingArea.confirmMeetingEndDialog));
+        }
+        if (meetingArea.meetingDialogBox.gameObject.activeInHierarchy)
+        {
+            yield return globalControl.StartCoroutine(Nuke(meetingArea.meetingDialogBox));
+        }
+        if (buttonName == currentMeetingButtonName)
+        {
+            currentMeetingButtonName = null;
+            yield break;
+        }
+        currentMeetingButtonName = buttonName;
+        globalControl.StartCoroutine(UnNuke(meetingArea.meetingDialogBox));
+        var button = GameObject.Find(buttonName).transform;
+        meetingArea.meetingDialogBox.transform.position = button.position;
+        meetingArea.meetingDialogBox.GetComponent<RectTransform>().anchoredPosition += Vector2.up * 18.75f + Vector2.right * 18.75f;
+        meetingArea.meetingDialogBox.transform.Find("DialogText").GetComponent<TextMeshProUGUI>().text = message;
+        yield return null;
     }
 
     private void ViewEmailContents(int id)
