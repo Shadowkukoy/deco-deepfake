@@ -31,7 +31,8 @@ public class EmailListObject : MonoBehaviour
         if (email.tagName == null)
         {
             tagBox.gameObject.SetActive(false);
-            headerText.gameObject.GetComponent<RectTransform>().anchoredPosition += Vector2.left * 70 ;
+            RectTransform headerTextRectTransform = headerText.gameObject.GetComponent<RectTransform>();
+            headerTextRectTransform.anchoredPosition += Vector2.left * tagBox.GetComponent<RectTransform>().sizeDelta.x;
 
 }
         else

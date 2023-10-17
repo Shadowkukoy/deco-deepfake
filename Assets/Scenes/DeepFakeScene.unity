@@ -493,7 +493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3616,7 +3616,7 @@ GameObject:
   - component: {fileID: 1061374357}
   - component: {fileID: 1061374358}
   m_Layer: 7
-  m_Name: SwitchToggle
+  m_Name: FaceMappingSwitchToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3639,8 +3639,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 385, y: 14.1}
-  m_SizeDelta: {x: 68.41, y: 20.2}
+  m_AnchoredPosition: {x: 390.67, y: 10.1}
+  m_SizeDelta: {x: 39.94, y: 20.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1061374358
 MonoBehaviour:
@@ -3661,7 +3661,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -4866,11 +4866,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 139972010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9, y: -0.0000032187}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 2, y: 0.0000028610716}
   m_SizeDelta: {x: 18, y: 18}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1802893219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5802,7 +5802,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -366.3, y: -85.7}
-  m_SizeDelta: {x: 410.18, y: 28.57}
+  m_SizeDelta: {x: 409.58, y: 28.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2143375585
 MonoBehaviour:

@@ -12,9 +12,15 @@ using System.IO;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 using Unity.VisualScripting;
 using TMPro;
+using UnityEditor;
 
 public class UIManager
 {
+    private const int ToggleSliderTransitionFrames = 8;
+    private const int PopInOutTransitionFrames = 8;
+    private const int ToggleSliderPadding = 4;
+    public readonly Color ToggleBackgroundOnColor = Color.white;
+
     //Code that assigns the method 'OnButtonPress' to the pressing of any children gameobjects.
     //This should be run on canvas whenever a new scene is loaded, and on any new instantiated UI element which contains buttons
 
@@ -64,6 +70,7 @@ public class UIManager
     private Meeting meeting;
     private string currentMeetingButtonName;
 
+
     public void AssignButtonListeners(GameObject elements)
     {
         foreach (Button button in elements.GetComponentsInChildren<Button>())
@@ -71,10 +78,10 @@ public class UIManager
             switch (button.name)
             {
                 case "EmailItem":
-                    button.onClick.AddListener(delegate { OnButtonPress(SceneManager.GetActiveScene().name + "." + button.name, button.gameObject.GetComponent<EmailListObject>().email.index); });
+                    button.onClick.AddListener(delegate { OnButtonPress(button, SceneManager.GetActiveScene().name + "." + button.name, button.gameObject.GetComponent<EmailListObject>().email.index); });
                     break;
                 default:
-                    button.onClick.AddListener(delegate { OnButtonPress(SceneManager.GetActiveScene().name + "." + button.name, 0); });
+                    button.onClick.AddListener(delegate { OnButtonPress(button, SceneManager.GetActiveScene().name + "." + button.name, 0); });
                     break;
             }
         }
@@ -107,13 +114,12 @@ public class UIManager
        
     }
 
-    private void OnButtonPress(string button, int id)
+    private void OnButtonPress(Button button, string buttonIdentifier, int id)
     {
         //Code that should be run when a button is pressed!
         //button: the name of the scene and name of the button GameObject in the format Scene.ButtonName
         //id: a number which can optionally be assigned to be bruh passed through when the button is pressed (could be useful if multiple buttons have the same name).
-        Debug.Log(globalControl.dateTime.ToString());
-        switch (button)
+        switch (buttonIdentifier)
         {
             case "DeepFakeScene.YesButton":
                 PlaySound(normalClick);
@@ -231,7 +237,7 @@ public class UIManager
                 }
                 else
                 {
-                    InstantiateEmailsPage();
+                    globalControl.ShowEmailsPage();
                 }
                 emailsPageShowing = !emailsPageShowing;
                 break;
@@ -353,6 +359,10 @@ public class UIManager
                 PlaySound(normalClick);
                 globalControl.StartCoroutine(DisplayMeetingDialogBox("Data transmission encrypted by 128bit key (TLSv1.3)", "MeetingSecurityButton"));
                 break;
+            case "HomePageScene.MeetingParticipantsButton":
+                PlaySound(normalClick);
+                globalControl.StartCoroutine(DisplayMeetingDialogBox("2 Participants:\nYou,\nBen Mcrae (host)", "MeetingParticipantsButton"));
+                break;
             case "HomePageScene.MeetingChatButton":
                 PlaySound(normalClick);
                 break;
@@ -394,23 +404,12 @@ public class UIManager
                 break;
             default:
                 //unknown button pressed
-                Debug.LogWarning($"Unknown button with name: {button} and id: {id}");
+                Debug.LogWarning($"Unknown button with name: {buttonIdentifier} and id: {id}");
                 break;
         }
     }
 
-    private void InstantiateEmailsPage()
-    {
-        emailsPage = UnityEngine.Object.Instantiate(globalControl.emailsPagePrefab, canvas.transform);
-        emailManager = emailsPage.GetComponent<EmailManager>();
-        emailManager.uiManager = this;
-        emailManager.globalControl = globalControl;
-        emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
-        AssignButtonListeners(emailsPage);
-        emailsPage.SetActive(false);
-        globalControl.StartCoroutine(UnNuke(emailsPage));
-        emailsPage.transform.SetAsLastSibling();
-    }
+
 
     private void MeetingVideoPlayer_loopPointReached(VideoPlayer source)
     {
@@ -557,6 +556,20 @@ public class UIManager
 
     private void OnToggleValueChanged(Toggle toggle, string toggleName, int id)
     {
+        //Code that is run for all toggles that use the slider style type (every toggle for now)
+        if (toggle.transition == Selectable.Transition.None)
+        {
+            var backdrop = toggle.transform.GetChild(0).GetComponent<RectTransform>();
+            var handle = backdrop.GetChild(0).GetComponent<RectTransform>();
+            if (toggle.isOn)
+            {
+                globalControl.StartCoroutine(ToggleSliderOn(backdrop, handle));
+            }
+            else
+            {
+                globalControl.StartCoroutine(ToggleSliderOff(backdrop, handle));
+            }
+        }
         // Code that should run when a toggle is changed
         switch (toggleName)
         {
@@ -575,11 +588,73 @@ public class UIManager
                     audioVisualImage.gameObject.SetActive(false);
                 }
                 break;
+            case "MainMenuScene.OptionsSoundToggle":
+                PlaySound(normalClick);
+                soundOn = !soundOn;
+                GameObject openingMusicObject = GameObject.Find("OpeningMusicAudioSource");
+                AudioSource openingMusicAudioSource = openingMusicObject.GetComponent<AudioSource>();
+                if (!soundOn)
+                {
+                    // sound is now off, turn off opening music
+                    openingMusicAudioSource.Stop();
+                }
+                else
+                {
+                    // sound is now on, turn on opening music
+                    openingMusicAudioSource.clip = openingMusic;
+                    openingMusicAudioSource.Play();
+                }
+                break;
+            case "HomePageScene.OptionsSoundToggle":
+                PlaySound(normalClick);
+                soundOn = !soundOn;
+                if (!managerCall)
+                {
+                    // user hasn't accepted the incoming call yet
+                    GameObject incomingCallObj = GameObject.Find("IncomingCall");
+                    if (incomingCallObj != null)
+                    {
+                        AudioSource managerCallAudio = incomingCallObj.GetComponent<AudioSource>();
+                        if (soundOn)
+                        {
+                            managerCallAudio.Play();
+                        }
+                        else
+                        {
+                            managerCallAudio.Stop();
+                        }
+                    }
+                }
+                break;
             default:
                 Debug.LogWarning($"Unknown toggle value changed with name: {toggleName} and id: {id}");
                 break;
         }
     }
+
+    private IEnumerator ToggleSliderOn(RectTransform backdrop, RectTransform handle)
+    {
+        var backdropImage = backdrop.GetComponent<Image>();
+        for (int i = 0;i < ToggleSliderTransitionFrames; i++)
+        {
+            handle.anchoredPosition += Vector2.right * (backdrop.sizeDelta.x - handle.sizeDelta.x - ToggleSliderPadding) / ToggleSliderTransitionFrames;
+            backdropImage.color = Color.grey * (7 - i) / 7 + ToggleBackgroundOnColor * (i) / 7;
+            yield return null;
+        }
+        yield return null;
+    }
+    private IEnumerator ToggleSliderOff(RectTransform backdrop, RectTransform handle)
+    {
+        var backdropImage = backdrop.GetComponent<Image>();
+        for (int i = 0; i < ToggleSliderTransitionFrames; i++)
+        {
+            handle.anchoredPosition += Vector2.left * (backdrop.sizeDelta.x - handle.sizeDelta.x - ToggleSliderPadding) / ToggleSliderTransitionFrames;
+            backdropImage.color = Color.grey * (i) / 7 + ToggleBackgroundOnColor * (7 - i) / 7;
+            yield return null;
+        }
+        yield return null;
+    }
+
     internal void ChangeVideoZoom(float zoom)
     {
         var centre3 = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
@@ -628,7 +703,7 @@ public class UIManager
     
     public IEnumerator Nuke(GameObject element)
     {
-        int iterations = 8;
+        int iterations = PopInOutTransitionFrames;
         var initScale = element.transform.localScale;
         for (int i = 0; i < iterations; i++)
         {
@@ -641,7 +716,7 @@ public class UIManager
     public IEnumerator UnNuke(GameObject element)
     {
         element.SetActive(true);
-        int iterations = 8;
+        int iterations = PopInOutTransitionFrames;
         for (int i = 0; i <= iterations; i++)
         {
             element.transform.localScale = Vector3.one * (float)i / iterations;

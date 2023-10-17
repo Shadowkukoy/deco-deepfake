@@ -84,6 +84,7 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.aboutUsPage.SetActive(false);
         uiManager.optionsPage.SetActive(false);
         uiManager.emailsPageShowing = false;
+        InstantiateEmailsPage();
         switch (scene.name)
         {
             case "DeepFakeScene":
@@ -146,7 +147,23 @@ public class GlobalControlScript : MonoBehaviour
                 break;
         }
     }
+    private void InstantiateEmailsPage()
+    {
+        uiManager.emailsPage = Instantiate(emailsPagePrefab, uiManager.canvas.transform);
+        emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
+        uiManager.emailManager = emailManager;
+        emailManager.uiManager = uiManager;
+        emailManager.globalControl = this;
+        emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
+        uiManager.AssignButtonListeners(uiManager.emailsPage);
+        uiManager.emailsPage.SetActive(false);
 
+    }
+    public void ShowEmailsPage()
+    {
+        StartCoroutine(uiManager.UnNuke(uiManager.emailsPage));
+        uiManager.emailsPage.transform.SetAsLastSibling();
+    }
     public void Update()
     {
 
