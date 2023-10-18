@@ -121,6 +121,10 @@ public class UIManager
         //id: a number which can optionally be assigned to be bruh passed through when the button is pressed (could be useful if multiple buttons have the same name).
         switch (buttonIdentifier)
         {
+            case "HomePageScene.SendButton":
+                Application.Quit();
+                Debug.Log("iH");
+                break;
             case "DeepFakeScene.YesButton":
                 PlaySound(normalClick);
                 //stuff that happens when yes button is pressed
@@ -610,6 +614,7 @@ public class UIManager
                     audioVisualImage.gameObject.SetActive(false);
                 }
                 break;
+
             case "MainMenuScene.OptionsSoundToggle":
                 PlaySound(normalClick);
                 soundOn = !soundOn;
@@ -650,6 +655,19 @@ public class UIManager
                 break;
             case "DeepFakeScene.FaceMappingSwitchToggle":
                 ShowHideFaceMesh(toggle.isOn);
+                break;
+            case "DeepFakeScene.MetadataSwitchToggle":
+                if (toggle.isOn)
+                {
+                    // turn on the audio visualiser tool
+                    metadataImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(Path.Combine(globalControl.currentVideoInfo.dir, "Metadata"));
+                    metadataImage.gameObject.SetActive(true);
+                }
+                else
+                {
+                    // turn off the audio visualiser tool
+                    metadataImage.gameObject.SetActive(false);
+                }
                 break;
             default:
                 Debug.LogWarning($"Unknown toggle value changed with name: {toggleName} and id: {id}");
