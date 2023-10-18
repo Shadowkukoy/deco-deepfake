@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4bc91f70b63bd594aa71d42a12f330c0
+guid: 424686cdb77f6684c8b5cbf19273163f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3563819664913038330
-    second: Metadata_0
+      213: 6172299012449477016
+    second: True Ben Mcrae (2)_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -83,18 +83,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Metadata_0
+      name: True Ben Mcrae (2)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 740
-        height: 996
+        width: 367
+        height: 378
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: afb71b27a1b357130800000000000000
-      internalID: 3563819664913038330
+      spriteID: 891ab84ef3968a550800000000000000
+      internalID: 6172299012449477016
       vertices: []
       indices: 
       edges: []
@@ -140,8 +128,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Metadata_0: 3563819664913038330
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
