@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      True Ben Mcrae (2)_0: 6172299012449477016
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
