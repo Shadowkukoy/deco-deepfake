@@ -347,6 +347,7 @@ public class UIManager
             case "HomePageScene.EmailBodyExitButton":
             case "DeepFakeScene.EmailBodyExitButton":
                 PlaySound(normalClick);
+                emailManager.RefreshEmail();
                 globalControl.StartCoroutine(Nuke(emailManager.emailBodyText.transform.parent.gameObject));
                 break;
             case "HomePageScene.EmailExitButton":
@@ -479,6 +480,7 @@ public class UIManager
         emailManager.emailBodyText.transform.parent.gameObject.SetActive(true);
         emailManager.emailBodyText.text = email.emailMessage;
         selectedEmail = email;
+        globalControl.read[email] = true;
 
         if (email.attachmentFlag)
         {
@@ -653,6 +655,10 @@ public class UIManager
                     }
                 }
                 break;
+            case "HomePageScene.OptionsTextQuickLoadToggle":
+                PlaySound(normalClick);
+                globalControl.quickTextSkip = !globalControl.quickTextSkip;
+                break;
             case "DeepFakeScene.FaceMappingSwitchToggle":
                 ShowHideFaceMesh(toggle.isOn);
                 break;
@@ -767,6 +773,11 @@ public class UIManager
         }
     }
 
+    public void NextDay()
+    {
+
+    }
+
     internal void PausePlayVideo()
     {
         GameObject playPauseButton = GameObject.Find("PlayPauseButton");
@@ -778,8 +789,20 @@ public class UIManager
         {
             playPauseButton.GetComponent<Image>().sprite = playImage;
         }
-        if (videoPlayer.isPaused) videoPlayer.Play();
-        else videoPlayer.Pause();
+        if (videoPlayer.isPaused)
+        {
+            videoPlayer.Play();
+            facemeshVideoPlayer.Play();
+        }
+        else
+        { 
+            videoPlayer.Pause();
+            facemeshVideoPlayer.Pause(); 
+            if (facemeshVideoPlayer.frame != videoPlayer.frame)
+            {
+                facemeshVideoPlayer.frame = videoPlayer.frame;
+            }
+        }
     }
 
     public void ShowHideFaceMesh(bool show)

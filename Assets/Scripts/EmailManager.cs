@@ -14,7 +14,6 @@ public class EmailManager : MonoBehaviour
     public GameObject emailPrefab;
     public UIManager uiManager;
     public GlobalControlScript globalControl;
-    public TextAsset jsonFile;
     public Button emailAttachmentButton;
     public List<string> emailNames;
     public TextMeshProUGUI emailBodyText;
@@ -22,6 +21,7 @@ public class EmailManager : MonoBehaviour
     public GameObject calender;
     public GameObject calenderDayPrefab;
     public GameObject emailAttachmentViewer;
+    public GameObject composedEmail;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,22 +46,36 @@ public class EmailManager : MonoBehaviour
 
     private void GenerateEmail()
     {
-        JArray emailsJArray = JArray.Parse(jsonFile.text);
-        int i = 0;
         var emailListArea = transform.GetChild(0);
         emailBodyText = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        foreach (var emailJObject in emailsJArray)
+        int i = 0;
+        foreach (var email in emails)
         {
-            var email = JsonUtility.FromJson<Email>(emailJObject.ToString());
-            emails.Add(email);
-
             if (DateTime.Parse($"{email.sendTime} {email.sendDate}") > globalControl.dateTime) continue;
             var requirementsFailed = false;
             if (email.correctRequired != null)
             {
-                foreach (var videoIds in email.correctRequired.Split(','))
+                foreach (var videoId in email.correctRequired.Split(','))
                 {
+                    var videoCorrect = globalControl.videosCorrect.FirstOrDefault(x => x.Key.videoId == videoId);
+                    if (videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)) && !videoCorrect.Value)
+                    {
+                        requirementsFailed = true;
+                    }
                 }
+                if (requirementsFailed) { continue; }
+            }
+            if (email.incorrectRequired != null)
+            {
+                foreach (var videoId in email.correctRequired.Split(','))
+                {
+                    var videoCorrect = globalControl.videosCorrect.FirstOrDefault(x => x.Key.videoId == videoId);
+                    if (videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)) && videoCorrect.Value)
+                    {
+                        requirementsFailed = true;
+                    }
+                }
+                if (requirementsFailed) { continue; }
             }
 
             var emailItem = Instantiate(emailPrefab, emailListArea, false);
@@ -79,7 +93,9 @@ public class EmailManager : MonoBehaviour
         }
         uiManager.AssignButtonListeners(transform.GetChild(0).gameObject);
         emailBodyText.transform.parent.gameObject.SetActive(false);
+        composedEmail.SetActive(false);
     }
+
 
     private void GenerateCalender()
     {

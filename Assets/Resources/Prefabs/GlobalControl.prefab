@@ -52,3 +52,10 @@ MonoBehaviour:
   videoInfos: []
   meetings: []
   emailManager: {fileID: 0}
+  currentVideoInfo:
+    videoId: 
+    dir: 
+    deepfaked: 0
+  quickTextSkip: 0
+  emails: []
+  inboxJsonFile: {fileID: 4900000, guid: f8fb9fb036be8fc42a3b1c6173c1b083, type: 3}

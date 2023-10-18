@@ -13,6 +13,7 @@ using Deepfakes.Typography.TypeWriter;
 using Newtonsoft.Json.Linq;
 using TMPro;
 using System.IO;
+using static UnityEngine.ParticleSystem;
 
 public class GlobalControlScript : MonoBehaviour
 {
@@ -34,6 +35,10 @@ public class GlobalControlScript : MonoBehaviour
     internal VideoClip normalVideo;
     internal VideoClip facemeshVideo;
     public Dictionary<VideoInfo, bool> videosCorrect;
+    public bool quickTextSkip = false;
+    public List<Email> emails;
+    public Dictionary<Email,bool> read;
+    public TextAsset inboxJsonFile;
 
     void Start()
     {
@@ -69,6 +74,8 @@ public class GlobalControlScript : MonoBehaviour
 
         dateTime = StartDate;
         dateTime = dateTime.AddHours(DayStartTime);
+        read = new Dictionary<Email, bool>();
+        ReadAllMail();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -168,6 +175,7 @@ public class GlobalControlScript : MonoBehaviour
         emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
         uiManager.emailManager = emailManager;
         emailManager.uiManager = uiManager;
+        emailManager.emails = emails;
         emailManager.globalControl = this;
         emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
         uiManager.AssignButtonListeners(uiManager.emailsPage);
@@ -180,10 +188,17 @@ public class GlobalControlScript : MonoBehaviour
         emailManager.RefreshEmail();
         uiManager.emailsPage.transform.SetAsLastSibling();
     }
-    public void Update()
+    private void ReadAllMail()
     {
-
+        JArray emailsJArray = JArray.Parse(inboxJsonFile.text);
+        foreach (var emailJObject in emailsJArray)
+        {
+            var email = JsonUtility.FromJson<Email>(emailJObject.ToString());
+            emails.Add(email);
+            read[email] = false;
+        }
     }
+
 
     public IEnumerator VideoStuffCoroutine()
     {

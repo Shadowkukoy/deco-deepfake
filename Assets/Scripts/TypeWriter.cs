@@ -44,10 +44,14 @@ namespace Deepfakes.Typography.TypeWriter
         public static event Action CompleteTextRevealed;
         public static event Action<char> CharacterRevealed;
 
+        public bool automatic = false;
 
+        private GlobalControlScript globalControl;
         private void Awake()
         {
             _textBox = GetComponent<TMP_Text>();
+
+
 
             _simpleDelay = new WaitForSeconds(1 / charPerSecond);
             _interpunctuationDelay = new WaitForSeconds(interpunctuationDelay);
@@ -77,7 +81,7 @@ namespace Deepfakes.Typography.TypeWriter
 
         private void Update()
         {
-            if (Input.GetKey(KeyCode.LeftShift)) 
+            if (!automatic && Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Space)) 
             {
                 if (_textBox.maxVisibleCharacters != _textBox.textInfo.characterCount - 1)
                     Skip();
@@ -88,6 +92,9 @@ namespace Deepfakes.Typography.TypeWriter
         {
             if(!_readyForNewText)
                 return;
+
+            globalControl = GameObject.Find("GlobalControl").GetComponent<GlobalControlScript>();
+            quickSkip = globalControl.quickTextSkip;
 
             _readyForNewText = false;
             //Typewriter becomes weird if you have 2 going off at the same time
@@ -148,7 +155,7 @@ namespace Deepfakes.Typography.TypeWriter
                 //{
                 //    yield return _interpunctuationDelay;
                 //}
-                if (character == '>' && _currentVisibleCharacterIndex != 0)
+                if (!automatic && character == '>' && _currentVisibleCharacterIndex != 0)
                 {
                     _pauseInCharacters = 1;
                 }

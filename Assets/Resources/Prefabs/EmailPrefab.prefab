@@ -563,6 +563,25 @@ MonoBehaviour:
   dateText: {fileID: 1149526037769239056}
   attachmentImage: {fileID: 1489151912238111171}
   tagBox: {fileID: 3946141480133285005}
+  email:
+    index: 0
+    emailTitle: 
+    emailSender: 
+    sendDate: 
+    sendTime: 
+    highPriorityFlag: 0
+    completedFlag: 0
+    attachmentFlag: 0
+    emailMessage: 
+    tagName: 
+    tagColor: 
+    emailSignOff: 0
+    videoId: 
+    imageDir: 
+    correctRequired: 
+    incorrectRequired: 
+  globalControl: {fileID: 0}
+  read: 0
 --- !u!1 &8020349793731699994
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,8 +616,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 40, y: 0}
-  m_SizeDelta: {x: 70, y: 30}
+  m_AnchoredPosition: {x: 10, y: 0}
+  m_SizeDelta: {x: 125, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &116067420748322344
 CanvasRenderer:

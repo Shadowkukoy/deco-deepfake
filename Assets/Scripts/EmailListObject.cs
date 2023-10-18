@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,7 @@ public class EmailListObject : MonoBehaviour
     public Image tagBox;
     public Email email;
     public GlobalControlScript globalControl;
+    public bool read;
 
     internal void SetStuff()
     {
@@ -28,6 +30,11 @@ public class EmailListObject : MonoBehaviour
             attachmentImage.gameObject.SetActive(false);
         }
 
+        if (globalControl.read[email])
+        {
+            GetComponent<Image>().color = Color.white * 0.8f;
+        }
+
         if (email.tagName == null)
         {
             tagBox.gameObject.SetActive(false);
@@ -37,15 +44,37 @@ public class EmailListObject : MonoBehaviour
 }
         else
         {
-            Color newCol;
-            if (ColorUtility.TryParseHtmlString(email.tagColor, out newCol))
+            if (email.videoId != null)
             {
-                tagBox.color = newCol;
+                var videoCorrect = globalControl.videosCorrect.FirstOrDefault(x => x.Key.videoId == email.videoId);
+                if (videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)))
+                {
+                    SetTagColor();
+                }
+                else
+                {
+                    tagBox.color = Color.green;
+
+                    tagText.text = "Completed";
+                }
             }
             else
             {
-                Debug.LogWarning($"Invalid color for email tag with id {email.index}");
+                SetTagColor();
             }
+        }
+    }
+
+    private void SetTagColor()
+    {
+        Color newCol;
+        if (ColorUtility.TryParseHtmlString(email.tagColor, out newCol))
+        {
+            tagBox.color = newCol;
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid color for email tag with id {email.index}");
         }
     }
 
