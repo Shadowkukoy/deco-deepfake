@@ -121,15 +121,41 @@ public class UIManager
         //id: a number which can optionally be assigned to be bruh passed through when the button is pressed (could be useful if multiple buttons have the same name).
         switch (buttonIdentifier)
         {
+            case "HomePageScene.SendButton":
+                Application.Quit();
+                Debug.Log("iH");
+                break;
             case "DeepFakeScene.YesButton":
                 PlaySound(normalClick);
                 //stuff that happens when yes button is pressed
-                Debug.Log("test1");
+                if (globalControl.currentVideoInfo.deepfaked)
+                {
+                    // successfully identified deepfake
+                    globalControl.videosCorrect[globalControl.currentVideoInfo] = true;
+                    Debug.Log("true");
+                }
+                else
+                {
+                    // thought a real video was deepfaked
+                    globalControl.videosCorrect[globalControl.currentVideoInfo] = false;
+                    Debug.Log("false");
+                }
                 break;
             case "DeepFakeScene.NoButton":
                 PlaySound(normalClick);
                 //stuff that happens when no button is pressed
-                Debug.Log("test2");
+                if (globalControl.currentVideoInfo.deepfaked)
+                {
+                    // incorrectly thought a deepfaked video was real
+                    globalControl.videosCorrect[globalControl.currentVideoInfo] = false;
+                    Debug.Log("false");
+                }
+                else
+                {
+                    // correctly identified a real video as real
+                    globalControl.videosCorrect[globalControl.currentVideoInfo] = true;
+                    Debug.Log("true");
+                }
                 break;
             case "DeepFakeScene.MetadataButton":
                 PlaySound(normalClick);
@@ -588,6 +614,7 @@ public class UIManager
                     audioVisualImage.gameObject.SetActive(false);
                 }
                 break;
+
             case "MainMenuScene.OptionsSoundToggle":
                 PlaySound(normalClick);
                 soundOn = !soundOn;
@@ -628,6 +655,19 @@ public class UIManager
                 break;
             case "DeepFakeScene.FaceMappingSwitchToggle":
                 ShowHideFaceMesh(toggle.isOn);
+                break;
+            case "DeepFakeScene.MetadataSwitchToggle":
+                if (toggle.isOn)
+                {
+                    // turn on the audio visualiser tool
+                    metadataImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(Path.Combine(globalControl.currentVideoInfo.dir, "Metadata"));
+                    metadataImage.gameObject.SetActive(true);
+                }
+                else
+                {
+                    // turn off the audio visualiser tool
+                    metadataImage.gameObject.SetActive(false);
+                }
                 break;
             default:
                 Debug.LogWarning($"Unknown toggle value changed with name: {toggleName} and id: {id}");

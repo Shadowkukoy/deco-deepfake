@@ -6,4 +6,5 @@ public class VideoInfo
 {
     public string videoId;
     public string dir;
+    public bool deepfaked;
 }
