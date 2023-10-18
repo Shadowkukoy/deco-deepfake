@@ -18,6 +18,7 @@ public class GlobalControlScript : MonoBehaviour
 {
     public const int DayStartTime = 8;
     private readonly DateTime StartDate = new DateTime(2025,5,13);
+    private bool bootSoundPlayed = false;
 
     public UIManager uiManager;
     public GameObject aboutPagePrefab;
@@ -119,7 +120,11 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.deepFakeSceneTypeWriter.LoadNextText(uiManager.deepFakeSceneTypeWriter.gameObject);
                 break;
             case "HomePageScene":
-                uiManager.PlaySound(uiManager.windowsBootSound);
+                if (!bootSoundPlayed)
+                {
+                    uiManager.PlaySound(uiManager.windowsBootSound);
+                    bootSoundPlayed = true;
+                }
                 uiManager.incomingCall = GameObject.Find("IncomingCall");
                 uiManager.incomingCall.SetActive(false);
 
