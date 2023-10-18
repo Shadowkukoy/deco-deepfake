@@ -8,11 +8,14 @@ using TMPro;
 using System.Linq;
 using System;
 using Unity.VisualScripting;
+using Deepfakes.Typography.TypeWriter;
 
 public class MeetingAreaScript : MonoBehaviour
 {
     public GameObject confirmMeetingEndDialog;
     public GameObject meetingDialogBox;
+    public Text meetingChatText;
+    public TypeWriter meetingChatTypeWriter;
 
     public void Start()
     {

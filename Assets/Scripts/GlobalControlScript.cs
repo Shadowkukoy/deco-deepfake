@@ -118,9 +118,9 @@ public class GlobalControlScript : MonoBehaviour
                 StartCoroutine(uiManager.VideoScrubberCoroutine());
                 GameObject videoCanvas = GameObject.Find("VideoCanvas");
                 uiManager.videoCanvas = videoCanvas.GetComponent<Canvas>();
-                uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<UnityEngine.UI.Image>();
+                uiManager.metadataImage = GameObject.Find("MetaDataImage").GetComponent<Image>();
                 uiManager.metadataImage.gameObject.SetActive(false);
-                uiManager.audioVisualImage = GameObject.Find("AudioVisualImage").GetComponent<UnityEngine.UI.Image>();
+                uiManager.audioVisualImage = GameObject.Find("AudioVisualImage").GetComponent<Image>();
                 uiManager.audioVisualImage.gameObject.SetActive(false);
                 uiManager.yesNoVideoArea = GameObject.Find("YesNoVideoArea");
                 uiManager.deepFakeSceneTypeWriter = uiManager.yesNoVideoArea.transform.GetChild(0).GetComponent<TypeWriter>();

@@ -2,7 +2,6 @@
   {
     "videoDir": "Videos/MeetingVideos/Intro",
     "date": "13 May 2025",
-    "standingRequired": null, //Whether this video will show for good, bad or null standing. Null means it will play for any standing (eg. "Good"). (string)
     "subTitleText": "> Good morning, recuit! My name is Ben McRae, and I am the head of Asio's new Deepfake Defence Division.\n> As you're no doubt aware, there has been a significant and disturbing rise in the number of deepfakes videos that have been circulating social media in the run up to this coming election.\n> My division has been developing an AI too that will be able to automatically detect and remove the more politically malicous videos that have been circulating, however it's not quite ready yet./n> That's why we've brough people like you in.\n> You will be our stopGap solution. You will be manually detecting deepfaked videos while we polish off the AI.\n> Please be careful though, as if you make a mistake, there will be consequences for not just the agency, but the country as well.\n> Your workflow will be relatively simple.\n> We will send you an email with a video that we would like you to analyse.\n> When you click on that video, it will be opened in our deepfake detection suite, where you will be able to apply a number of tools to help you determine FOR CERTAIN whether a video has been deepfaked or not.\n> You will be stepped through this process the first time you access it.\n> Good luck recruit, and happy hunting! We're all counting on you.'",
     "delays": "",
     "advanceTimeHours": 4
@@ -12,34 +11,51 @@
     "date": "14 May 2025",
     "subTitleText": "> Good morning, recuit.\n> Unfortunately, its been brought to my attention that you made some mistakes yesterday.\n> I know its your first day, but it's of vital importance that you get these right.\n> Let's hope for better today, recruit.",
     "delays": "",
-    "advanceTimeHours": 4
+    "advanceTimeHours": 4,
+    "incorrectRequiredCount": 1
   },
   {
     "videoDir": "Videos/MeetingVideos/GoodDay1",
     "date": "14 May 2025",
+    "correctRequired": "",
     "subTitleText": "> Good job, recuit!\n> Good successful first day.\n> We've had no reported incidents of incorrectly identifying a video.\n> Keep up the good work.",
     "delays": "",
-    "advanceTimeHours": 4
+    "advanceTimeHours": 4,
+    "correctRequiredCount": 2
   },
   {
     "videoDir": "Videos/MeetingVideos/BadDay2",
     "date": "15 May 2025",
     "subTitleText": "> You need to do better than that, recruit.\n> It's been brought to our attention that you made some errors yesterday.\n> It's only going to get harder from here on out.\n> We've sent you an email detailing what we know.",
     "delays": "",
-    "advanceTimeHours": 4
+    "advanceTimeHours": 4,
+    "incorrectRequiredCount": 1
   },
   {
-    "videoDir": "Videos/MeetingVideos/BadDay2",
+    "videoDir": "Videos/MeetingVideos/GoodDay2",
     "date": "15 May 2025",
     "subTitleText": "> Good job, recruit! No errors today.\n> Keep up the good work.",
     "delays": "",
-    "advanceTimeHours": 4
+    "advanceTimeHours": 4,
+    "correctRequiredCount": 2
   },
   {
-    "videoDir": "Videos/MeetingVideos/BadDay2",
-    "date": "15 May 2025",
+    "videoDir": "Videos/MeetingVideos/GoodDay3",
+    "date": "16 May 2025",
     "subTitleText": "> Good morning, recruit! I'm glad to see you here today.\n> Yesterday, as you are no doubt aware, our ASIO email system got comprimised, and a video of myself was deepfaked telling people that they didn't need to come in today.\n> We've had a number of people who have not shown up for work today, but I'm glad to see you made it through.\n> Good job, recruit.' ",
     "delays": "",
-    "advanceTimeHours": 4
-  }
+    "advanceTimeHours": 4,
+    "correctRequiredCount": 2
+  },
+  {
+    "videoDir": "Videos/MeetingVideos/BadDay3Albo",
+    "date": "16 May 2025",
+    "subTitleText": "",
+    "delays": "",
+    "advanceTimeHours": 4,
+    "correctRequiredCount": 1,
+    "incorrectRequiredCount": 1,
+    "incorrectRequiredVideoId":  "VoteTwice"
+  },
+
 ]

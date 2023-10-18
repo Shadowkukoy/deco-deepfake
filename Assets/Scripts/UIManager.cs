@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -124,8 +125,8 @@ public class UIManager
         switch (buttonIdentifier)
         {
             case "HomePageScene.SendButton":
-                var emailsToday = globalControl.emails.Where(x => x.SentOnDate(globalControl.dateTime));
                 var completed = true;
+                var emailsToday = globalControl.emails.Where(x => x.SentOnDate(globalControl.dateTime));
                 foreach (var email in emailsToday)
                 {
                     if (email.videoId == null) continue;
@@ -269,7 +270,27 @@ public class UIManager
 
                 globalControl.StartCoroutine(UnNuke(meetingArea.gameObject));
                 var meetingVideoPlayer = meetingArea.transform.Find("Video").GetComponent<VideoPlayer>();
-                meeting = globalControl.meetings.FirstOrDefault(x => DateTime.Parse(x.date).Date == globalControl.dateTime.Date);
+                var emailsYesterday = globalControl.emails.Where(x => x.SentOnDate(globalControl.dateTime.AddDays(-1)));
+                var videosYesterday = new List<VideoInfo>();
+                foreach (var email in emailsYesterday)
+                {
+                    if (email.videoId == null) continue;
+                    videosYesterday.Add(globalControl.videoInfos.FirstOrDefault(x => x.videoId == email.videoId));
+                }
+                var incorrect = 0;
+                var correct = 0;
+                foreach (var videoInfo in videosYesterday)
+                {
+                    if (globalControl.videosCorrect[videoInfo])
+                    {
+                        correct++;
+                    }
+                    else
+                    {
+                        incorrect++;
+                    }
+                }
+                meeting = globalControl.meetings.FirstOrDefault(x => DateTime.Parse(x.date).Date == globalControl.dateTime.Date && x.incorrectRequiredCount <= incorrect && x.correctRequiredCount <= correct);
                 meetingVideoPlayer.clip = Resources.Load<VideoClip>(meeting.videoDir);
                 meetingVideoPlayer.isLooping = true;
                 meetingVideoPlayer.loopPointReached += MeetingVideoPlayer_loopPointReached;

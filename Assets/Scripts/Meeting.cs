@@ -9,5 +9,6 @@ public class Meeting
     public string date;
     public string delays;
     public string subTitleText;
-    public string standingRequired;
+    public int correctRequiredCount;
+    public int incorrectRequiredCount;
 }
