@@ -124,12 +124,34 @@ public class UIManager
             case "DeepFakeScene.YesButton":
                 PlaySound(normalClick);
                 //stuff that happens when yes button is pressed
-                Debug.Log("test1");
+                if (globalControl.currentVideoInfo.deepfaked)
+                {
+                    // successfully identified deepfake
+                    globalControl.videosCorrect[globalControl.currentVideoInfo] = true;
+                    Debug.Log("true");
+                }
+                else
+                {
+                    // thought a real video was deepfaked
+                    globalControl.videosCorrect[globalControl.currentVideoInfo] = false;
+                    Debug.Log("false");
+                }
                 break;
             case "DeepFakeScene.NoButton":
                 PlaySound(normalClick);
                 //stuff that happens when no button is pressed
-                Debug.Log("test2");
+                if (globalControl.currentVideoInfo.deepfaked)
+                {
+                    // incorrectly thought a deepfaked video was real
+                    globalControl.videosCorrect[globalControl.currentVideoInfo] = false;
+                    Debug.Log("false");
+                }
+                else
+                {
+                    // correctly identified a real video as real
+                    globalControl.videosCorrect[globalControl.currentVideoInfo] = true;
+                    Debug.Log("true");
+                }
                 break;
             case "DeepFakeScene.MetadataButton":
                 PlaySound(normalClick);

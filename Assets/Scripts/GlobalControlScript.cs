@@ -43,6 +43,8 @@ public class GlobalControlScript : MonoBehaviour
         uiManager = new UIManager();
         uiManager.globalControl = this; //this is disgusting
 
+        videosCorrect = new Dictionary<VideoInfo, bool>();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
         aboutPagePrefab = Resources.Load<GameObject>("Prefabs/AboutUsPagePrefab");
