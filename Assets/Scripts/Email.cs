@@ -18,4 +18,6 @@ public class Email
     public int emailSignOff;
     public string videoId;
     public string imageDir;
+    public string correctRequired;
+    public string incorrectRequired;
 }

@@ -90,8 +90,7 @@
     "emailSignOff": 3,
     "tagName": "High Priority",
     "tagColor": "#FB4C2FFF",
-    "vid1": false,
-    "vid2": false
+    "incorrectRequired": "AlbosPrivateJet,Conscription"
   },
   {
     "index": 5,
@@ -105,8 +104,8 @@
     "emailSignOff": 3,
     "tagName": "High Priority",
     "tagColor": "#FB4C2FFF",
-    "vid1": false,
-    "vid2": true
+    "incorrectRequired": "AlbosPrivateJet",
+    "correctRequired": "Conscription"
   },
   {
     "index": 6,
@@ -120,8 +119,8 @@
     "emailSignOff": 3,
     "tagName": "High Priority",
     "tagColor": "#FB4C2FFF",
-    "vid1": true,
-    "vid2": false
+    "incorrectRequired": "Conscription",
+    "correctRequired": "AlbosPrivateJet"
   },
   {
     "index": 7,
@@ -193,8 +192,7 @@
     "emailSignOff": 3,
     "tagName": "High Priority",
     "tagColor": "#FB4C2FFF",
-    "vid1": true,
-    "vid2": false
+    "incorrectRequired": "Conscription,AlbosPrivateJet"
   },
   {
     "index": 12,

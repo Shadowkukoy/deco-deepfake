@@ -744,7 +744,6 @@ public class UIManager
 
     public void ShowHideFaceMesh(bool show)
     {
-        long oldFrame;
         if (show)
         {
             facemeshVideoPlayer.transform.SetAsLastSibling();
