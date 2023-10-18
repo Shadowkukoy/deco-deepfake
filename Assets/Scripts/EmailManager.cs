@@ -33,6 +33,17 @@ public class EmailManager : MonoBehaviour
         emailAttachmentViewer.SetActive(false);
     }
 
+    public void RefreshEmail()
+    {
+        var emailListArea = transform.GetChild(0);
+        for (int i = 0; i < emailListArea.childCount; i++)
+        {
+            Destroy(emailListArea.GetChild(i).gameObject);
+        }
+
+        GenerateEmail();
+    }
+
     private void GenerateEmail()
     {
         JArray emailsJArray = JArray.Parse(jsonFile.text);
