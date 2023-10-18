@@ -16,7 +16,9 @@ using System.IO;
 
 public class GlobalControlScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public const int DayStartTime = 8;
+    private readonly DateTime StartDate = new DateTime(2025,5,13);
+
     public UIManager uiManager;
     public GameObject aboutPagePrefab;
     public GameObject emailsPagePrefab;
@@ -27,8 +29,9 @@ public class GlobalControlScript : MonoBehaviour
     public List<Meeting> meetings;
     public DateTime dateTime;
     public EmailManager emailManager;
-    internal VideoInfo currentVideoInfo;
-    public const int DayStartTime = 8;
+    public VideoInfo currentVideoInfo;
+    internal VideoClip normalVideo;
+    internal VideoClip facemeshVideo;
 
     void Start()
     {
@@ -60,7 +63,7 @@ public class GlobalControlScript : MonoBehaviour
             meetings.Add(meeting);
         }
 
-        dateTime = new DateTime(2023, 9, 17);
+        dateTime = StartDate;
         dateTime = dateTime.AddHours(DayStartTime);
     }
 
@@ -89,9 +92,14 @@ public class GlobalControlScript : MonoBehaviour
         {
             case "DeepFakeScene":
                 uiManager.videoPlayer = GameObject.Find("Video").GetComponent<VideoPlayer>();
+                uiManager.facemeshVideoPlayer = GameObject.Find("FacemeshVideo").GetComponent<VideoPlayer>();
                 if (currentVideoInfo != null)
                 {
-                    uiManager.videoPlayer.clip = Resources.Load<VideoClip>(Path.Combine(currentVideoInfo.dir, "Video"));
+                    normalVideo = Resources.Load<VideoClip>(Path.Combine(currentVideoInfo.dir, "Video"));
+                    facemeshVideo = Resources.Load<VideoClip>(Path.Combine(currentVideoInfo.dir, "Facemesh"));
+                    uiManager.videoPlayer.clip = normalVideo;
+                    uiManager.facemeshVideoPlayer.clip = facemeshVideo;
+                    uiManager.facemeshVideoPlayer.audioOutputMode = VideoAudioOutputMode.None;
                 }
                 uiManager.videoRawImage = uiManager.videoPlayer.gameObject.GetComponent<RawImage>();
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
@@ -162,6 +170,7 @@ public class GlobalControlScript : MonoBehaviour
     public void ShowEmailsPage()
     {
         StartCoroutine(uiManager.UnNuke(uiManager.emailsPage));
+        emailManager.RefreshEmail();
         uiManager.emailsPage.transform.SetAsLastSibling();
     }
     public void Update()
