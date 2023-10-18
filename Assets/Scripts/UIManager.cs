@@ -121,6 +121,10 @@ public class UIManager
         //id: a number which can optionally be assigned to be bruh passed through when the button is pressed (could be useful if multiple buttons have the same name).
         switch (buttonIdentifier)
         {
+            case "HomePageScene.SendButton":
+                Application.Quit();
+                Debug.Log("iH");
+                break;
             case "DeepFakeScene.YesButton":
                 PlaySound(normalClick);
                 //stuff that happens when yes button is pressed
