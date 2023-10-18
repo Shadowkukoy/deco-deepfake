@@ -103,7 +103,6 @@ public class GlobalControlScript : MonoBehaviour
                     facemeshVideo = Resources.Load<VideoClip>(Path.Combine(currentVideoInfo.dir, "Facemesh"));
                     uiManager.videoPlayer.clip = normalVideo;
                     uiManager.facemeshVideoPlayer.clip = facemeshVideo;
-                    uiManager.facemeshVideoPlayer.audioOutputMode = VideoAudioOutputMode.None;
                 }
                 uiManager.videoRawImage = uiManager.videoPlayer.gameObject.GetComponent<RawImage>();
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
