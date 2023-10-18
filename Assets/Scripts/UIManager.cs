@@ -69,7 +69,7 @@ public class UIManager
     internal MeetingAreaScript meetingArea;
     private Meeting meeting;
     private string currentMeetingButtonName;
-
+    internal VideoPlayer facemeshVideoPlayer;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -626,6 +626,9 @@ public class UIManager
                     }
                 }
                 break;
+            case "DeepFakeScene.FaceMappingSwitchToggle":
+                ShowHideFaceMesh(toggle.isOn);
+                break;
             default:
                 Debug.LogWarning($"Unknown toggle value changed with name: {toggleName} and id: {id}");
                 break;
@@ -737,6 +740,19 @@ public class UIManager
         }
         if (videoPlayer.isPaused) videoPlayer.Play();
         else videoPlayer.Pause();
+    }
+
+    public void ShowHideFaceMesh(bool show)
+    {
+        long oldFrame;
+        if (show)
+        {
+            facemeshVideoPlayer.transform.SetAsLastSibling();
+        }
+        else
+        {
+            videoPlayer.transform.SetAsLastSibling();
+        }
     }
 
     public IEnumerator VideoScrubberCoroutine()
