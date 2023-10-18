@@ -43,8 +43,8 @@
     "sendDate": "13 May 2025",
     "highPriorityFlag": true,
     "completedFlag": false,
-    "emailMessage": "Please find below some useful tips about spotting deepfakes using metadata. These tips have been collated from common mistakes in previously detected deepfakes. Note that metadata alone can be fickle, and is not in and of itself definitive proof of a deepfake.\n\n1: Due to limitations in the deepfake creation process, deepfakes may have only 1 audio channel. Real videos will always have 2.\n2: Real videos will have frame dimensions of 1280x720 or 1920x1080.\n3: Real videos will tend to be recorded and then edited on separate occasions, especially if they are cut and uploaded to social media. Deepfakes, however, are often pre-cut before the video is made, resulting in the date created and the date modified being the same.",
-    "emailSignOff": 3
+    "emailMessage": "Please find below some useful tips about spotting deepfakes using metadata. These tips have been collated from common mistakes in previously detected deepfakes. Note that metadata alone can be fickle, and is not in and of itself definitive proof of a deepfake. Normally, the upload process for videos will remove these differences, but ASIO can sometimes get special access to original files.\n\n1: Due to limitations in the deepfake creation process, deepfakes may have only 1 audio channel. Real videos will always have 2.\n2: Real videos will have frame dimensions of 1280x720 or 1920x1080.\n3: Real videos will tend to be recorded and then edited on separate occasions, especially if they are cut and uploaded to social media. Deepfakes, however, are often pre-cut before the video is made, resulting in the date created and the date modified being the same.",
+    "emailSignOff": 3,
   },
   {
     "index": 2,
