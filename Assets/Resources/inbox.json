@@ -31,9 +31,7 @@
     "highPriorityFlag": true,
     "completedFlag": false,
     "emailMessage": "Good morning.\n\nMy name is Ben McRae, and I am the manager of the Deepfake Defence Division.\n\nYou, alongisde many other talented men and women, have been chosen to participate in our new stopgap measure to halt the tide of deepfakes flooding social media in the leadup to the election.\n\nYour job is to analyse the videos we send to you, and let us know whether they are deepfaked or not.\n\nPlease be sure before you make a decision, as we will only find out if you made the wrong choice when the consequences present themselves.\n\nGood luck,\nBen McRae",
-    "emailSignOff": 3,
-    "tagName": "High Priority",
-    "tagColor": "#FB4C2F"
+    "emailSignOff": 3
   },
   {
     "index": 1,
