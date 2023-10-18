@@ -32,6 +32,7 @@ public class GlobalControlScript : MonoBehaviour
     public VideoInfo currentVideoInfo;
     internal VideoClip normalVideo;
     internal VideoClip facemeshVideo;
+    public Dictionary<VideoInfo, bool> videosCorrect;
 
     void Start()
     {

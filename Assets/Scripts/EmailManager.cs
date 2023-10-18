@@ -56,6 +56,13 @@ public class EmailManager : MonoBehaviour
             emails.Add(email);
 
             if (DateTime.Parse($"{email.sendTime} {email.sendDate}") > globalControl.dateTime) continue;
+            var requirementsFailed = false;
+            if (email.correctRequired != null)
+            {
+                foreach (var videoIds in email.correctRequired.Split(','))
+                {
+                }
+            }
 
             var emailItem = Instantiate(emailPrefab, emailListArea, false);
             RectTransform emailItemRectTransform = emailItem.GetComponent<RectTransform>();
