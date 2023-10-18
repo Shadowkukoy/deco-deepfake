@@ -175,7 +175,6 @@ public class GlobalControlScript : MonoBehaviour
         emailManager = uiManager.emailsPage.GetComponent<EmailManager>();
         uiManager.emailManager = emailManager;
         emailManager.uiManager = uiManager;
-        emailManager.emails = emails;
         emailManager.globalControl = this;
         emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
         uiManager.AssignButtonListeners(uiManager.emailsPage);
@@ -187,6 +186,8 @@ public class GlobalControlScript : MonoBehaviour
         StartCoroutine(uiManager.UnNuke(uiManager.emailsPage));
         emailManager.RefreshEmail();
         uiManager.emailsPage.transform.SetAsLastSibling();
+
+
     }
     private void ReadAllMail()
     {
@@ -215,9 +216,17 @@ public class GlobalControlScript : MonoBehaviour
         }
     }
 
+    public void NextDay()
+    {
+        dateTime = dateTime.Date.AddDays(1).AddHours(DayStartTime);
+        uiManager.managerCall = false;
+        Invoke("ShowManagerCall", 5);
+    }
+
     private void ShowManagerCall()
     {
         StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
+        uiManager.incomingCall.transform.SetAsLastSibling();
         if (uiManager.timesRejected >= 3) 
         {
             uiManager.incomingCall.transform.Find("CallerPhoto").GetComponent<Image>().color = Color.red;

@@ -13,6 +13,8 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 using Unity.VisualScripting;
 using TMPro;
 using UnityEditor;
+using NUnit.Framework;
+using System.ComponentModel;
 
 public class UIManager
 {
@@ -122,9 +124,32 @@ public class UIManager
         switch (buttonIdentifier)
         {
             case "HomePageScene.SendButton":
-                Application.Quit();
-                Debug.Log("iH");
+                var emailsToday = globalControl.emails.Where(x => x.SentOnDate(globalControl.dateTime));
+                var completed = true;
+                foreach (var email in emailsToday)
+                {
+                    if (email.videoId == null) continue;
+                    if (!email.Completed(globalControl))
+                    {
+                        completed = false;
+                        break;
+                    }
+                }
+
+                if (completed)
+                {
+                    globalControl.NextDay();
+                }
+                else
+                {
+                    globalControl.StartCoroutine(UnNuke(emailManager.videosNotCompleteNotification));
+                }
+
                 break;
+            case "HomePageScene.CloseVideosNotCompleteNotificationButton":
+                globalControl.StartCoroutine(Nuke(emailManager.videosNotCompleteNotification));
+                break;
+
             case "DeepFakeScene.YesButton":
                 PlaySound(normalClick);
                 //stuff that happens when yes button is pressed
@@ -771,11 +796,6 @@ public class UIManager
             element.transform.localScale = Vector3.one * (float)i / iterations;
             yield return null;
         }
-    }
-
-    public void NextDay()
-    {
-
     }
 
     internal void PausePlayVideo()

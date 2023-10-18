@@ -16,6 +16,6 @@ public class MeetingAreaScript : MonoBehaviour
 
     public void Start()
     {
-
+        transform.SetAsLastSibling();
     }
 }

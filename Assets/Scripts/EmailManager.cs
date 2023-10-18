@@ -22,6 +22,7 @@ public class EmailManager : MonoBehaviour
     public GameObject calenderDayPrefab;
     public GameObject emailAttachmentViewer;
     public GameObject composedEmail;
+    public GameObject videosNotCompleteNotification;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,11 +32,13 @@ public class EmailManager : MonoBehaviour
 
         uiManager.AssignButtonListeners(emailAttachmentViewer);
         emailAttachmentViewer.SetActive(false);
+        videosNotCompleteNotification.SetActive(false);
+        composedEmail.SetActive(false);
     }
 
     public void RefreshEmail()
     {
-        var emailListArea = transform.GetChild(0);
+        var emailListArea = transform.Find("Scroll View/Viewport/EmailsList");
         for (int i = 0; i < emailListArea.childCount; i++)
         {
             Destroy(emailListArea.GetChild(i).gameObject);
@@ -46,9 +49,15 @@ public class EmailManager : MonoBehaviour
 
     private void GenerateEmail()
     {
-        var emailListArea = transform.GetChild(0);
+        var emailListArea = transform.Find("Scroll View/Viewport/EmailsList");
         emailBodyText = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         int i = 0;
+        emails = new List<Email>(globalControl.emails);
+        emails.OrderBy(x => x.emailMessage);
+        emails.OrderBy(x => x.sendTime);
+        emails.OrderBy(x => x.sendDate);
+        emails.Reverse();
+        float size = 0;
         foreach (var email in emails)
         {
             if (DateTime.Parse($"{email.sendTime} {email.sendDate}") > globalControl.dateTime) continue;
@@ -58,19 +67,21 @@ public class EmailManager : MonoBehaviour
                 foreach (var videoId in email.correctRequired.Split(','))
                 {
                     var videoCorrect = globalControl.videosCorrect.FirstOrDefault(x => x.Key.videoId == videoId);
-                    if (videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)) && !videoCorrect.Value)
+                    if (!videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)) && !videoCorrect.Value)
                     {
                         requirementsFailed = true;
                     }
                 }
                 if (requirementsFailed) { continue; }
             }
+            requirementsFailed = false;
+
             if (email.incorrectRequired != null)
             {
-                foreach (var videoId in email.correctRequired.Split(','))
+                foreach (var videoId in email.incorrectRequired.Split(','))
                 {
                     var videoCorrect = globalControl.videosCorrect.FirstOrDefault(x => x.Key.videoId == videoId);
-                    if (videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)) && videoCorrect.Value)
+                    if (!videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)) && videoCorrect.Value)
                     {
                         requirementsFailed = true;
                     }
@@ -80,7 +91,8 @@ public class EmailManager : MonoBehaviour
 
             var emailItem = Instantiate(emailPrefab, emailListArea, false);
             RectTransform emailItemRectTransform = emailItem.GetComponent<RectTransform>();
-            emailItemRectTransform.anchoredPosition += (i * emailItemRectTransform.sizeDelta.y * Vector2.down);
+            size = emailItemRectTransform.sizeDelta.y;
+            emailItemRectTransform.anchoredPosition += (i * size * Vector2.down);
             emailItem.name = "EmailItem";
 
             var emailListObject = emailItem.GetComponent<EmailListObject>();
@@ -93,13 +105,13 @@ public class EmailManager : MonoBehaviour
         }
         uiManager.AssignButtonListeners(transform.GetChild(0).gameObject);
         emailBodyText.transform.parent.gameObject.SetActive(false);
-        composedEmail.SetActive(false);
+        emailListArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, i * size);
     }
 
 
     private void GenerateCalender()
     {
-        DateTime calenderStartDate = new DateTime(2023, 8, 28);
+        DateTime calenderStartDate = new DateTime(2025, 4, 28);
         DateTime date = calenderStartDate;
         for (int i = 0; i < 7; i++)
         {
@@ -130,7 +142,7 @@ public class EmailManager : MonoBehaviour
             var dayText = calenderDayObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
             dayText.text = dayName;
 
-            if (date.Month != 9)
+            if (date.Month != globalControl.dateTime.Month)
             {
                 dayText.color = Color.grey;
             }

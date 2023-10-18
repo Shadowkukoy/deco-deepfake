@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -20,4 +22,15 @@ public class Email
     public string imageDir;
     public string correctRequired;
     public string incorrectRequired;
+
+    internal bool Completed(GlobalControlScript globalControl)
+    {
+        var videoCorrect = globalControl.videosCorrect.FirstOrDefault(x => x.Key.videoId == videoId);
+        return !videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>));
+    }
+
+    internal bool SentOnDate(DateTime date)
+    {
+        return date.Date == DateTime.Parse(sendDate).Date;
+    }
 }

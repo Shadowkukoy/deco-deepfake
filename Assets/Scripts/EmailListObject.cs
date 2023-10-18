@@ -23,7 +23,7 @@ public class EmailListObject : MonoBehaviour
         headerText.text = email.emailTitle;
         senderText.text = email.emailSender;
         tagText.text = email.tagName;
-        dateText.text = globalControl.dateTime.Date == DateTime.Parse(email.sendDate).Date ? email.sendTime: email.sendDate;
+        dateText.text = email.SentOnDate(globalControl.dateTime) ? email.sendTime: email.sendDate;
 
         if (!email.attachmentFlag)
         {
@@ -46,16 +46,15 @@ public class EmailListObject : MonoBehaviour
         {
             if (email.videoId != null)
             {
-                var videoCorrect = globalControl.videosCorrect.FirstOrDefault(x => x.Key.videoId == email.videoId);
-                if (videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)))
-                {
-                    SetTagColor();
-                }
-                else
+                if (email.Completed(globalControl))
                 {
                     tagBox.color = Color.green;
 
                     tagText.text = "Completed";
+                }
+                else
+                {
+                    SetTagColor();
                 }
             }
             else
