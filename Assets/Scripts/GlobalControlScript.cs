@@ -409,15 +409,14 @@ public class GlobalControlScript : MonoBehaviour
                 yield return new WaitWhile(() => audioSource.isPlaying);
 
                 StartCoroutine(uiManager.PopIn(uiManager.canvas.transform.Find("Black/EndOfDemo").gameObject));
+
+                yield return new WaitForSeconds(3);
+
+                StartCoroutine(uiManager.PopIn(endOfDayArticlePrompt.gameObject));
+
+                yield return new WaitUntil(() => Input.anyKey);
+                Application.Quit();
             }
-
-
-            yield return new WaitForSeconds(3);
-
-            StartCoroutine(uiManager.PopIn(endOfDayArticlePrompt.gameObject));
-
-            yield return new WaitUntil(() => Input.anyKey);
-            Application.Quit();
         }
         else
         {
