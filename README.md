@@ -31,7 +31,7 @@ Progression through the game is intended to provide tangential learning outcomes
 
 ## Instructions to run
 
-In addition to the raw project code base, the zip file contains a build file that allows the project to be run simply as a standalone app.
+The project was created using Unity version 2023.1.7f1. In addition to the raw project code base, the zip file contains a build file that allows the project to be run simply as a standalone app.
 
 ## Contributors
 
