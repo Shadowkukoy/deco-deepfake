@@ -142,7 +142,7 @@ public class EmailManager : MonoBehaviour
         DateTime date = calenderStartDate;
         for (int i = 0; i < 7; i++)
         {
-            var dayName = date.DayOfWeek.HumanName().Substring(0,2);
+            var dayName = date.ToString("ddd").Substring(0,2);
             var calenderDayObject = Instantiate(calenderDayPrefab, calender.transform);
             RectTransform calenderDayObjetRectTransform = calenderDayObject.GetComponent<RectTransform>();
 
