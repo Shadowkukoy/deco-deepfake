@@ -882,7 +882,7 @@ public class UIManager
     internal void ChangeVideoPosition(Vector2 rawDelta)
     {
         var uvRectCentreOffset = videoRawImage.uvRect.position;
-        uvRectCentreOffset += rawDelta / videoZoom * 0.01f;
+        uvRectCentreOffset += rawDelta / (videoZoom) / videoPlayer.GetComponent<RectTransform>().sizeDelta.y;
         uvRectCentreOffset = new Vector2(Mathf.Clamp(uvRectCentreOffset.x, 0, 1 - (1 / videoZoom)), Mathf.Clamp(uvRectCentreOffset.y, 0, 1 - (1 / videoZoom)));
         videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
     }
