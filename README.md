@@ -35,9 +35,9 @@ In addition to the raw project code base, the zip file contains a build file tha
 
 ## Contributors
 
-Nathan Chan
-Richard Chantra
-Benjamin Dwyer
-Chantelle Khoo
-Catherine Lim
+Nathan Chan,
+Richard Chantra,
+Benjamin Dwyer,
+Chantelle Khoo,
+Catherine Lim,
 Luke Ting-Williams
