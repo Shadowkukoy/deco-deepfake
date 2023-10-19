@@ -70,9 +70,11 @@ public class UIManager
     private Email selectedEmail;
     public int timesRejected = 0;
     internal MeetingAreaScript meetingArea;
-    private Meeting meeting;
+    public Meeting meeting;
     private string currentMeetingButtonName;
     internal VideoPlayer facemeshVideoPlayer;
+    internal Image blackImage;
+    internal UnityEngine.Transform black;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -474,7 +476,7 @@ public class UIManager
                 break;
             case "HomePageScene.ConfirmMeetingEndButton":
                 PlaySound(normalClick);
-                EndMeeting();
+                globalControl.EndMeeting();
                 break;
             case "HomePageScene.BackMeetingEndButton":
                 PlaySound(normalClick);
@@ -496,14 +498,11 @@ public class UIManager
 
     private void MeetingVideoPlayer_loopPointReached(VideoPlayer source)
     {
+        source.Pause();
         globalControl.Invoke("EndMeeting", 1);
     }
 
-    private void EndMeeting()
-    {
-        globalControl.dateTime = globalControl.dateTime.AddHours(meeting.advanceTimeHours);
-        globalControl.StartCoroutine(PopOut(meetingArea.gameObject));
-    }
+
 
     private IEnumerator DisplayMeetingDialogBox(string message, string buttonName)
     {

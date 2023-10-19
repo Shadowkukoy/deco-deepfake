@@ -58,4 +58,6 @@ MonoBehaviour:
     deepfaked: 0
   quickTextSkip: 0
   emails: []
+  articles: []
   inboxJsonFile: {fileID: 4900000, guid: f8fb9fb036be8fc42a3b1c6173c1b083, type: 3}
+  articlesJsonFile: {fileID: 4900000, guid: 45d6b4b9e9905154b83a4ce60976b51d, type: 3}

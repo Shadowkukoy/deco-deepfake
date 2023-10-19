@@ -14,6 +14,7 @@ using Newtonsoft.Json.Linq;
 using TMPro;
 using System.IO;
 using static UnityEngine.ParticleSystem;
+using System.Linq;
 
 public class GlobalControlScript : MonoBehaviour
 {
@@ -37,8 +38,10 @@ public class GlobalControlScript : MonoBehaviour
     public Dictionary<VideoInfo, bool> videosCorrect;
     public bool quickTextSkip = false;
     public List<Email> emails;
+    public List<Article> articles;
     public Dictionary<Email,bool> read;
     public TextAsset inboxJsonFile;
+    public TextAsset articlesJsonFile;
 
     void Start()
     {
@@ -70,6 +73,14 @@ public class GlobalControlScript : MonoBehaviour
             var meeting = JsonUtility.FromJson<Meeting>(meetingJObject.ToString());
 
             meetings.Add(meeting);
+        }
+
+        var articlesJArray = JArray.Parse(articlesJsonFile.text);
+        foreach (var articleJObject in articlesJArray)
+        {
+            var article = JsonUtility.FromJson<Article>(articleJObject.ToString());
+
+            articles.Add(article);
         }
 
         dateTime = StartDate;
@@ -200,7 +211,11 @@ public class GlobalControlScript : MonoBehaviour
         }
     }
 
-
+    public void EndMeeting()
+    {
+        dateTime = dateTime.AddHours(uiManager.meeting.advanceTimeHours);
+        StartCoroutine(uiManager.PopOut(uiManager.meetingArea.gameObject));
+    }
     public IEnumerator VideoStuffCoroutine()
     {
         while (true)
@@ -220,7 +235,70 @@ public class GlobalControlScript : MonoBehaviour
     {
         dateTime = dateTime.Date.AddDays(1).AddHours(DayStartTime);
         uiManager.managerCall = false;
+        StartCoroutine(EndDayCoroutine());
+    }
+
+    private IEnumerator EndDayCoroutine()
+    {
+        //Fade to black
+        yield return StartCoroutine(FadeToBlack());
+        var endOfDayArticle = uiManager.canvas.transform.Find("EndOfDayArticle");
+        Article articleToShow = null;
+        foreach (var article in articles) {
+            if (DateTime.Parse(article.articleDate).Date != dateTime.Date) continue;
+            var requirementsFailed = false;
+            if (article.correctRequired != null)
+            {
+                foreach (var videoId in article.correctRequired.Split(','))
+                {
+                    var videoCorrect = videosCorrect.FirstOrDefault(x => x.Key.videoId == videoId);
+                    if (!videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)) && !videoCorrect.Value)
+                    {
+                        requirementsFailed = true;
+                    }
+                }
+                if (requirementsFailed) { continue; }
+            }
+            requirementsFailed = false;
+
+            if (article.incorrectRequired != null)
+            {
+                foreach (var videoId in article.incorrectRequired.Split(','))
+                {
+                    var videoCorrect = videosCorrect.FirstOrDefault(x => x.Key.videoId == videoId);
+                    if (!videoCorrect.Equals(default(KeyValuePair<VideoInfo, bool>)) && videoCorrect.Value)
+                    {
+                        requirementsFailed = true;
+                    }
+                }
+                if (requirementsFailed) { continue; }
+            }
+
+            if (!requirementsFailed) 
+            { 
+                articleToShow = article; break; 
+            }
+        }
+
+        endOfDayArticle.GetComponent<Image>().sprite = Resources.Load<Sprite>(articleToShow.articleDir);
+        endOfDayArticle.transform.SetAsLastSibling();
+        yield return StartCoroutine(uiManager.PopIn(endOfDayArticle.gameObject));
+
         Invoke("ShowManagerCall", 5);
+    }
+
+    private IEnumerator FadeToBlack()
+    {
+        uiManager.black = uiManager.canvas.transform.Find("Black");
+        uiManager.black.gameObject.SetActive(true);
+        uiManager.blackImage = uiManager.black.GetComponent<Image>();
+        uiManager.black.SetAsLastSibling();
+        uiManager.blackImage.color = new Color(0, 0, 0, 0);
+        for (int i = 0; i < 100; i++)
+        {
+            uiManager.blackImage.color += Color.black / 100f;
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     private void ShowManagerCall()
