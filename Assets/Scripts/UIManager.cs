@@ -986,6 +986,7 @@ public class UIManager
         else
         {
             videoPlayer.transform.SetAsLastSibling();
+            facemeshVideoPlayer.frame = videoPlayer.frame;
         }
     }
 
