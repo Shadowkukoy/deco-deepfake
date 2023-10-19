@@ -125,6 +125,16 @@ public class EmailManager : MonoBehaviour
         }
     }
 
+    public void RefreshCalender()
+    {
+        var calenderArea = transform.Find("EmailSideBar/CalenderButton");
+        for (int i = 0; i < calenderArea.childCount; i++)
+        {
+            Destroy(calenderArea.GetChild(i).gameObject);
+        }
+
+        GenerateCalender();
+    }
 
     private void GenerateCalender()
     {

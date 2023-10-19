@@ -43,6 +43,7 @@ public class GlobalControlScript : MonoBehaviour
     public TextAsset inboxJsonFile;
     public TextAsset articlesJsonFile;
     private bool showEmailsOnLoad;
+    public readonly DateTime TwistDate = new DateTime(2025, 5, 15);
 
     void Start()
     {
@@ -303,7 +304,7 @@ public class GlobalControlScript : MonoBehaviour
                 articleToShow = article; break; 
             }
         }
-
+        Debug.Log(dateTime);
         endOfDayArticle.GetComponent<Image>().sprite = Resources.Load<Sprite>(articleToShow.articleDir);
         yield return StartCoroutine(uiManager.PopIn(endOfDayArticle.gameObject));
         endOfDayArticle.transform.SetAsLastSibling();
@@ -321,9 +322,64 @@ public class GlobalControlScript : MonoBehaviour
         yield return new WaitForSeconds(1);
         yield return StartCoroutine(uiManager.PopOut(nextDayText.gameObject));
 
+
+        if (dateTime.Date == TwistDate.AddDays(1))
+        {
+            yield return new WaitForSeconds(1);
+
+            if (videosCorrect[videoInfos.FirstOrDefault(x => x.videoId == "ICantBelieveItsNotBen")])
+            {
+                Invoke("ShowManagerCall", 3);
+            }
+            else
+            {
+                var sound = uiManager.PlaySoundWithReturn(uiManager.vibration);
+                yield return new WaitForSeconds(3);
+                Destroy(sound);
+                yield return new WaitForSeconds(1);
+                if (videosCorrect[videoInfos.FirstOrDefault(x => x.videoId == "VoteTwice")])
+                {
+                    if (videosCorrect[videoInfos.FirstOrDefault(x => x.videoId == "PeterDuttonIncomeAssistance")])
+                    {
+                        sound = uiManager.PlaySoundWithReturn(uiManager.badDay3);
+                    }
+                    else
+                    {
+                        sound = uiManager.PlaySoundWithReturn(uiManager.badDay3Dutton);
+                    }
+                }
+                else
+                {
+                    if (videosCorrect[videoInfos.FirstOrDefault(x => x.videoId == "PeterDuttonIncomeAssistance")])
+                    {
+                        sound = uiManager.PlaySoundWithReturn(uiManager.badDay3Albo);
+                    }
+                    else
+                    {
+                        sound = uiManager.PlaySoundWithReturn(uiManager.badDay3AlboDutton);
+                    }
+                }
+
+                var audioSource = sound.GetComponent<AudioSource>();
+                yield return new WaitWhile(() => audioSource.isPlaying);
+            }
+
+            StartCoroutine(uiManager.PopIn(uiManager.canvas.transform.Find("Black/EndOfDemo").gameObject));
+
+            yield return new WaitForSeconds(3);
+
+            StartCoroutine(uiManager.PopIn(endOfDayArticlePrompt.gameObject));
+
+            yield return new WaitUntil(() => Input.anyKey);
+            Application.Quit();
+        }
+        else
+        {
+            Invoke("ShowManagerCall", 3);
+        }
+
         yield return StartCoroutine(FadeOutFromBlack());
 
-        Invoke("ShowManagerCall", 3);
     }
 
     private IEnumerator FadeToBlack()

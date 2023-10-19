@@ -59,6 +59,11 @@ public class UIManager
     public AudioClip windowsBootSound = (AudioClip)Resources.Load("Windows_sound");
     public AudioClip openingMusic = (AudioClip)Resources.Load("opening1");
     public AudioClip ringtone = (AudioClip)Resources.Load("Ringtone");
+    public AudioClip vibration = (AudioClip)Resources.Load("vibration");
+    public AudioClip badDay3 = (AudioClip)Resources.Load("BadDay3");
+    public AudioClip badDay3Albo = (AudioClip)Resources.Load("BadDay3Albo");
+    public AudioClip badDay3Dutton = (AudioClip)Resources.Load("BadDay3Dutton");
+    public AudioClip badDay3AlboDutton = (AudioClip)Resources.Load("BadDay3AlboDutton");
     public Sprite playImage = Resources.Load<Sprite>("playimage");
     public Sprite pauseImage = Resources.Load<Sprite>("pauseimage");
     internal TypeWriter aboutUsTypeWriter;
@@ -75,7 +80,6 @@ public class UIManager
     internal VideoPlayer facemeshVideoPlayer;
     internal Image blackImage;
     internal UnityEngine.Transform black;
-    private readonly DateTime TwistDate = new DateTime(2025, 5, 15);
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -167,13 +171,13 @@ public class UIManager
                     // thought a real video was deepfaked
                     globalControl.videosCorrect[globalControl.currentVideoInfo] = false;
                 }
-                if (globalControl.dateTime.Date == TwistDate)
+                if (globalControl.dateTime.Date == globalControl.TwistDate)
                 {
                     int completedToday = GetEmailVideosCompletedToday();
 
-                    if (completedToday >= 2)
+                    if (completedToday == 2)
                     {
-                        globalControl.dateTime = globalControl.dateTime.AddHours(6);
+                        globalControl.dateTime = globalControl.dateTime.Date.AddHours(18);
                     }
                     Debug.Log(completedToday);
                 }
@@ -192,13 +196,13 @@ public class UIManager
                     // correctly identified a real video as real
                     globalControl.videosCorrect[globalControl.currentVideoInfo] = true;
                 }
-                if (globalControl.dateTime.Date == TwistDate)
+                if (globalControl.dateTime.Date == globalControl.TwistDate)
                 {
                     int completedToday = GetEmailVideosCompletedToday();
 
-                    if (completedToday >= 2)
+                    if (completedToday == 2)
                     {
-                        globalControl.dateTime = globalControl.dateTime.AddHours(6);
+                        globalControl.dateTime = globalControl.dateTime.Date.AddHours(18);
                     }
                     Debug.Log(completedToday);
                 }
@@ -614,6 +618,19 @@ public class UIManager
             AudioSource audioSource = audioObject.GetComponent<AudioSource>();
             audioSource.PlayOneShot(audioClip);
         }
+    }
+
+    public GameObject PlaySoundWithReturn(AudioClip audioClip)
+    {
+        if (soundOn)
+        {
+            GameObject audioObject = new GameObject();
+            audioObject.AddComponent<AudioSource>();
+            AudioSource audioSource = audioObject.GetComponent<AudioSource>();
+            audioSource.PlayOneShot(audioClip);
+            return audioObject;
+        }
+        return null;
     }
 
     internal void ZoomMouseDown()

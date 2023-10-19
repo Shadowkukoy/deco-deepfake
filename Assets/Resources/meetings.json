@@ -46,16 +46,6 @@
     "delays": "",
     "advanceTimeHours": 4,
     "correctRequiredCount": 2
-  },
-  {
-    "videoDir": "Videos/MeetingVideos/BadDay3Albo",
-    "date": "16 May 2025",
-    "subTitleText": "",
-    "delays": "",
-    "advanceTimeHours": 4,
-    "correctRequiredCount": 1,
-    "incorrectRequiredCount": 1,
-    "incorrectRequiredVideoId":  "VoteTwice"
-  },
+  }
 
 ]
