@@ -23,46 +23,46 @@
   },
   {
     "articleDir": "Images/EndOfDayArticles/Day 2 - Headline (C, I)",
-    "articleDate": "14 May 2025",
+    "articleDate": "15 May 2025",
     "incorrectRequired": "TooMuchTrafficForImmigrants",
     "correctRequired": "GeneralLackOfFaith"
   },
   {
     "articleDir": "Images/EndOfDayArticles/Day 2 - Headline (I, C)",
-    "articleDate": "14 May 2025",
+    "articleDate": "15 May 2025",
     "incorrectRequired": "GeneralLackOfFaith",
     "correctRequired": "TooMuchTrafficForImmigrants"
   },
   {
     "articleDir": "Images/EndOfDayArticles/Day 2 - Headline (I, I)",
-    "articleDate": "14 May 2025",
+    "articleDate": "15 May 2025",
     "incorrectRequired": "TooMuchTrafficForImmigrants,GeneralLackOfFaith"
   },
   {
     "articleDir": "Images/EndOfDayArticles/Day 2 - Headline (C, C)",
-    "articleDate": "14 May 2025",
+    "articleDate": "15 May 2025",
     "correctRequired": "TooMuchTrafficForImmigrants,GeneralLackOfFaith"
   },
   {
     "articleDir": "Images/EndOfDayArticles/Day 3 - Headline (C, I)",
-    "articleDate": "14 May 2025",
+    "articleDate": "16 May 2025",
     "incorrectRequired": "PeterDuttonIncomeAssistance",
     "correctRequired": "VoteTwice"
   },
   {
     "articleDir": "Images/EndOfDayArticles/Day 3 - Headline (I, C)",
-    "articleDate": "14 May 2025",
+    "articleDate": "16 May 2025",
     "incorrectRequired": "VoteTwice",
     "correctRequired": "PeterDuttonIncomeAssistance"
   },
   {
     "articleDir": "Images/EndOfDayArticles/Day 3 - Headline (I, I)",
-    "articleDate": "14 May 2025",
+    "articleDate": "16 May 2025",
     "incorrectRequired": "VoteTwice,PeterDuttonIncomeAssistance"
   },
   {
     "articleDir": "Images/EndOfDayArticles/Day 3 - Headline (C, C)",
-    "articleDate": "14 May 2025",
+    "articleDate": "16 May 2025",
     "correctRequired": "VoteTwice,PeterDuttonIncomeAssistance"
   }
 ]
