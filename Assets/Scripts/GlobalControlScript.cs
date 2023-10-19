@@ -44,13 +44,15 @@ public class GlobalControlScript : MonoBehaviour
     public TextAsset articlesJsonFile;
     private bool showEmailsOnLoad;
     public readonly DateTime TwistDate = new DateTime(2025, 5, 15);
-
+    public GameObject tutorialFocusPrefab;
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
         
         uiManager = new UIManager();
+        uiManager.firstTimeEmail = true;
+        uiManager.firstTimeDeepfake = true;
         uiManager.globalControl = this; //this is disgusting
 
         videosCorrect = new Dictionary<VideoInfo, bool>();
@@ -60,6 +62,7 @@ public class GlobalControlScript : MonoBehaviour
         aboutPagePrefab = Resources.Load<GameObject>("Prefabs/AboutUsPagePrefab");
         settingsPagePrefab = Resources.Load<GameObject>("Prefabs/OptionsPagePrefab");
         emailsPagePrefab = Resources.Load<GameObject>("Prefabs/EmailsPagePrefab");
+        tutorialFocusPrefab = Resources.Load<GameObject>("Prefabs/TutorialFocusPrefab");
 
         var videoInfosJArray = JArray.Parse(videoInfosJsonFile.text);
         foreach (var videoInfoJObject in videoInfosJArray)
@@ -101,7 +104,8 @@ public class GlobalControlScript : MonoBehaviour
 
         uiManager.aboutUsPage = Instantiate(aboutPagePrefab, canvas.transform);
         uiManager.optionsPage = Instantiate(settingsPagePrefab, canvas.transform);
-
+        uiManager.tutorialFocusControl = Instantiate(tutorialFocusPrefab, canvas.transform).GetComponent<TutorialFocusControl>();
+        uiManager.tutorialFocusControl.gameObject.SetActive(false);
         if (canvas != null)
         {
             uiManager.canvas = canvas.GetComponent<Canvas>();
@@ -139,9 +143,26 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.yesNoVideoArea = GameObject.Find("YesNoVideoArea");
                 uiManager.deepFakeSceneTypeWriter = uiManager.yesNoVideoArea.transform.GetChild(0).GetComponent<TypeWriter>();
                 StartCoroutine(VideoStuffCoroutine());
-                uiManager.deepFakeSceneTypeWriter.LoadNextText(uiManager.deepFakeSceneTypeWriter.gameObject);
-                uiManager.deepFakeSceneTypeWriter.CompleteTextRevealed += DeepFakeSceneTypeWriter_CompleteTextRevealed;
+
                 showEmailsOnLoad = true;
+                if (currentVideoInfo.videoId == "ICantBelieveItsNotBen")
+                {
+                    uiManager.deepFakeSceneTypeWriter.gameObject.GetComponent<TextMeshProUGUI>().text = "> This video was manually added to the deepfake detection suite\n> Is this video deepfaked?";
+                }
+                if (uiManager.firstTimeDeepfake)
+                {
+                    StartCoroutine(uiManager.DeepfakeTutorialRoutine());
+
+                    uiManager.firstTimeDeepfake = false;
+                }
+                else
+                {
+                    uiManager.deepFakeSceneTypeWriter.LoadNextText(uiManager.deepFakeSceneTypeWriter.gameObject);
+                    uiManager.deepFakeSceneTypeWriter.CompleteTextRevealed += DeepFakeSceneTypeWriter_CompleteTextRevealed;
+                }
+
+
+
                 break;
             case "HomePageScene":
                 InstantiateEmailsPage();
@@ -191,7 +212,7 @@ public class GlobalControlScript : MonoBehaviour
         }
     }
 
-    private void DeepFakeSceneTypeWriter_CompleteTextRevealed()
+    public void DeepFakeSceneTypeWriter_CompleteTextRevealed()
     {
         var yesButton = uiManager.canvas.transform.Find("YesNoVideoArea/YesButton").gameObject;
         var noButton = uiManager.canvas.transform.Find("YesNoVideoArea/NoButton").gameObject;
@@ -244,6 +265,11 @@ public class GlobalControlScript : MonoBehaviour
     {
         while (true)
         {
+            if (uiManager.firstTimeDeepfake)
+            {
+                yield return null;
+                continue;
+            }
             yield return null;
 
             ZoomControls();

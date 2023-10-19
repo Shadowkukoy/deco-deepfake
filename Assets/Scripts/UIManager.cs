@@ -80,6 +80,9 @@ public class UIManager
     internal VideoPlayer facemeshVideoPlayer;
     internal Image blackImage;
     internal UnityEngine.Transform black;
+    public bool firstTimeEmail;
+    public bool firstTimeDeepfake;
+    public TutorialFocusControl tutorialFocusControl;
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -345,6 +348,12 @@ public class UIManager
                 else
                 {
                     globalControl.ShowEmailsPage();
+                    if (managerCall && firstTimeEmail)
+                    {
+                        firstTimeEmail = false;
+
+                        globalControl.StartCoroutine(EmailTutorialRoutine());
+                    }
                 }
                 emailsPageShowing = !emailsPageShowing;
                 break;
@@ -514,6 +523,36 @@ public class UIManager
                 Debug.LogWarning($"Unknown button with name: {buttonIdentifier} and id: {id}");
                 break;
         }
+    }
+
+    public IEnumerator EmailTutorialRoutine()
+    {
+        tutorialFocusControl.gameObject.SetActive(true);
+        tutorialFocusControl.transform.SetAsLastSibling();
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(0,0), "Welcome to the ASIO email system"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(-100,-40), "The calender shows the current date"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(100,100), "This is where you will recieve emails"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(100, 100), "Some of these emails contain videos which you must review"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(-100,100), "Once you have reviewed all available videos in a day, you will compose a message and send a status report to Ben McRae"));
+        tutorialFocusControl.gameObject.SetActive(false);
+    }
+
+    public IEnumerator DeepfakeTutorialRoutine()
+    {
+        tutorialFocusControl.gameObject.SetActive(true);
+        tutorialFocusControl.transform.SetAsLastSibling();
+        videoPlayer.Pause();
+        facemeshVideoPlayer.Pause();
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(0, 0), "Welcome to the ASIO video analysis suite"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(100, 100), "Here is where you will analyse vidoes to determine if they are deepfaked"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(150, 0), "You can use the tools to help you make a decision, but the greatest tool will be your own attention to detail"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(-150, -100), "Once you have made a decision, you can use the 'yes' and 'no' buttons to select whether the video is deepfaked"));
+        videoPlayer.Play();
+        facemeshVideoPlayer.Play();
+        tutorialFocusControl.gameObject.SetActive(false);
+
+        deepFakeSceneTypeWriter.LoadNextText(deepFakeSceneTypeWriter.gameObject);
+        deepFakeSceneTypeWriter.CompleteTextRevealed += globalControl.DeepFakeSceneTypeWriter_CompleteTextRevealed;
     }
 
     private int GetEmailVideosCompletedToday()
