@@ -54,6 +54,8 @@
     "completedFlag": false,
     "emailMessage": "Please analyse this video and report on whether it is a deepfake.\n\nSome context that you may find useful:\n\nSky News has been ramping up political attacks on Labor over the past week.",
     "emailSignOff": 3,
+    "tagName": "High Priority",
+    "tagColor": "#FB4C2FFF",
     "attachmentFlag": true,
     "videoId": "AlbosPrivateJet"
   },
@@ -65,6 +67,8 @@
     "sendDate": "13 May 2025",
     "highPriorityFlag": true,
     "completedFlag": false,
+    "tagName": "High Priority",
+    "tagColor": "#FB4C2FFF",
     "emailMessage": "Please analyse this video and report on whether it is a deepfake.\n\nSome context that you may find useful:\n\nLabor released some new policies last night, which were promptly reported by the media. This video was supposedly from one such news report.",
     "emailSignOff": 3,
     "attachmentFlag": true,
@@ -122,6 +126,8 @@
     "sendDate": "14 May 2025",
     "highPriorityFlag": true,
     "completedFlag": false,
+    "tagName": "High Priority",
+    "tagColor": "#FB4C2FFF",
     "emailMessage": "Please analyse this video and report on whether it is a deepfake.\n\nSome context that you may find useful:\n\nParty leaders have been giving interviews with the media lately to drum up support from their voter bases.",
     "attachmentFlag": true,
     "videoId": "TooMuchTrafficForImmigrants"
@@ -134,6 +140,8 @@
     "sendDate": "14 May 2025",
     "highPriorityFlag": true,
     "completedFlag": false,
+    "tagName": "High Priority",
+    "tagColor": "#FB4C2FFF",
     "emailMessage": "Please analyse this video and report on whether it is a deepfake.\n\nSome context that you may find useful:\n\nSome popular figures have come out in support of or against the current government. These have mostly been media figures, but some public officials have also made statements.",
     "attachmentFlag": true,
     "videoId": "GeneralLackOfFaith"
@@ -190,6 +198,8 @@
     "sendDate": "15 May 2025",
     "highPriorityFlag": true,
     "completedFlag": false,
+    "tagName": "High Priority",
+    "tagColor": "#FB4C2FFF",
     "emailMessage": "Please analyse this video and report on whether it is a deepfake.\n\nSome context that you may find useful:\n\nBoth major parties gave speeches last night, where some last minute policies were unveiled. This video is reportedly from Anthony Albanese's speech last night. Labor has been pushing Indigenous issues quite strongly this election cycle.",
     "attachmentFlag": true,
     "videoId": "VoteTwice"
@@ -202,6 +212,8 @@
     "sendDate": "15 May 2025",
     "highPriorityFlag": true,
     "completedFlag": false,
+    "tagName": "High Priority",
+    "tagColor": "#FB4C2FFF",
     "emailMessage": "Please analyse this video and report on whether it is a deepfake.\n\nSome context that you may find useful:\n\nBoth major parties gave speeches last night, where some last minute policies were unveiled. This video is reportedly from Peter Dutton's speech last night. The Coalition has been pushing hard on welfare and balancing the budget this cycle.",
     "attachmentFlag": true,
     "videoId": "PeterDuttonIncomeAssistance"
