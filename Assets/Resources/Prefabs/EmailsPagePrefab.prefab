@@ -687,15 +687,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'sldkfjklsdjfkls dlskdjfsdklfsdklfjsdklf
+  m_text: 'Dear Ben McRae
 
-    sdkljfjsdklfjsdklf
 
-    sjkldfksdlfjsdf
-
-    kdsjfklsdjfdkl
-
-    dkdksfdksd'
+    Just finished up for today, I have entered whether
+    the videos you sent are deepfaked. Thanks for the advice yesterday Chooks McNugget!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -776,13 +772,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e688236079f72d478c0707ac6755d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charPerSecond: 50
+  charPerSecond: 75
   interpunctuationDelay: 0.02
   quickSkip: 0
   skipSpeedup: 10
   sendDoneDelay: 0.25
-  automatic: 0
-  sound: 1
+  automatic: 1
+  sound: 0
 --- !u!1 &2338577025400207003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1570,8 +1566,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 125, y: -35}
-  m_SizeDelta: {x: -250, y: -70}
+  m_AnchoredPosition: {x: 100, y: -35}
+  m_SizeDelta: {x: -200, y: -70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4929024203105857172
 CanvasRenderer:
@@ -2384,7 +2380,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2713756851052504076}
   m_HandleRect: {fileID: 3073108559651756561}
   m_Direction: 2
-  m_Value: 0.99994767
+  m_Value: 0
   m_Size: 0.9762712
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2531,7 +2527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00071097666}
+  m_AnchoredPosition: {x: 0, y: 14.000031}
   m_SizeDelta: {x: 0, y: 590}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &8248845087092736813

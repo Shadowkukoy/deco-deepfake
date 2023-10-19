@@ -104,6 +104,20 @@ public class GlobalControlScript : MonoBehaviour
 
         uiManager.aboutUsPage = Instantiate(aboutPagePrefab, canvas.transform);
         uiManager.optionsPage = Instantiate(settingsPagePrefab, canvas.transform);
+
+        var optionsQuickTextToggle = uiManager.optionsPage.transform.Find("OptionsTextQuickLoadToggle").GetComponent<Toggle>();
+        if (optionsQuickTextToggle.isOn != quickTextSkip)
+        {
+            optionsQuickTextToggle.isOn= quickTextSkip;
+            uiManager.SliderToggleAnimation(optionsQuickTextToggle);
+        }
+        var optionsSoundToggle = uiManager.optionsPage.transform.Find("OptionsSoundToggle").GetComponent<Toggle>();
+        if (optionsSoundToggle.isOn != UIManager.soundOn)
+        {
+            optionsSoundToggle.isOn = UIManager.soundOn;
+            uiManager.SliderToggleAnimation(optionsSoundToggle);
+        }
+
         uiManager.tutorialFocusControl = Instantiate(tutorialFocusPrefab, canvas.transform).GetComponent<TutorialFocusControl>();
         uiManager.tutorialFocusControl.gameObject.SetActive(false);
         if (canvas != null)
@@ -130,6 +144,7 @@ public class GlobalControlScript : MonoBehaviour
                     uiManager.facemeshVideoPlayer.clip = facemeshVideo;
                 }
                 uiManager.videoRawImage = uiManager.videoPlayer.gameObject.GetComponent<RawImage>();
+                uiManager.faceMeshVideoRawImage = uiManager.facemeshVideoPlayer.gameObject.GetComponent<RawImage>();
                 uiManager.postProcessCam = GameObject.Find("PostProcessCam").GetComponent<Camera>();
                 uiManager.noPostCam = GameObject.Find("NoPostCam").GetComponent<Camera>();
                 uiManager.videoScrubber = GameObject.Find("VideoScrubber").GetComponent<Slider>();
@@ -186,6 +201,7 @@ public class GlobalControlScript : MonoBehaviour
                 if (showEmailsOnLoad)
                 {
                     ShowEmailsPage();
+                    uiManager.emailsPageShowing = true;
                     showEmailsOnLoad = false;
                 }
                 break;
@@ -286,13 +302,16 @@ public class GlobalControlScript : MonoBehaviour
         dateTime = dateTime.Date.AddDays(1).AddHours(DayStartTime);
         uiManager.managerCall = false;
         StartCoroutine(EndDayCoroutine());
-        uiManager.ExitEmailsPage();
     }
 
     private IEnumerator EndDayCoroutine()
     {
         //Fade to black
+        var emailCompositionTypeWriter = uiManager.emailsPage.transform.Find("ComposedEmail/EmailBodyText").GetComponent<TypeWriter>();
+        StartCoroutine(uiManager.PopIn(emailCompositionTypeWriter.transform.parent.gameObject));
+        emailCompositionTypeWriter.LoadNextText(emailCompositionTypeWriter.gameObject);
         yield return StartCoroutine(FadeToBlack());
+        StartCoroutine(uiManager.PopOut(emailCompositionTypeWriter.transform.parent.gameObject));
         var endOfDayArticle = uiManager.canvas.transform.Find("Black/EndOfDayArticle");
         Article articleToShow = null;
         foreach (var article in articles) {
@@ -347,7 +366,7 @@ public class GlobalControlScript : MonoBehaviour
         yield return StartCoroutine(uiManager.PopIn(nextDayText.gameObject));
         yield return new WaitForSeconds(1);
         yield return StartCoroutine(uiManager.PopOut(nextDayText.gameObject));
-
+        uiManager.ExitEmailsPage();
 
         if (dateTime.Date == TwistDate.AddDays(1))
         {
@@ -514,18 +533,23 @@ public class GlobalControlScript : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             uiManager.videoPlayer.time = uiManager.videoPlayer.time - 1;
+            uiManager.facemeshVideoPlayer.time = uiManager.videoPlayer.time - 1;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             uiManager.videoPlayer.time = uiManager.videoPlayer.time + 1;
+            uiManager.facemeshVideoPlayer.time = uiManager.videoPlayer.time + 1;
         }
         if (Input.GetKey(KeyCode.Comma))
         {
             uiManager.videoPlayer.frame = uiManager.videoPlayer.frame - 1;
+            uiManager.facemeshVideoPlayer.frame = uiManager.videoPlayer.frame;
+
         }
         if (Input.GetKey(KeyCode.Period))
         {
             uiManager.videoPlayer.frame = uiManager.videoPlayer.frame + 1;
+            uiManager.facemeshVideoPlayer.frame = uiManager.videoPlayer.frame;
         }
     }
 }

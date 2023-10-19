@@ -29,6 +29,7 @@ public class UIManager
 
     public VideoPlayer videoPlayer;
     public RawImage videoRawImage;
+    public RawImage faceMeshVideoRawImage;
     private float videoZoom = 1;
     public Slider zoomSlider;
     public Canvas canvas;
@@ -416,18 +417,22 @@ public class UIManager
             case "DeepFakeScene.StepForwardButton":
                 PlaySound(normalClick);
                 videoPlayer.frame = videoPlayer.frame + 1;
+                facemeshVideoPlayer.frame = videoPlayer.frame;
                 break;
             case "DeepFakeScene.JumpForwardButton":
                 PlaySound(normalClick);
                 videoPlayer.time = videoPlayer.time + 3;
+                facemeshVideoPlayer.time = videoPlayer.time;
                 break;
             case "DeepFakeScene.StepBackwardButton":
                 PlaySound(normalClick);
                 videoPlayer.frame = videoPlayer.frame - 1;
+                facemeshVideoPlayer.frame = videoPlayer.frame;
                 break;
             case "DeepFakeScene.JumpBackwardButton":
                 PlaySound(normalClick);
                 videoPlayer.time = videoPlayer.time - 3;
+                facemeshVideoPlayer.time = videoPlayer.time;
                 break;
             case "HomePageScene.EmailItem":
             case "DeepFakeScene.EmailItem":
@@ -544,7 +549,9 @@ public class UIManager
         videoPlayer.Pause();
         facemeshVideoPlayer.Pause();
         yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(0, 0), "Welcome to the ASIO video analysis suite"));
-        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(100, 100), "Here is where you will analyse vidoes to determine if they are deepfaked"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(-100, 100), "Here is where you will analyse vidoes to determine if they are deepfaked"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(-100, 100), "You can zoom into the video by scrolling in and out, and you can pan by click and dragging the mouse"));
+        yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(-100, 100), "You can use hotkeys to play/pause (space), step forward/back 1 frame (<, >) and use arrows to jump forward/back a second"));
         yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(150, 0), "You can use the tools to help you make a decision, but the greatest tool will be your own attention to detail"));
         yield return globalControl.StartCoroutine(tutorialFocusControl.SetTutorialText(new Vector2(-150, -100), "Once you have made a decision, you can use the 'yes' and 'no' buttons to select whether the video is deepfaked"));
         videoPlayer.Play();
@@ -739,16 +746,7 @@ public class UIManager
         //Code that is run for all toggles that use the slider style type (every toggle for now)
         if (toggle.transition == Selectable.Transition.None)
         {
-            var backdrop = toggle.transform.GetChild(0).GetComponent<RectTransform>();
-            var handle = backdrop.GetChild(0).GetComponent<RectTransform>();
-            if (toggle.isOn)
-            {
-                globalControl.StartCoroutine(ToggleSliderOn(backdrop, handle));
-            }
-            else
-            {
-                globalControl.StartCoroutine(ToggleSliderOff(backdrop, handle));
-            }
+            SliderToggleAnimation(toggle);
         }
         // Code that should run when a toggle is changed
         switch (toggleName)
@@ -833,6 +831,20 @@ public class UIManager
         }
     }
 
+    public void SliderToggleAnimation(Toggle toggle)
+    {
+        var backdrop = toggle.transform.GetChild(0).GetComponent<RectTransform>();
+        var handle = backdrop.GetChild(0).GetComponent<RectTransform>();
+        if (toggle.isOn)
+        {
+            globalControl.StartCoroutine(ToggleSliderOn(backdrop, handle));
+        }
+        else
+        {
+            globalControl.StartCoroutine(ToggleSliderOff(backdrop, handle));
+        }
+    }
+
     private IEnumerator ToggleSliderOn(RectTransform backdrop, RectTransform handle)
     {
         var backdropImage = backdrop.GetComponent<Image>();
@@ -885,6 +897,7 @@ public class UIManager
         uvRectCentreOffset += rawDelta / (videoZoom) / videoPlayer.GetComponent<RectTransform>().sizeDelta.y;
         uvRectCentreOffset = new Vector2(Mathf.Clamp(uvRectCentreOffset.x, 0, 1 - (1 / videoZoom)), Mathf.Clamp(uvRectCentreOffset.y, 0, 1 - (1 / videoZoom)));
         videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
+        faceMeshVideoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
     }
 
     //Zooming needs more stuff to make it feel more fluid but this is at least better than zooming into the corner
@@ -902,8 +915,9 @@ public class UIManager
         }
 
         videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
+        faceMeshVideoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
     }
-    
+
     public IEnumerator PopOut(GameObject element, bool disableElementAtEnd = true)
     {
         int iterations = PopInOutTransitionFrames;
@@ -989,6 +1003,7 @@ public class UIManager
                 }
 
                 videoPlayer.frame = (long) (videoScrubber.value * videoPlayer.frameCount);
+                facemeshVideoPlayer.frame = videoPlayer.frame;
 
                 if (!Input.GetKey(KeyCode.Mouse0)) break;
 
