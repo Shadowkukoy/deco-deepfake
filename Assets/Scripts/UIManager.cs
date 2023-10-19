@@ -534,6 +534,9 @@ public class UIManager
         globalControl.StartCoroutine(PopIn(emailManager.emailBodyText.transform.parent.gameObject));
         emailManager.emailBodyText.transform.parent.gameObject.SetActive(true);
         emailManager.emailBodyText.text = email.emailMessage;
+        emailManager.emailBodyText.transform.parent.Find("EmailHeaderText").GetComponent<TextMeshProUGUI>().text = email.emailTitle;
+        emailManager.emailBodyText.transform.parent.Find("EmailSendDateTimeText").GetComponent<TextMeshProUGUI>().text = $"{email.sendTime} {email.sendDate}";
+        emailManager.emailBodyText.transform.parent.Find("EmailSenderText").GetComponent<TextMeshProUGUI>().text = email.emailSender;
         selectedEmail = email;
         globalControl.read[email] = true;
 

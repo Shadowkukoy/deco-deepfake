@@ -40,8 +40,7 @@ public class EmailListObject : MonoBehaviour
             tagBox.gameObject.SetActive(false);
             RectTransform headerTextRectTransform = headerText.gameObject.GetComponent<RectTransform>();
             headerTextRectTransform.anchoredPosition += Vector2.left * tagBox.GetComponent<RectTransform>().sizeDelta.x;
-
-}
+        }
         else
         {
             if (email.videoId != null)

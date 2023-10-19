@@ -232,7 +232,7 @@
     "emailSignOff": 3,
     "tagName": "High Priority",
     "tagColor": "#FB4C2FFF",
-    "incorrectRequired": "VoteTwice,PeterDuttonIncomeAssistance",
+    "incorrectRequired": "VoteTwice,PeterDuttonIncomeAssistance"
   },
   {
     "index": 19,
