@@ -4,7 +4,7 @@
 
 Deep fakes have in recent years become synonymous with cases of falsified information generated with malicious intent, such as faked political speeches and revenge porn. 
 
-The project aims to provide users with a suite of forensic videos tools to aide in the detection of deep fakes through the lens of a recently recruited analyst for the Australian Security Intelligence Organisation.
+The project aims to provide users with a suite of forensic videos tools to aid in the detection of deep fakes through the lens of a recently recruited analyst for the Australian Security Intelligence Organisation.
 
 Progression through the game is intended to provide tangential learning outcomes for users in terms of their ability to identify deep faked videos.
 
