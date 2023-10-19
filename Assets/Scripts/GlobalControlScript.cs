@@ -183,7 +183,7 @@ public class GlobalControlScript : MonoBehaviour
     }
     public void ShowEmailsPage()
     {
-        StartCoroutine(uiManager.UnNuke(uiManager.emailsPage));
+        StartCoroutine(uiManager.PopIn(uiManager.emailsPage));
         emailManager.RefreshEmail();
         uiManager.emailsPage.transform.SetAsLastSibling();
 
@@ -225,7 +225,7 @@ public class GlobalControlScript : MonoBehaviour
 
     private void ShowManagerCall()
     {
-        StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
+        StartCoroutine(uiManager.PopIn(uiManager.incomingCall));
         uiManager.incomingCall.transform.SetAsLastSibling();
         if (uiManager.timesRejected >= 3) 
         {
@@ -248,7 +248,7 @@ public class GlobalControlScript : MonoBehaviour
         }
         if (uiManager.incomingCall != null)
         {
-            StartCoroutine(uiManager.UnNuke(uiManager.incomingCall));
+            StartCoroutine(uiManager.PopIn(uiManager.incomingCall));
             if (UIManager.soundOn)
             {
                 uiManager.incomingCall.GetComponent<AudioSource>().clip = uiManager.ringtone;

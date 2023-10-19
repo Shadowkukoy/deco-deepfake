@@ -47,6 +47,8 @@ namespace Deepfakes.Typography.TypeWriter
         public bool automatic = false;
 
         private GlobalControlScript globalControl;
+        public bool sound = true;
+
         private void Awake()
         {
             _textBox = GetComponent<TMP_Text>();
@@ -126,7 +128,7 @@ namespace Deepfakes.Typography.TypeWriter
 
             while (_currentVisibleCharacterIndex < textInfo.characterCount + 1) 
             {
-                if (_currentVisibleCharacterIndex % 5 == 0 && UIManager.soundOn)
+                if (_currentVisibleCharacterIndex % 5 == 0 && UIManager.soundOn && sound)
                 {
                     GameObject tmpGameObjAudio = new GameObject();
                     tmpGameObjAudio.AddComponent<AudioSource>();
@@ -149,15 +151,19 @@ namespace Deepfakes.Typography.TypeWriter
                 char character = textInfo.characterInfo[_currentVisibleCharacterIndex].character; //instead of checking the text box.text value as our text might contain text like \n
                 _textBox.maxVisibleCharacters++;
 
-                //if (!CurrentlySkipping &&
-                //    (character == '?' || character == '.' || character == ',' || character == ';' ||
-                //    character == ':' || character == '!' || character == '-'))
-                //{
-                //    yield return _interpunctuationDelay;
-                //}
+                if (automatic &&
+                    (character == '?' || character == '.' || character == ',' || character == ';' ||
+                    character == ':' || character == '!' || character == '-'))
+                {
+                    yield return _interpunctuationDelay;
+                }
                 if (!automatic && character == '>' && _currentVisibleCharacterIndex != 0)
                 {
                     _pauseInCharacters = 1;
+                }
+                else if (automatic && character == '>')
+                {
+                    yield return new WaitForSeconds(1);
                 }
                 if (_pauseInCharacters == 0)
                 {

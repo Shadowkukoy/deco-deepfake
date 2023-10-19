@@ -143,12 +143,12 @@ public class UIManager
                 }
                 else
                 {
-                    globalControl.StartCoroutine(UnNuke(emailManager.videosNotCompleteNotification));
+                    globalControl.StartCoroutine(PopIn(emailManager.videosNotCompleteNotification));
                 }
 
                 break;
             case "HomePageScene.CloseVideosNotCompleteNotificationButton":
-                globalControl.StartCoroutine(Nuke(emailManager.videosNotCompleteNotification));
+                globalControl.StartCoroutine(PopOut(emailManager.videosNotCompleteNotification));
                 break;
 
             case "DeepFakeScene.YesButton":
@@ -189,13 +189,13 @@ public class UIManager
                 //Debug.Log($"{button} test3");
                 if (!metaState)
                 {
-                    globalControl.StartCoroutine(UnNuke(metadataImage.gameObject));
+                    globalControl.StartCoroutine(PopIn(metadataImage.gameObject));
                     metaState = true;
                     metadataImage.transform.SetAsLastSibling();
                 }
                 else
                 {
-                    globalControl.StartCoroutine(Nuke(metadataImage.gameObject));
+                    globalControl.StartCoroutine(PopOut(metadataImage.gameObject));
                     metaState = false;
                 }
                 break;
@@ -212,14 +212,14 @@ public class UIManager
                 PlaySound(normalClick);
                 if (!aboutUsState)
                 {
-                    globalControl.StartCoroutine(UnNuke(aboutUsPage));
+                    globalControl.StartCoroutine(PopIn(aboutUsPage));
                     aboutUsTypeWriter.LoadNextText(aboutUsTypeWriter.gameObject);
                     aboutUsState = true;
                     aboutUsPage.transform.SetAsLastSibling();
                 }
                 else
                 {
-                    globalControl.StartCoroutine(Nuke(aboutUsPage));
+                    globalControl.StartCoroutine(PopOut(aboutUsPage));
                     aboutUsTypeWriter.StopTypeWriter();
                     aboutUsState = false;
                 }
@@ -228,7 +228,7 @@ public class UIManager
                 PlaySound(normalClick);
                 GameObject disclaimer = GameObject.Find("Disclaimer");
                 disclaimerAgreed = true;
-                globalControl.StartCoroutine(Nuke(disclaimer));
+                globalControl.StartCoroutine(PopOut(disclaimer));
                 break;
             case "HomePageScene.HomeButton":
                 PlaySound(normalClick);
@@ -238,7 +238,7 @@ public class UIManager
             case "MainMenuScene.AboutExitButton":
             case "HomePageScene.AboutExitButton":
                 PlaySound(normalClick);
-                globalControl.StartCoroutine(Nuke(aboutUsPage));
+                globalControl.StartCoroutine(PopOut(aboutUsPage));
                 aboutUsTypeWriter.StopTypeWriter();
                 aboutUsState = false;
                 break;
@@ -247,28 +247,28 @@ public class UIManager
                 PlaySound(settingsClick);
                 if (!optionsState)
                 {
-                    globalControl.StartCoroutine(UnNuke(optionsPage));
+                    globalControl.StartCoroutine(PopIn(optionsPage));
                     optionsState = true;
                     optionsPage.transform.SetAsLastSibling();
                 }
                 else
                 {
-                    globalControl.StartCoroutine(Nuke(optionsPage));
+                    globalControl.StartCoroutine(PopOut(optionsPage));
                     optionsState = false;
                 }
                 break;
             case "MainMenuScene.OptionsExitButton":
             case "HomePageScene.OptionsExitButton":
                 PlaySound(normalClick);
-                globalControl.StartCoroutine(Nuke(optionsPage));
+                globalControl.StartCoroutine(PopOut(optionsPage));
                 optionsState = false;
                 break;
             case "HomePageScene.AcceptCallButton":
                 PlaySound(normalClick);
                 managerCall = true;
-                globalControl.StartCoroutine(Nuke(incomingCall));
+                globalControl.StartCoroutine(PopOut(incomingCall));
 
-                globalControl.StartCoroutine(UnNuke(meetingArea.gameObject));
+                globalControl.StartCoroutine(PopIn(meetingArea.gameObject));
                 var meetingVideoPlayer = meetingArea.transform.Find("Video").GetComponent<VideoPlayer>();
                 var emailsYesterday = globalControl.emails.Where(x => x.SentOnDate(globalControl.dateTime.AddDays(-1)));
                 var videosYesterday = new List<VideoInfo>();
@@ -294,9 +294,19 @@ public class UIManager
                 meetingVideoPlayer.clip = Resources.Load<VideoClip>(meeting.videoDir);
                 meetingVideoPlayer.isLooping = true;
                 meetingVideoPlayer.loopPointReached += MeetingVideoPlayer_loopPointReached;
+
+                UnityEngine.Transform chatText = meetingArea.transform.Find("ChatArea/Mask/ChatText");
+                var meetingText = chatText.GetComponent<TextMeshProUGUI>(); 
+                var meetingTypeWriter = chatText.GetComponent<TypeWriter>();
+
+                meetingText.text = meeting.subTitleText;
+                meetingTypeWriter.automatic = true;
+                meetingTypeWriter.sound = false;
+                meetingTypeWriter.LoadNextText(meetingTypeWriter.gameObject);
+
                 break;
             case "HomePageScene.RejectCallButton":
-                globalControl.StartCoroutine(Nuke(incomingCall));
+                globalControl.StartCoroutine(PopOut(incomingCall));
                 globalControl.Invoke("ShowManagerCall", 3);
                 PlaySound(errorClick);
                 timesRejected++;
@@ -305,7 +315,7 @@ public class UIManager
                 PlaySound(normalClick);
                 if (emailsPageShowing)
                 {
-                    globalControl.StartCoroutine(Nuke(emailsPage));
+                    globalControl.StartCoroutine(PopOut(emailsPage));
                 }
                 else
                 {
@@ -394,12 +404,12 @@ public class UIManager
             case "DeepFakeScene.EmailBodyExitButton":
                 PlaySound(normalClick);
                 emailManager.RefreshEmail();
-                globalControl.StartCoroutine(Nuke(emailManager.emailBodyText.transform.parent.gameObject));
+                globalControl.StartCoroutine(PopOut(emailManager.emailBodyText.transform.parent.gameObject));
                 break;
             case "HomePageScene.EmailExitButton":
             case "DeepFakeScene.EmailExitButton":
                 PlaySound(normalClick);
-                globalControl.StartCoroutine(Nuke(emailsPage));
+                globalControl.StartCoroutine(PopOut(emailsPage));
                 emailsPageShowing = false;
                 break;
             case "HomePageScene.EmailAttachmentButton":
@@ -412,13 +422,13 @@ public class UIManager
                 }
                 else
                 {
-                    globalControl.StartCoroutine(UnNuke(emailManager.emailAttachmentViewer));
+                    globalControl.StartCoroutine(PopIn(emailManager.emailAttachmentViewer));
                     emailManager.emailAttachmentViewer.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(selectedEmail.imageDir);
                 }
                 break;
             case "HomePageScene.EmailsAttachmentViewerExitButton":
             case "DeepFakeScene.EmailsAttachmentViewerExitButton":
-                globalControl.StartCoroutine(Nuke(emailManager.emailAttachmentViewer));
+                globalControl.StartCoroutine(PopOut(emailManager.emailAttachmentViewer));
                 break;
             case "HomePageScene.MeetingMuteButton":
                 PlaySound(normalClick);
@@ -451,15 +461,15 @@ public class UIManager
                 PlaySound(normalClick);
                 if (meetingArea.meetingDialogBox.gameObject.activeInHierarchy)
                 {
-                    globalControl.StartCoroutine(Nuke(meetingArea.meetingDialogBox));
+                    globalControl.StartCoroutine(PopOut(meetingArea.meetingDialogBox));
                 }
                 if (meetingArea.confirmMeetingEndDialog.gameObject.activeInHierarchy)
                 {
-                    globalControl.StartCoroutine(Nuke(meetingArea.confirmMeetingEndDialog));
+                    globalControl.StartCoroutine(PopOut(meetingArea.confirmMeetingEndDialog));
                 }
                 else
                 {
-                    globalControl.StartCoroutine(UnNuke(meetingArea.confirmMeetingEndDialog));
+                    globalControl.StartCoroutine(PopIn(meetingArea.confirmMeetingEndDialog));
                 }
                 break;
             case "HomePageScene.ConfirmMeetingEndButton":
@@ -468,11 +478,11 @@ public class UIManager
                 break;
             case "HomePageScene.BackMeetingEndButton":
                 PlaySound(normalClick);
-                globalControl.StartCoroutine(Nuke(meetingArea.confirmMeetingEndDialog));
+                globalControl.StartCoroutine(PopOut(meetingArea.confirmMeetingEndDialog));
                 break;
             case "HomePageScene.AcknowledgeMeetingDialogButton":
                 PlaySound(normalClick);
-                globalControl.StartCoroutine(Nuke(meetingArea.meetingDialogBox));
+                globalControl.StartCoroutine(PopOut(meetingArea.meetingDialogBox));
                 currentMeetingButtonName = null;
                 break;
             default:
@@ -486,24 +496,24 @@ public class UIManager
 
     private void MeetingVideoPlayer_loopPointReached(VideoPlayer source)
     {
-        EndMeeting();
+        globalControl.Invoke("EndMeeting", 1);
     }
 
     private void EndMeeting()
     {
         globalControl.dateTime = globalControl.dateTime.AddHours(meeting.advanceTimeHours);
-        globalControl.StartCoroutine(Nuke(meetingArea.gameObject));
+        globalControl.StartCoroutine(PopOut(meetingArea.gameObject));
     }
 
     private IEnumerator DisplayMeetingDialogBox(string message, string buttonName)
     {
         if (meetingArea.confirmMeetingEndDialog.gameObject.activeInHierarchy)
         {
-            globalControl.StartCoroutine(Nuke(meetingArea.confirmMeetingEndDialog));
+            globalControl.StartCoroutine(PopOut(meetingArea.confirmMeetingEndDialog));
         }
         if (meetingArea.meetingDialogBox.gameObject.activeInHierarchy)
         {
-            yield return globalControl.StartCoroutine(Nuke(meetingArea.meetingDialogBox));
+            yield return globalControl.StartCoroutine(PopOut(meetingArea.meetingDialogBox));
         }
         if (buttonName == currentMeetingButtonName)
         {
@@ -511,7 +521,7 @@ public class UIManager
             yield break;
         }
         currentMeetingButtonName = buttonName;
-        globalControl.StartCoroutine(UnNuke(meetingArea.meetingDialogBox));
+        globalControl.StartCoroutine(PopIn(meetingArea.meetingDialogBox));
         var button = GameObject.Find(buttonName).transform;
         meetingArea.meetingDialogBox.transform.position = button.position;
         meetingArea.meetingDialogBox.GetComponent<RectTransform>().anchoredPosition += Vector2.up * 18.75f + Vector2.right * 18.75f;
@@ -522,7 +532,7 @@ public class UIManager
     private void ViewEmailContents(int id)
     {
         var email = emailManager.emails.FirstOrDefault(x => x.index == id);
-        globalControl.StartCoroutine(UnNuke(emailManager.emailBodyText.transform.parent.gameObject));
+        globalControl.StartCoroutine(PopIn(emailManager.emailBodyText.transform.parent.gameObject));
         emailManager.emailBodyText.transform.parent.gameObject.SetActive(true);
         emailManager.emailBodyText.text = email.emailMessage;
         selectedEmail = email;
@@ -796,7 +806,7 @@ public class UIManager
         videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
     }
     
-    public IEnumerator Nuke(GameObject element)
+    public IEnumerator PopOut(GameObject element)
     {
         int iterations = PopInOutTransitionFrames;
         var initScale = element.transform.localScale;
@@ -808,13 +818,13 @@ public class UIManager
         element.SetActive(false);
     }
 
-    public IEnumerator UnNuke(GameObject element)
+    public IEnumerator PopIn(GameObject element)
     {
         element.SetActive(true);
         int iterations = PopInOutTransitionFrames;
         for (int i = 0; i <= iterations; i++)
         {
-            element.transform.localScale = Vector3.one * (float)i / iterations;
+            element.transform.localScale = Vector3.one * i / iterations;
             yield return null;
         }
     }
