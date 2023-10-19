@@ -970,10 +970,6 @@ public class UIManager
         { 
             videoPlayer.Pause();
             facemeshVideoPlayer.Pause(); 
-            if (facemeshVideoPlayer.frame != videoPlayer.frame)
-            {
-                facemeshVideoPlayer.frame = videoPlayer.frame;
-            }
         }
     }
 
@@ -986,7 +982,6 @@ public class UIManager
         else
         {
             videoPlayer.transform.SetAsLastSibling();
-            facemeshVideoPlayer.frame = videoPlayer.frame;
         }
     }
 
