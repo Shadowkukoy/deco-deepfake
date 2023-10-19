@@ -9,7 +9,7 @@
   {
     "videoDir": "Videos/MeetingVideos/BadDay1",
     "date": "14 May 2025",
-    "subTitleText": "> Good morning, recuit.\n> Unfortunately, it's been brought to my attention that you made some mistakes yesterday.\n> I know its your first day, but it's of vital importance that you get these right.\n> Let's hope for better today, recruit.",
+    "subTitleText": "> Good morning, recruit.\n> Unfortunately, it's been brought to my attention that you made some mistakes yesterday.\n> I know its your first day, but it's of vital importance that you get these right.\n> Let's hope for better today, recruit.",
     "delays": "",
     "advanceTimeHours": 4,
     "incorrectRequiredCount": 1
@@ -18,7 +18,7 @@
     "videoDir": "Videos/MeetingVideos/GoodDay1",
     "date": "14 May 2025",
     "correctRequired": "",
-    "subTitleText": "> Good job, recuit!\n> Good successful first day.\n> We've had no reported incidents of incorrectly identifying a video.\n> Keep up the good work.",
+    "subTitleText": "> Good job, recuit!\n> Good successful first day.\n> We've had no reported incidents of you incorrectly identifying a video.\n> Keep up the good work.",
     "delays": "",
     "advanceTimeHours": 4,
     "correctRequiredCount": 2
