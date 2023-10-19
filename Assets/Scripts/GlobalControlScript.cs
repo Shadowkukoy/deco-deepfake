@@ -281,10 +281,13 @@ public class GlobalControlScript : MonoBehaviour
         }
 
         endOfDayArticle.GetComponent<Image>().sprite = Resources.Load<Sprite>(articleToShow.articleDir);
-        endOfDayArticle.transform.SetAsLastSibling();
         yield return StartCoroutine(uiManager.PopIn(endOfDayArticle.gameObject));
+        endOfDayArticle.transform.SetAsLastSibling();
 
-        Invoke("ShowManagerCall", 5);
+        yield return new WaitForSeconds(3);
+        yield return StartCoroutine(FadeToBlack());
+
+        Invoke("ShowManagerCall", 3);
     }
 
     private IEnumerator FadeToBlack()
@@ -297,6 +300,20 @@ public class GlobalControlScript : MonoBehaviour
         for (int i = 0; i < 100; i++)
         {
             uiManager.blackImage.color += Color.black / 100f;
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    private IEnumerator FadeOutFromBlack()
+    {
+        uiManager.black = uiManager.canvas.transform.Find("Black");
+        uiManager.black.gameObject.SetActive(true);
+        uiManager.blackImage = uiManager.black.GetComponent<Image>();
+        uiManager.black.SetAsLastSibling();
+        uiManager.blackImage.color = new Color(0, 0, 0, 1);
+        for (int i = 0; i < 100; i++)
+        {
+            uiManager.blackImage.color -= Color.black / 100f;
             yield return new WaitForFixedUpdate();
         }
     }
