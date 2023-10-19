@@ -164,7 +164,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      icons8-mail-96_0: 4536190705268920923
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
