@@ -37,13 +37,13 @@ To open the project in unity, download the Unity version 2023.1.7f1 and add the 
 
 ## References
 
-Unity Game Engine - https://unity.com/
-Figma Interface Design Tool - https://www.figma.com/
-Canva design platform - https://www.canva.com/en_au/
-Icon library - https://icons8.com/
-Deep Fake video generators - 'Wav2Lip' and 'Eleven Labs'
-Development IDE - https://visualstudio.microsoft.com/
-Version control - https://github.com/
+- Unity Game Engine - https://unity.com/
+- Figma Interface Design Tool - https://www.figma.com/
+- Canva design platform - https://www.canva.com/en_au/
+- Icon library - https://icons8.com/
+- Deep Fake video generators - 'Wav2Lip' and 'Eleven Labs'
+- Development IDE - https://visualstudio.microsoft.com/
+- Version control - https://github.com/
 
 ## Contributors
 
