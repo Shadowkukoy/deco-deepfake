@@ -1,14 +1,12 @@
 # DECO-DEEPFAKE: SEEING IS UNBELIEVING
 
 ## Motivation
-As the adoption of artificial intelligence remains as contentious as ever, many experts agree that education is paramount to finding an ethical balance for its integration into society. 
 
-The project aims to provide users with forensic video tools that may aide in the identification of deep fakes, raising awareness of their potential risks ethically, legally, and psychologically.
+Deep fakes have in recent years become synonymous with cases of falsified information generated with malicious intent, such as faked political speeches and revenge porn. 
 
-The projects serves as a narrative led game where users can apply these tools to live videos, providing them with tangible learning outcomes. 
+The project aims to provide users with a suite of forensic videos tools to aide in the detection of deep fakes through the lens of a recently recruited foreign agency analyst. 
 
-
-## Method and results
+Progression through the game is intended to provide tangential learning outcomes for users in terms of their ability to identify deep faked videos.
 
 ## Repository overview
 
@@ -33,6 +31,13 @@ The projects serves as a narrative led game where users can apply these tools to
 
 ## Instructions to run
 
-## Resources
+In addition to the raw project code base, the zip file contains a build file that allows the project to be run simply as a standalone app.
 
 ## Contributors
+
+Nathan Chan
+Richard Chantra
+Benjamin Dwyer
+Chantelle Khoo
+Catherine Lim
+Luke Ting-Williams
