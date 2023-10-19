@@ -893,10 +893,12 @@ public class UIManager
         var uvRectCentreOffset = videoRawImage.uvRect.position;
         if (normalized != null)
         {
-            uvRectCentreOffset = normalized.Value - Vector2.one * (0.5f / zoom);
+            uvRectCentreOffset += normalized.Value * (1 / (videoZoom - delta));
+            uvRectCentreOffset += normalized.Value * (-1 / videoZoom);
+            //uvRectCentreOffset = normalized.Value - Vector2.one * (0.5f / zoom);
             uvRectCentreOffset = new Vector2(Mathf.Clamp(uvRectCentreOffset.x, 0, 1 - (1 / zoom)), Mathf.Clamp(uvRectCentreOffset.y, 0, 1 - (1 / zoom)));
-
-            Debug.Log(normalized);
+            //
+            //Debug.Log(normalized);
         }
 
         videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);

@@ -2636,12 +2636,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '> Welcome to Week 1
+  m_text: '> Thousands of Facebook users reported this
 
-    > Thousands of Facebook users reported this
-
-    >
-    Use the forensic tools to analyse the video
+    > Use the forensic tools
+    to analyse the video
 
     > Is this video deep faked?'
   m_isRightToLeft: 0
