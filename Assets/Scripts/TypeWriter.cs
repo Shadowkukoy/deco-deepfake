@@ -97,6 +97,10 @@ namespace Deepfakes.Typography.TypeWriter
 
             globalControl = GameObject.Find("GlobalControl").GetComponent<GlobalControlScript>();
             quickSkip = globalControl.quickTextSkip;
+            if (quickSkip)
+            {
+                _simpleDelay = new WaitForSeconds(0.5f / charPerSecond);
+            }
 
             _readyForNewText = false;
             //Typewriter becomes weird if you have 2 going off at the same time

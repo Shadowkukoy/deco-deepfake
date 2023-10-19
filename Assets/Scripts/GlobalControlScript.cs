@@ -362,9 +362,10 @@ public class GlobalControlScript : MonoBehaviour
 
                 var audioSource = sound.GetComponent<AudioSource>();
                 yield return new WaitWhile(() => audioSource.isPlaying);
+
+                StartCoroutine(uiManager.PopIn(uiManager.canvas.transform.Find("Black/EndOfDemo").gameObject));
             }
 
-            StartCoroutine(uiManager.PopIn(uiManager.canvas.transform.Find("Black/EndOfDemo").gameObject));
 
             yield return new WaitForSeconds(3);
 
