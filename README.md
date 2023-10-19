@@ -33,6 +33,8 @@ Progression through the game is intended to provide tangential learning outcomes
 
 The project was created using Unity version 2023.1.7f1. In addition to the raw project code base, the zip file contains a build file that allows the project to be run simply as a standalone app.
 
+To open the project in unity, download the Unity version 2023.1.7f1 and add the project folder. If you wish to rebuild the project from unity you can through (File >> Build and Run) on the toolbar.
+
 ## Contributors
 
 Nathan Chan,
