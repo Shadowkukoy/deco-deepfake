@@ -160,14 +160,13 @@ public class UIManager
                 {
                     // successfully identified deepfake
                     globalControl.videosCorrect[globalControl.currentVideoInfo] = true;
-                    Debug.Log("true");
                 }
                 else
                 {
                     // thought a real video was deepfaked
                     globalControl.videosCorrect[globalControl.currentVideoInfo] = false;
-                    Debug.Log("false");
                 }
+                SceneManager.LoadScene("HomePageScene");
                 break;
             case "DeepFakeScene.NoButton":
                 PlaySound(normalClick);
@@ -176,14 +175,13 @@ public class UIManager
                 {
                     // incorrectly thought a deepfaked video was real
                     globalControl.videosCorrect[globalControl.currentVideoInfo] = false;
-                    Debug.Log("false");
                 }
                 else
                 {
                     // correctly identified a real video as real
                     globalControl.videosCorrect[globalControl.currentVideoInfo] = true;
-                    Debug.Log("true");
                 }
+                SceneManager.LoadScene("HomePageScene");
                 break;
             case "DeepFakeScene.MetadataButton":
                 PlaySound(normalClick);
@@ -317,7 +315,7 @@ public class UIManager
                 PlaySound(normalClick);
                 if (emailsPageShowing)
                 {
-                    globalControl.StartCoroutine(PopOut(emailsPage));
+                    globalControl.StartCoroutine(PopOut(emailsPage, false));
                 }
                 else
                 {
@@ -411,8 +409,7 @@ public class UIManager
             case "HomePageScene.EmailExitButton":
             case "DeepFakeScene.EmailExitButton":
                 PlaySound(normalClick);
-                globalControl.StartCoroutine(PopOut(emailsPage));
-                emailsPageShowing = false;
+                ExitEmailsPage();
                 break;
             case "HomePageScene.EmailAttachmentButton":
             case "DeepFakeScene.EmailAttachmentButton":
@@ -420,7 +417,7 @@ public class UIManager
                 if (selectedEmail.videoId != null)
                 {
                     globalControl.currentVideoInfo = globalControl.videoInfos.FirstOrDefault(x => x.videoId == selectedEmail.videoId);
-                    SceneManager.LoadScene(0);
+                    SceneManager.LoadScene("DeepFakeScene");
                 }
                 else
                 {
@@ -494,7 +491,11 @@ public class UIManager
         }
     }
 
-
+    public void ExitEmailsPage()
+    {
+        globalControl.StartCoroutine(PopOut(emailsPage, false));
+        emailsPageShowing = false;
+    }
 
     private void MeetingVideoPlayer_loopPointReached(VideoPlayer source)
     {
@@ -549,6 +550,11 @@ public class UIManager
                 var videoInfo = globalControl.videoInfos.FirstOrDefault(x => x.videoId == email.videoId);
                 var path = Path.Combine(videoInfo.dir, "Thumbnail");
                 emailAttachmentImage.sprite = Resources.Load<Sprite>(path);
+
+                if (!email.SentOnDate(globalControl.dateTime))
+                {
+                    emailManager.emailAttachmentButton.enabled = false;
+                }
             }
             else if (email.imageDir!= null)
             {
@@ -808,7 +814,7 @@ public class UIManager
         videoRawImage.uvRect = new Rect(uvRectCentreOffset, 1 / videoZoom * Vector2.one);
     }
     
-    public IEnumerator PopOut(GameObject element)
+    public IEnumerator PopOut(GameObject element, bool disableElementAtEnd = true)
     {
         int iterations = PopInOutTransitionFrames;
         var initScale = element.transform.localScale;
@@ -817,7 +823,15 @@ public class UIManager
             element.transform.localScale = initScale * (1 - (float)i / iterations);
             yield return null;
         }
-        element.SetActive(false);
+
+        if (disableElementAtEnd)
+        {
+            element.SetActive(false);
+        }
+        else
+        {
+            element.transform.localScale = Vector2.zero;
+        }
     }
 
     public IEnumerator PopIn(GameObject element)

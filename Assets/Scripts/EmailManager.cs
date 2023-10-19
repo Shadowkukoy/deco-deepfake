@@ -8,6 +8,7 @@ using TMPro;
 using System.Linq;
 using System;
 using Unity.VisualScripting;
+using System.Threading;
 
 public class EmailManager : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class EmailManager : MonoBehaviour
     public GameObject emailAttachmentViewer;
     public GameObject composedEmail;
     public GameObject videosNotCompleteNotification;
+    private int unread;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +52,7 @@ public class EmailManager : MonoBehaviour
 
     private void GenerateEmail()
     {
+        unread = 0;
         var emailListArea = transform.Find("Scroll View/Viewport/EmailsList");
         emailBodyText = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         int i = 0;
@@ -100,12 +104,25 @@ public class EmailManager : MonoBehaviour
             emailListObject.globalControl = globalControl;
 
             emailListObject.SetStuff();
+            if (!emailListObject.read) unread++;
 
             i++;
         }
         uiManager.AssignButtonListeners(transform.GetChild(0).gameObject);
         emailBodyText.transform.parent.gameObject.SetActive(false);
         emailListArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, i * size);
+
+        var notificationImage = uiManager.canvas.transform.Find("EmailButton/NotificationImage");
+        var notificationText = notificationImage.Find("NotificationText").GetComponent<TextMeshProUGUI>();
+        if (unread == 0)
+        {
+            notificationImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            notificationImage.gameObject.SetActive(true);
+            notificationText.text = unread.ToString();
+        }
     }
 
 

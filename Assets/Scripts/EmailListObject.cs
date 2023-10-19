@@ -30,7 +30,8 @@ public class EmailListObject : MonoBehaviour
             attachmentImage.gameObject.SetActive(false);
         }
 
-        if (globalControl.read[email])
+        read = globalControl.read[email];
+        if (read)
         {
             GetComponent<Image>().color = Color.white * 0.8f;
         }

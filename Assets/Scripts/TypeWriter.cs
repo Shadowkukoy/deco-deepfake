@@ -41,8 +41,8 @@ namespace Deepfakes.Typography.TypeWriter
         [SerializeField] [Range(0.1f, 0.5f)] private float sendDoneDelay = 0.25f;
         private int _pauseInCharacters;
 
-        public static event Action CompleteTextRevealed;
-        public static event Action<char> CharacterRevealed;
+        public event Action CompleteTextRevealed;
+        public event Action<char> CharacterRevealed;
 
         public bool automatic = false;
 

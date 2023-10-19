@@ -42,6 +42,7 @@ public class GlobalControlScript : MonoBehaviour
     public Dictionary<Email,bool> read;
     public TextAsset inboxJsonFile;
     public TextAsset articlesJsonFile;
+    private bool showEmailsOnLoad;
 
     void Start()
     {
@@ -87,6 +88,8 @@ public class GlobalControlScript : MonoBehaviour
         dateTime = dateTime.AddHours(DayStartTime);
         read = new Dictionary<Email, bool>();
         ReadAllMail();
+
+        showEmailsOnLoad = false;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -137,6 +140,8 @@ public class GlobalControlScript : MonoBehaviour
                 uiManager.deepFakeSceneTypeWriter = uiManager.yesNoVideoArea.transform.GetChild(0).GetComponent<TypeWriter>();
                 StartCoroutine(VideoStuffCoroutine());
                 uiManager.deepFakeSceneTypeWriter.LoadNextText(uiManager.deepFakeSceneTypeWriter.gameObject);
+                uiManager.deepFakeSceneTypeWriter.CompleteTextRevealed += DeepFakeSceneTypeWriter_CompleteTextRevealed;
+                showEmailsOnLoad = true;
                 break;
             case "HomePageScene":
                 if (!bootSoundPlayed)
@@ -156,7 +161,11 @@ public class GlobalControlScript : MonoBehaviour
                 {
                     Invoke("ShowManagerCall", 5);
                 }
-
+                if (showEmailsOnLoad)
+                {
+                    ShowEmailsPage();
+                    showEmailsOnLoad = false;
+                }
                 break;
             case "MainMenuScene":
                 if (UIManager.soundOn)
@@ -180,6 +189,19 @@ public class GlobalControlScript : MonoBehaviour
                 break;
         }
     }
+
+    private void DeepFakeSceneTypeWriter_CompleteTextRevealed()
+    {
+        var yesButton = uiManager.canvas.transform.Find("YesNoVideoArea/YesButton").gameObject;
+        var noButton = uiManager.canvas.transform.Find("YesNoVideoArea/NoButton").gameObject;
+
+        StartCoroutine(uiManager.PopIn(yesButton));
+        StartCoroutine(uiManager.PopIn(noButton));
+
+        uiManager.AssignButtonListeners(yesButton);
+        uiManager.AssignButtonListeners(noButton);
+    }
+
     private void InstantiateEmailsPage()
     {
         uiManager.emailsPage = Instantiate(emailsPagePrefab, uiManager.canvas.transform);
@@ -189,7 +211,7 @@ public class GlobalControlScript : MonoBehaviour
         emailManager.globalControl = this;
         emailManager.emailPrefab = Resources.Load<GameObject>("Prefabs/EmailPrefab");
         uiManager.AssignButtonListeners(uiManager.emailsPage);
-        uiManager.emailsPage.SetActive(false);
+        uiManager.emailsPage.transform.localScale = Vector2.zero;
 
     }
     public void ShowEmailsPage()
@@ -214,6 +236,7 @@ public class GlobalControlScript : MonoBehaviour
     public void EndMeeting()
     {
         dateTime = dateTime.AddHours(uiManager.meeting.advanceTimeHours);
+        emailManager.RefreshEmail();
         StartCoroutine(uiManager.PopOut(uiManager.meetingArea.gameObject));
     }
     public IEnumerator VideoStuffCoroutine()
@@ -236,6 +259,7 @@ public class GlobalControlScript : MonoBehaviour
         dateTime = dateTime.Date.AddDays(1).AddHours(DayStartTime);
         uiManager.managerCall = false;
         StartCoroutine(EndDayCoroutine());
+        uiManager.ExitEmailsPage();
     }
 
     private IEnumerator EndDayCoroutine()
@@ -286,11 +310,17 @@ public class GlobalControlScript : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         var endOfDayArticlePrompt = endOfDayArticle.transform.Find("EndOfDayArticlePrompt");
+        var nextDayText = uiManager.canvas.transform.Find("Black/NextDayText");
         yield return StartCoroutine(uiManager.PopIn(endOfDayArticlePrompt.gameObject));
         yield return new WaitUntil(() => Input.anyKey);
         yield return StartCoroutine(uiManager.PopOut(endOfDayArticlePrompt.gameObject));
-
         yield return StartCoroutine(uiManager.PopOut(endOfDayArticle.gameObject));
+
+        yield return new WaitForSeconds(0.2f);
+        yield return StartCoroutine(uiManager.PopIn(nextDayText.gameObject));
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(uiManager.PopOut(nextDayText.gameObject));
+
         yield return StartCoroutine(FadeOutFromBlack());
 
         Invoke("ShowManagerCall", 3);
