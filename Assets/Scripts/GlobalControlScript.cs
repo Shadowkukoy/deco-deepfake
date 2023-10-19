@@ -242,7 +242,7 @@ public class GlobalControlScript : MonoBehaviour
     {
         //Fade to black
         yield return StartCoroutine(FadeToBlack());
-        var endOfDayArticle = uiManager.canvas.transform.Find("EndOfDayArticle");
+        var endOfDayArticle = uiManager.canvas.transform.Find("Black/EndOfDayArticle");
         Article articleToShow = null;
         foreach (var article in articles) {
             if (DateTime.Parse(article.articleDate).Date != dateTime.Date) continue;
@@ -284,8 +284,14 @@ public class GlobalControlScript : MonoBehaviour
         yield return StartCoroutine(uiManager.PopIn(endOfDayArticle.gameObject));
         endOfDayArticle.transform.SetAsLastSibling();
 
-        yield return new WaitForSeconds(3);
-        yield return StartCoroutine(FadeToBlack());
+        yield return new WaitForSeconds(1);
+        var endOfDayArticlePrompt = endOfDayArticle.transform.Find("EndOfDayArticlePrompt");
+        yield return StartCoroutine(uiManager.PopIn(endOfDayArticlePrompt.gameObject));
+        yield return new WaitUntil(() => Input.anyKey);
+        yield return StartCoroutine(uiManager.PopOut(endOfDayArticlePrompt.gameObject));
+
+        yield return StartCoroutine(uiManager.PopOut(endOfDayArticle.gameObject));
+        yield return StartCoroutine(FadeOutFromBlack());
 
         Invoke("ShowManagerCall", 3);
     }
@@ -311,11 +317,13 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.blackImage = uiManager.black.GetComponent<Image>();
         uiManager.black.SetAsLastSibling();
         uiManager.blackImage.color = new Color(0, 0, 0, 1);
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 25; i++)
         {
             uiManager.blackImage.color -= Color.black / 100f;
             yield return new WaitForFixedUpdate();
         }
+        uiManager.black.gameObject.SetActive(false);
+
     }
 
     private void ShowManagerCall()
