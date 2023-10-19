@@ -275,6 +275,19 @@
     "tagColor": "#FB4C2FFF",
     "incorrectRequired": "VoteTwice",
     "correctRequired": "PeterDuttonIncomeAssistance"
+  },
+  {
+    "index": 21,
+    "emailTitle": "You've Completed the Demo!!'",
+    "emailSender": "Eg. Dragon Rebord",
+    "sendTime": "7:50am",
+    "sendDate": "16 May 2025",
+    "highPriorityFlag": true,
+    "completedFlag": false,
+    "emailMessage": "You've finished the game! Thank you for playing. You can close the application now.'",
+    "emailSignOff": 3,
+    "tagName": "High Priority",
+    "tagColor": "#FB4C2FFF",
   }
 
 
