@@ -805,6 +805,7 @@ public class UIManager
                     }
                 }
                 break;
+            case "MainMenuScene.OptionsTextQuickLoadToggle":
             case "HomePageScene.OptionsTextQuickLoadToggle":
                 PlaySound(normalClick);
                 globalControl.quickTextSkip = !globalControl.quickTextSkip;
