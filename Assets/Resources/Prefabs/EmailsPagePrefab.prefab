@@ -903,6 +903,7 @@ MonoBehaviour:
   skipSpeedup: 10
   sendDoneDelay: 0.25
   automatic: 0
+  sound: 1
 --- !u!1 &2338577025400207003
 GameObject:
   m_ObjectHideFlags: 0
@@ -2686,7 +2687,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3073108559651756561}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.97118646
+  m_Size: 0.9745763
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3097,10 +3098,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 26.85
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
@@ -3494,6 +3495,7 @@ MonoBehaviour:
   skipSpeedup: 10
   sendDoneDelay: 0.25
   automatic: 0
+  sound: 1
 --- !u!1 &9167591413877281687
 GameObject:
   m_ObjectHideFlags: 0

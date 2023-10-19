@@ -75,6 +75,7 @@ public class UIManager
     internal VideoPlayer facemeshVideoPlayer;
     internal Image blackImage;
     internal UnityEngine.Transform black;
+    private readonly DateTime TwistDate = new DateTime(2025, 5, 15);
 
     public void AssignButtonListeners(GameObject elements)
     {
@@ -166,6 +167,16 @@ public class UIManager
                     // thought a real video was deepfaked
                     globalControl.videosCorrect[globalControl.currentVideoInfo] = false;
                 }
+                if (globalControl.dateTime.Date == TwistDate)
+                {
+                    int completedToday = GetEmailVideosCompletedToday();
+
+                    if (completedToday >= 2)
+                    {
+                        globalControl.dateTime = globalControl.dateTime.AddHours(6);
+                    }
+                    Debug.Log(completedToday);
+                }
                 SceneManager.LoadScene("HomePageScene");
                 break;
             case "DeepFakeScene.NoButton":
@@ -180,6 +191,16 @@ public class UIManager
                 {
                     // correctly identified a real video as real
                     globalControl.videosCorrect[globalControl.currentVideoInfo] = true;
+                }
+                if (globalControl.dateTime.Date == TwistDate)
+                {
+                    int completedToday = GetEmailVideosCompletedToday();
+
+                    if (completedToday >= 2)
+                    {
+                        globalControl.dateTime = globalControl.dateTime.AddHours(6);
+                    }
+                    Debug.Log(completedToday);
                 }
                 SceneManager.LoadScene("HomePageScene");
                 break;
@@ -491,6 +512,20 @@ public class UIManager
         }
     }
 
+    private int GetEmailVideosCompletedToday()
+    {
+        int completedToday = 0;
+        foreach (var email in globalControl.emails)
+        {
+            if (email.SentOnDate(globalControl.dateTime) && email.Completed(globalControl))
+            {
+                completedToday++;
+            }
+        }
+
+        return completedToday;
+    }
+
     public void ExitEmailsPage()
     {
         globalControl.StartCoroutine(PopOut(emailsPage, false));
@@ -551,10 +586,7 @@ public class UIManager
                 var path = Path.Combine(videoInfo.dir, "Thumbnail");
                 emailAttachmentImage.sprite = Resources.Load<Sprite>(path);
 
-                if (!email.SentOnDate(globalControl.dateTime))
-                {
-                    emailManager.emailAttachmentButton.enabled = false;
-                }
+                emailManager.emailAttachmentButton.enabled = email.SentOnDate(globalControl.dateTime);
             }
             else if (email.imageDir!= null)
             {

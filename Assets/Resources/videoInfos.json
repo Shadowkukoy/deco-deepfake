@@ -33,5 +33,10 @@
     "videoId": "VoteTwice",
     "dir": "Videos/VoteTwice",
     "deepfaked": true
+  },
+  {
+    "videoId": "ICantBelieveItsNotBen",
+    "dir": "Videos/ICantBelieveItsNotBen",
+    "deepfaked": true
   }
 ]

@@ -112,7 +112,6 @@ public class GlobalControlScript : MonoBehaviour
         uiManager.aboutUsPage.SetActive(false);
         uiManager.optionsPage.SetActive(false);
         uiManager.emailsPageShowing = false;
-        InstantiateEmailsPage();
         switch (scene.name)
         {
             case "DeepFakeScene":
@@ -144,6 +143,7 @@ public class GlobalControlScript : MonoBehaviour
                 showEmailsOnLoad = true;
                 break;
             case "HomePageScene":
+                InstantiateEmailsPage();
                 if (!bootSoundPlayed)
                 {
                     uiManager.PlaySound(uiManager.windowsBootSound);
