@@ -31,9 +31,7 @@ Progression through the game is intended to provide tangential learning outcomes
 
 ## Instructions to run
 
-The project was created using Unity version 2023.1.7f1. In addition to the raw project code base, the zip file contains a 'Build' folder that allows the project to be run by launching 'Deep Fakes - Seeing is Unbelieving.exe'.
-
-To open the project in unity, download the Unity version 2023.1.7f1 and add the unzipped project folder as a Unity project. If you wish to rebuild the project from unity, you can do so through (File >> Build and Run) on the top toolbar in the Unity editor.
+To open the project in unity, follow the instructions on the unity website to download the Unity version 2023.1.7f1 and add the unzipped project folder as a Unity project. If you have a different Unity installation you may be prompted to download this Unity version when opening. To build the project from the Unity editor, you can do so through (File >> Build and Run) on the top toolbar in the Unity editor and selectiong a file location.
 
 ## References
 
