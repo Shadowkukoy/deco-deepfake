@@ -44,8 +44,7 @@
     "date": "16 May 2025",
     "subTitleText": "> Good morning, recruit! I'm glad to see you here today.\n> Yesterday, as you are no doubt aware, our ASIO email system got compromised, and a video of myself was deepfaked telling people that they didn't need to come in today.\n> We've had a number of people who have not shown up for work today, but I'm glad to see you made it through.\n> Good job, recruit.",
     "delays": "",
-    "advanceTimeHours": 4,
-    "correctRequiredCount": 2
+    "advanceTimeHours": 4
   }
 
 ]
